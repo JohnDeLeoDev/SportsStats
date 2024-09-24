@@ -28,7 +28,7 @@ const appMenu = [
     { name: 'About', href: '/about' },
 ]
 
-function classNames(...classes) {
+function classNames(...classes: (string | boolean)[]) {
     return classes.filter(Boolean).join(' ')
 }
 
