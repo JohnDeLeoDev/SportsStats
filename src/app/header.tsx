@@ -28,6 +28,10 @@ const appMenu = [
     { name: 'About', href: '/about' },
 ]
 
+function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+}
+
 interface HeaderProps {
     currentRoute: string | null
 }
