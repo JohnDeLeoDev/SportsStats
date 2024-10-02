@@ -5,7 +5,7 @@
 import { signIn } from '../helpers/signIn'
 import React, { useState } from 'react'
 
-export function MissingFields() {
+function MissingFields() {
     return (
         <div className="p-2 bg-red-500 text-white rounded-lg w-full">
             Please fill in all fields.
