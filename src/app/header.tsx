@@ -1,4 +1,6 @@
 import React from 'react'
+import Image from 'next/image'
+
 import {
     Disclosure,
     DisclosureButton,
@@ -144,14 +146,15 @@ export default function Header({ currentRoute, user }: HeaderProps) {
                             <Menu as="div" className="relative ml-3">
                                 <div>
                                     <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                        <span className="absolute -inset-1.5" />
                                         <span className="sr-only">
                                             Open user menu
                                         </span>
-                                        <img
-                                            className="h-8 w-8 rounded-full"
-                                            src="https://randomuser.me/api/portraits"
+                                        <Image
+                                            className="rounded-full"
+                                            src="/images/profile.jpg"
                                             alt=""
+                                            width={32}
+                                            height={32}
                                         />
                                     </MenuButton>
                                 </div>
