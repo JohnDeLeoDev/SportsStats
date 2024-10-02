@@ -2,7 +2,7 @@
 
 'use client'
 
-import { signIn } from '../helpers/signIn'
+import { signIn } from '/src/app/helpers/signIn.ts'
 import React, { useState } from 'react'
 
 export function MissingFields() {
