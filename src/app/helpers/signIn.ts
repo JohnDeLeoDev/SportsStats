@@ -1,4 +1,4 @@
-export default function signIn(email: string, hashedPassword: string) {
+export function signIn(email: string, hashedPassword: string) {
     // https://aril0iseol.execute-api.us-east-1.amazonaws.com/default/ss_SignIn
     // Endpoint URL
     const url =
