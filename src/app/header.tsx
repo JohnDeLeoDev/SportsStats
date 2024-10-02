@@ -9,17 +9,12 @@ import {
     MenuItems,
 } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import User from './user'
 
 const navigation = [
     { name: 'SearchStats', href: '/', current: false },
     { name: 'Examples', href: '/examples', current: false },
     { name: 'About', href: '/about', current: false },
-]
-
-const profileMenu = [
-    { name: 'Your Profile', href: '/profile' },
-    { name: 'Settings', href: '/settings' },
-    { name: 'Sign out', href: '#' },
 ]
 
 const appMenu = [
@@ -34,12 +29,28 @@ function classNames(...classes: (string | boolean)[]) {
 
 interface HeaderProps {
     currentRoute: string | null
+    user: User | null
 }
 
-export default function Header({ currentRoute }: HeaderProps) {
+export default function Header({ currentRoute, user }: HeaderProps) {
     navigation.forEach((item) => {
         item.current = item.href === currentRoute
     })
+
+    let profileMenu = []
+
+    if (user) {
+        profileMenu = [
+            { name: 'Profile', href: '/profile' },
+            { name: 'Settings', href: '/settings' },
+            { name: 'Sign out', href: '/signout' },
+        ]
+    } else {
+        profileMenu = [
+            { name: 'Create Account', href: '/signup' },
+            { name: 'Sign In', href: '/signin' },
+        ]
+    }
 
     return (
         <header className="grid grid-cols-3 w-full gap-4">

@@ -1,12 +1,27 @@
 'use client'
 import React from 'react'
 import SearchResults from './searchResults'
+import searchRequest from './helpers/searchRequest'
 
 export default function Home() {
     const [searchTriggered, setSearchTriggered] = React.useState(false)
+    const [searchQuery, setSearchQuery] = React.useState('')
+    const [searchResponseReceived, setSearchResponseReceived] =
+        React.useState(false)
 
-    function handleSearch() {
+    function handleSearch(query: string) {
         setSearchTriggered(true)
+
+        // wait for the search request to complete
+        searchRequest(query).then(() => {
+            setSearchResponseReceived(true)
+            console.log('Search response received.')
+        })
+    }
+
+    function handleTextInput(query: string) {
+        console.log(query)
+        setSearchQuery(query)
     }
 
     return (
@@ -23,15 +38,21 @@ export default function Home() {
                     <input
                         className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg"
                         placeholder="Search for a statistic"
+                        onChange={(e) => handleTextInput(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleSearch(searchQuery)
+                            }
+                        }}
                     />
                     <button
                         className="p-2 bg-blue-500 text-white rounded-lg"
-                        onClick={handleSearch}
+                        onClick={() => handleSearch(searchQuery)}
                     >
                         Search
                     </button>
                 </div>
-                {searchTriggered && <SearchResults />}
+                {searchTriggered && searchResponseReceived && <SearchResults />}
             </main>
         </div>
     )

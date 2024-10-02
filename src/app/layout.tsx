@@ -4,6 +4,7 @@ import './globals.css'
 import Header from './header'
 import Footer from './footer'
 import { headers } from 'next/headers'
+import User from './user'
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -29,12 +30,14 @@ export default function RootLayout({
     const headersList = headers()
     const currentRoute = headersList.get('x-current-route')
 
+    const user = null
+
     return (
         <html lang="en">
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-                <Header currentRoute={currentRoute} />
+                <Header currentRoute={currentRoute} user={user} />
                 {children}
                 <Footer />
             </body>
