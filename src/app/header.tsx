@@ -9,7 +9,7 @@ import {
     MenuItems,
 } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import User from './user'
+import User from './helpers/user'
 
 const navigation = [
     { name: 'SearchStats', href: '/', current: false },
@@ -38,6 +38,8 @@ export default function Header({ currentRoute, user }: HeaderProps) {
     })
 
     let profileMenu = []
+
+    user = new User('1', 'John', 'Doe', 'email@google.com', 'password', 'salt')
 
     if (user) {
         profileMenu = [

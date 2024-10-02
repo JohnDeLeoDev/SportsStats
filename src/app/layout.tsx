@@ -4,7 +4,7 @@ import './globals.css'
 import Header from './header'
 import Footer from './footer'
 import { headers } from 'next/headers'
-import User from './user'
+import User from './helpers/user'
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
