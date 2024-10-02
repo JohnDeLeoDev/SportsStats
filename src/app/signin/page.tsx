@@ -2,7 +2,7 @@
 
 'use client'
 
-import { signIn } from '/src/app/helpers/signIn.ts'
+import { signIn } from '../helpers/signIn'
 import React, { useState } from 'react'
 
 export function MissingFields() {
@@ -73,7 +73,7 @@ export default function Signin() {
                     </div>
                     <div className="flex flex-row gap-4 items-center sm:items-start w-full justify-between mb-3">
                         <a href="/signup" className="text-blue-500">
-                            Don't have an account? Sign up here.
+                            Don&#39;t have an account? Sign up here.
                         </a>
                         <a
                             href="/signin/forgot-password"
