@@ -219,8 +219,6 @@ export default function Signup() {
                 </div>
                 {missingFields && <MissingFields />}
                 {success && <AccountCreated />}
-                {missingFields && <MissingFields />}
-                {success && <AccountCreated />}
             </main>
         </div>
     )
