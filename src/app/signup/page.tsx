@@ -3,11 +3,6 @@ import { createAccount } from '../helpers/createAccount'
 import { User } from '../types/user'
 import React from 'react'
 
-'use client'
-import { createAccount } from '../helpers/createAccount'
-import { User } from '../types/user'
-import React from 'react'
-
 export default function Signup() {
     const [firstName, setFirstName] = React.useState('')
     const [lastName, setLastName] = React.useState('')
@@ -147,28 +142,10 @@ export default function Signup() {
                                     handleSignUp()
                                 }
                             }}
-                            onChange={(e) => {
-                                setFirstName(e.target.value)
-                                setMissingFields(false)
-                            }}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    handleSignUp()
-                                }
-                            }}
                         />
                         <input
                             className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg"
                             placeholder="Last Name"
-                            onChange={(e) => {
-                                setLastName(e.target.value)
-                                setMissingFields(false)
-                            }}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    handleSignUp()
-                                }
-                            }}
                             onChange={(e) => {
                                 setLastName(e.target.value)
                                 setMissingFields(false)
@@ -201,36 +178,9 @@ export default function Signup() {
                         />
                         {emailExists && <AccountExists />}
                         {properEmailFlag && <ImproperEmail />}
-                            onChange={(e) => {
-                                setEmail(e.target.value)
-                                checkProperEmail()
-                                setEmailExists(false)
-                                setProperEmailFlag(false)
-                                setMissingFields(false)
-                            }}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    handleSignUp()
-                                }
-                            }}
-                            type="email"
-                        />
-                        {emailExists && <AccountExists />}
-                        {properEmailFlag && <ImproperEmail />}
                         <input
                             className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg"
                             placeholder="Password"
-                            onChange={(e) => {
-                                setPasswordOne(e.target.value)
-                                setPasswordsMatch(true)
-                                // wait for the user to finish typing before checking
-                            }}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    handleSignUp()
-                                }
-                            }}
-                            type="password"
                             onChange={(e) => {
                                 setPasswordOne(e.target.value)
                                 setPasswordsMatch(true)
@@ -259,24 +209,7 @@ export default function Signup() {
                             type="password"
                         />
                         {!passwordsMatch && <PasswordsDoNotMatch />}
-                            onChange={(e) => {
-                                setPasswordTwo(e.target.value)
-                                setPasswordsMatch(true)
-                                setMissingFields(false)
-                            }}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    handleSignUp()
-                                }
-                            }}
-                            type="password"
-                        />
-                        {!passwordsMatch && <PasswordsDoNotMatch />}
                     </div>
-                    <button
-                        className="w-full p-3 bg-blue-500 text-white rounded-lg"
-                        onClick={handleSignUp}
-                    >
                     <button
                         className="w-full p-3 bg-blue-500 text-white rounded-lg"
                         onClick={handleSignUp}
