@@ -46,6 +46,8 @@ export default function Signup() {
             return
         }
 
+        checkProperEmail()
+
         if (!properEmail) {
             setProperEmailFlag(true)
             console.log('Please enter a valid email address.')
