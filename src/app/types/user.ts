@@ -3,6 +3,7 @@
 export type User = {
     email: string
     id: string
-    name: string
-    password: string
+    firstName: string
+    lastName: string
+    hashedPassword: string
 }
