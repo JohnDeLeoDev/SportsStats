@@ -2,12 +2,7 @@ import { User } from '../types/user'
 
 export async function createAccount(user: User) {
     // make sure user is the correct type and has all the required fields
-    if (
-        !user.email ||
-        !user.firstName ||
-        !user.lastName ||
-        !user.hashedPassword
-    ) {
+    if (!user.email || !user.firstName || !user.lastName || !user.password) {
         console.error('Missing required fields')
         return
     }
@@ -25,7 +20,7 @@ export async function createAccount(user: User) {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        hashedPassword: user.hashedPassword,
+        password: user.password,
     }
 
     const options = {
