@@ -273,7 +273,6 @@ export default function Signup() {
                         />
                         {!passwordsMatch && <PasswordsDoNotMatch />}
                     </div>
-
                     <button
                         className="w-full p-3 bg-blue-500 text-white rounded-lg"
                         onClick={handleSignUp}
