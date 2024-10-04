@@ -61,10 +61,10 @@ export default function Signup() {
 
         const user: User = {
             email,
-            id: '',
             firstName,
             lastName,
             password: passwordOne,
+            token: null,
         }
 
         const response = createAccount(user)

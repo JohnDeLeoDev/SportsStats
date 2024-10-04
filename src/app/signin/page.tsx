@@ -42,6 +42,7 @@ export default function Signin() {
                     firstName: res.user.first_name,
                     lastName: res.user.last_name,
                     token: res.token,
+                    password: null,
                 }
                 // update the user in the app context
                 setUser(userRes)
