@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import { appContext } from './app'
 
 import {
@@ -32,6 +31,9 @@ function classNames(...classes: (string | boolean)[]) {
 interface HeaderProps {
     currentRoute: string | null
 }
+
+export default function Header({ currentRoute }: HeaderProps) {
+    const { user } = React.useContext(appContext)
 
 export default function Header({ currentRoute }: HeaderProps) {
     const { user } = React.useContext(appContext)
