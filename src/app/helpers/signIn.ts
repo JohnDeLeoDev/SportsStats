@@ -1,20 +1,18 @@
-export function signIn(email: string, hashedPassword: string) {
-    // https://aril0iseol.execute-api.us-east-1.amazonaws.com/default/ss_SignIn
-    // Endpoint URL
+export function signIn(email: string, password: string) {
     const url =
-        'https://aril0iseol.execute-api.us-east-1.amazonaws.com/default/ss_SignIn'
+        'https://xbv2mvcqy5.execute-api.us-east-1.amazonaws.com/default/ss_Login'
 
     // Request headers
     const headers = {
         'Content-Type': 'application/json',
-        'X-Api-Key': 'qi4Xkv4meC1cJD03iNyxJ3chJRBic2wW5bCRhGDC',
+        'X-Api-Key': 'O79yWaCl7m8IXYa5HWikraFft2GMMGBd1ujGN780',
         'Access-Control-Allow-Origin': '*',
     }
 
     // Request body
     const body = {
-        email,
-        hashedPassword,
+        email: email,
+        password: password,
     }
 
     // HTTP request options
@@ -28,7 +26,6 @@ export function signIn(email: string, hashedPassword: string) {
     return fetch(url, options)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
             return data
         })
         .catch((error) => {

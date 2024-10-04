@@ -2,12 +2,17 @@
 import React from 'react'
 import SearchResults from './searchResults'
 import searchRequest from './helpers/searchRequest'
+import { appContext } from './app'
 
 export default function Home() {
-    const [searchTriggered, setSearchTriggered] = React.useState(false)
-    const [searchQuery, setSearchQuery] = React.useState('')
-    const [searchResponseReceived, setSearchResponseReceived] =
-        React.useState(false)
+    const {
+        searchQuery,
+        setSearchQuery,
+        searchTriggered,
+        setSearchTriggered,
+        searchResponseReceived,
+        setSearchResponseReceived,
+    } = React.useContext(appContext)
 
     function handleSearch(query: string) {
         setSearchTriggered(true)

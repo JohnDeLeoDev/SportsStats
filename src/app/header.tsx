@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import { appContext } from './app'
 
 import {
     Disclosure,
@@ -11,7 +12,6 @@ import {
     MenuItems,
 } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { User } from './types/user'
 
 const navigation = [
     { name: 'SearchStats', href: '/', current: false },
@@ -31,10 +31,11 @@ function classNames(...classes: (string | boolean)[]) {
 
 interface HeaderProps {
     currentRoute: string | null
-    user: User | null
 }
 
-export default function Header({ currentRoute, user }: HeaderProps) {
+export default function Header({ currentRoute }: HeaderProps) {
+    const { user } = React.useContext(appContext)
+
     navigation.forEach((item) => {
         item.current = item.href === currentRoute
     })
@@ -149,13 +150,6 @@ export default function Header({ currentRoute, user }: HeaderProps) {
                                         <span className="sr-only">
                                             Open user menu
                                         </span>
-                                        <Image
-                                            className="rounded-full"
-                                            src="/images/profile.jpg"
-                                            alt=""
-                                            width={32}
-                                            height={32}
-                                        />
                                     </MenuButton>
                                 </div>
                                 <MenuItems

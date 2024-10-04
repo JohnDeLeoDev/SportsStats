@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
-import Header from './header'
-import Footer from './footer'
 import { headers } from 'next/headers'
+import Head from 'next/head'
+import React from 'react'
+import App from './app'
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -29,16 +30,20 @@ export default function RootLayout({
     const headersList = headers()
     const currentRoute = headersList.get('x-current-route')
 
-    const user = null
-
     return (
         <html lang="en">
+            <Head>
+                <title>{String(metadata.title) ?? 'Default Title'}</title>
+                <meta
+                    name="description"
+                    content={metadata.description ?? 'Default Description'}
+                />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-                <Header currentRoute={currentRoute} user={user} />
-                {children}
-                <Footer />
+                <App currentRoute={currentRoute}>{children}</App>
             </body>
         </html>
     )
