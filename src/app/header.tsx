@@ -11,7 +11,12 @@ import {
     MenuItems,
 } from '@headlessui/react'
 
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import {
+    Bars3Icon,
+    BellIcon,
+    XMarkIcon,
+    UserIcon,
+} from '@heroicons/react/24/outline'
 
 const navigation = [
     { name: 'SearchStats', href: '/', current: false },
@@ -150,6 +155,10 @@ export default function Header({ currentRoute }: HeaderProps) {
                                         <span className="sr-only">
                                             Open user menu
                                         </span>
+                                        <UserIcon
+                                            aria-hidden="true"
+                                            className="h-8 w-8"
+                                        />
                                     </MenuButton>
                                 </div>
                                 <MenuItems
