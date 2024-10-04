@@ -10,6 +10,7 @@ import {
     MenuItem,
     MenuItems,
 } from '@headlessui/react'
+
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
@@ -31,9 +32,6 @@ function classNames(...classes: (string | boolean)[]) {
 interface HeaderProps {
     currentRoute: string | null
 }
-
-export default function Header({ currentRoute }: HeaderProps) {
-    const { user } = React.useContext(appContext)
 
 export default function Header({ currentRoute }: HeaderProps) {
     const { user } = React.useContext(appContext)
