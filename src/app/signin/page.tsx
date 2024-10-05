@@ -80,7 +80,7 @@ export default function Signin() {
                     <div className="flex flex-column gap-4 items-center sm:items-start w-full flex-wrap max-w-[600px]">
                         <div className="flex flex-row gap-4 items-center sm:items-start w-full mt-3 ">
                             <input
-                                className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg"
+                                className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-800"
                                 placeholder="Email Address"
                                 onChange={(e) => {
                                     setEmail(e.target.value)
@@ -95,7 +95,7 @@ export default function Signin() {
                                 }}
                             />
                             <input
-                                className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg"
+                                className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-800"
                                 placeholder="Password"
                                 type="password"
                                 onChange={(e) => {
@@ -124,7 +124,7 @@ export default function Signin() {
                         </div>
 
                         <button
-                            className="p-3 bg-blue-500 text-white rounded-lg w-full"
+                            className="p-3 bg-red-800 text-white rounded-lg w-full"
                             onClick={handleSignIn}
                         >
                             Sign In
