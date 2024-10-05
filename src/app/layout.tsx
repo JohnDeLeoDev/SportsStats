@@ -41,7 +41,7 @@ export default function RootLayout({
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+                className={`${geistSans.variable} ${geistMono.variable} antialiased `}
             >
                 <App currentRoute={currentRoute}>{children}</App>
             </body>

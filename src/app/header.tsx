@@ -11,12 +11,7 @@ import {
     MenuItems,
 } from '@headlessui/react'
 
-import {
-    Bars3Icon,
-    BellIcon,
-    XMarkIcon,
-    UserIcon,
-} from '@heroicons/react/24/outline'
+import { Bars3Icon, BellIcon, UserIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
     { name: 'SearchStats', href: '/', current: false },
@@ -64,7 +59,8 @@ export default function Header({ currentRoute }: HeaderProps) {
         <header className="grid grid-cols-3 w-full gap-4">
             <Disclosure
                 as="nav"
-                className="bg-gray-200 fixed w-screen z-10 top-0"
+                className="bg-red-800 bg-opacity-90 text-white
+                fixed w-screen z-10 top-0"
             >
                 <div className="mx-auto px-2 sm:px-6 lg:px-8">
                     <div className="relative flex h-16 items-center justify-between">
@@ -77,19 +73,24 @@ export default function Header({ currentRoute }: HeaderProps) {
                                     aria-hidden="true"
                                     className="block h-6 w-6 group-data-[open]:hidden"
                                 />
-                                <XMarkIcon
-                                    aria-hidden="true"
-                                    className="hidden h-6 w-6 group-data-[open]:block"
-                                />
                             </DisclosureButton>
                         </div>
                         <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                             <div className="flex flex-shrink-0 items-center">
-                                <Menu as="div" className="relative">
-                                    <MenuButton>
+                                <Menu
+                                    as="div"
+                                    className="
+                                    relative flex flex-col
+                                    "
+                                >
+                                    <MenuButton
+                                        className="
+                                    
+                                    "
+                                    >
                                         <Bars3Icon
                                             aria-hidden="true"
-                                            className="h-8 w-8 stroke-width-2 text-gray-500 hover:stroke-width-4 hover:text-gray-700"
+                                            className="h-7 w-7  text-white transition-colors duration-100 ease-in-out hover:text-black"
                                         />
                                     </MenuButton>
                                     <MenuItems
@@ -111,32 +112,23 @@ export default function Header({ currentRoute }: HeaderProps) {
                             </div>
                             <div className="hidden sm:ml-6 sm:block">
                                 <div className="flex space-x-4">
-                                    {navigation.map((item) => (
-                                        <a
-                                            key={item.name}
-                                            href={item.href}
-                                            aria-current={
-                                                item.current
-                                                    ? 'page'
-                                                    : undefined
-                                            }
-                                            className={classNames(
-                                                item.current
-                                                    ? 'bg-gray-900 text-white'
-                                                    : 'text-black-700 hover:bg-gray-700 hover:text-white',
-                                                'rounded-md px-3 py-2 text-sm font-medium'
-                                            )}
-                                        >
-                                            {item.name}
-                                        </a>
-                                    ))}
+                                    <a
+                                        href="/"
+                                        className="text-white hover:bg-black hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        <h1 className="text-2xl font-bold font-[family-name:var(--font-geist-sans)]">
+                                            SportsStats
+                                        </h1>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                         <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                             <button
                                 type="button"
-                                className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                                className="relative rounded-full p-1 
+                                hover:outline-black hover:bg-black transition-colors duration-100 ease-in-out
+                                "
                             >
                                 <span className="absolute -inset-1.5" />
                                 <span className="sr-only">
@@ -144,20 +136,24 @@ export default function Header({ currentRoute }: HeaderProps) {
                                 </span>
                                 <BellIcon
                                     aria-hidden="true"
-                                    className="h-6 w-6"
+                                    className="text-white h-6 w-6 transition-colors duration-100 ease-in-out hover:text-black"
                                 />
                             </button>
 
                             {/* Profile dropdown */}
                             <Menu as="div" className="relative ml-3">
                                 <div>
-                                    <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                    <MenuButton
+                                        className="relative rounded-full p-1
+                                hover:outline-black hover:bg-black transition-colors duration-100 ease-in-out
+                                "
+                                    >
                                         <span className="sr-only">
                                             Open user menu
                                         </span>
                                         <UserIcon
                                             aria-hidden="true"
-                                            className="h-8 w-8"
+                                            className="text-white h-6 w-6 transition-colors duration-100 ease-in-out hover:text-white"
                                         />
                                     </MenuButton>
                                 </div>
