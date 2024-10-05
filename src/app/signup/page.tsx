@@ -122,7 +122,7 @@ export default function Signup() {
     }
 
     return (
-        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-5 font-[family-name:var(--font-geist-sans)]">
+        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-5 font-[family-name:var(--font-geist-sans)] ">
             <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
                 <h1 className="text-4xl sm:text-5xl text-center sm:text-left font-bold">
                     Sign Up
@@ -133,7 +133,7 @@ export default function Signup() {
                 <div className="flex flex-row gap-4 items-center sm:items-start w-full flex-wrap max-w-[600px]">
                     <div className="flex flex-row gap-4 items-center sm:items-start w-full mt-3 mb-3">
                         <input
-                            className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg"
+                            className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-800"
                             placeholder="First Name"
                             onChange={(e) => {
                                 setFirstName(e.target.value)
@@ -146,7 +146,7 @@ export default function Signup() {
                             }}
                         />
                         <input
-                            className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg"
+                            className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-800"
                             placeholder="Last Name"
                             onChange={(e) => {
                                 setLastName(e.target.value)
@@ -162,7 +162,7 @@ export default function Signup() {
 
                     <div className="flex flex-row gap-4 items-center sm:items-start w-full flex-wrap mt-3 mb-3">
                         <input
-                            className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg"
+                            className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-800"
                             placeholder="Email Address"
                             onChange={(e) => {
                                 setEmail(e.target.value)
@@ -181,7 +181,7 @@ export default function Signup() {
                         {emailExists && <AccountExists />}
                         {properEmailFlag && <ImproperEmail />}
                         <input
-                            className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg"
+                            className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-800"
                             placeholder="Password"
                             onChange={(e) => {
                                 setPasswordOne(e.target.value)
@@ -196,7 +196,7 @@ export default function Signup() {
                             type="password"
                         />
                         <input
-                            className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg"
+                            className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-800"
                             placeholder="Confirm Password"
                             onChange={(e) => {
                                 setPasswordTwo(e.target.value)
@@ -213,7 +213,7 @@ export default function Signup() {
                         {!passwordsMatch && <PasswordsDoNotMatch />}
                     </div>
                     <button
-                        className="w-full p-3 bg-blue-500 text-white rounded-lg"
+                        className="w-full p-3 bg-blue-500 text-white rounded-lg bg-red-800 hover:bg-red-900"
                         onClick={handleSignUp}
                     >
                         Sign Up

@@ -114,7 +114,7 @@ export default function Header({ currentRoute }: HeaderProps) {
                                 <div className="flex space-x-4">
                                     <a
                                         href="/"
-                                        className="text-white hover:bg-black hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                        className="text-white hover:bg-red-900 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                     >
                                         <h1 className="text-2xl font-bold font-[family-name:var(--font-geist-sans)]">
                                             SportsStats
@@ -127,7 +127,7 @@ export default function Header({ currentRoute }: HeaderProps) {
                             <button
                                 type="button"
                                 className="relative rounded-full p-1 
-                                hover:outline-black hover:bg-black transition-colors duration-100 ease-in-out
+                                hover:outline-black hover:bg-red-900 transition-colors duration-100 ease-in-out
                                 "
                             >
                                 <span className="absolute -inset-1.5" />
@@ -145,7 +145,7 @@ export default function Header({ currentRoute }: HeaderProps) {
                                 <div>
                                     <MenuButton
                                         className="relative rounded-full p-1
-                                hover:outline-black hover:bg-black transition-colors duration-100 ease-in-out
+                                hover:outline-black hover:bg-red-900 transition-colors duration-100 ease-in-out
                                 "
                                     >
                                         <span className="sr-only">
