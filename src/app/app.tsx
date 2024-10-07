@@ -10,6 +10,7 @@ export const appContext = React.createContext({
     user: null as User | null,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setUser: (user: User | null) => {},
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setLocalUser: (user: User | null) => {},
     searchQuery: '',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -25,6 +26,7 @@ export const appContext = React.createContext({
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [user, setUser] = React.useState<User | null>(() => {
         const userStorage = localStorage.getItem('user')
         if (userStorage) {
