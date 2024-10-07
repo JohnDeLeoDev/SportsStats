@@ -38,7 +38,7 @@ export default function Home() {
                 console.error('Search failed', error)
             }
         },
-        [setSearchTriggered, setSearchResponseReceived]
+        [setSearchTriggered, setSearchResponseReceived, user]
     )
 
     React.useEffect(() => {
