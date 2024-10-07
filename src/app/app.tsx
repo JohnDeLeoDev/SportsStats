@@ -9,6 +9,7 @@ export const appContext = React.createContext({
     user: null as User | null,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setUser: (user: User | null) => {},
+    setLocalUser: (user: User | null) => {},
     searchQuery: '',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setSearchQuery: (query: string) => {},
@@ -20,31 +21,36 @@ export const appContext = React.createContext({
     setSearchResponseReceived: (received: boolean) => {},
 })
 
-export default function App(props: {
-    children: React.ReactNode
-    currentRoute: string | null
-}) {
-    const [user, setUser] = React.useState(null as User | null)
+export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
+    children,
+}) => {
+    const [user, setUser] = React.useState<User | null>(() => {
+        const user = localStorage.getItem('user')
+        if (user) {
+            return JSON.parse(user)
+        } else {
+            return null
+        }
+    })
     const [searchQuery, setSearchQuery] = React.useState('')
     const [searchTriggered, setSearchTriggered] = React.useState(false)
     const [searchResponseReceived, setSearchResponseReceived] =
         React.useState(false)
-
-    const { currentRoute } = props
-
-    React.useEffect(() => {
-        console.log('User:', user)
-        // set the user in local storage
+    const setLocalUser = (user: User | null) => {
         if (user) {
             localStorage.setItem('user', JSON.stringify(user))
+        } else {
+            localStorage.removeItem('user')
         }
-    }, [user])
+        setUser(user)
+    }
 
     return (
         <appContext.Provider
             value={{
                 user,
                 setUser,
+                setLocalUser,
                 searchQuery,
                 setSearchQuery,
                 searchTriggered,
@@ -53,9 +59,22 @@ export default function App(props: {
                 setSearchResponseReceived,
             }}
         >
+            {children}
+        </appContext.Provider>
+    )
+}
+
+export default function App(props: {
+    children: React.ReactNode
+    currentRoute: string | null
+}) {
+    const { currentRoute } = props
+
+    return (
+        <AppProvider>
             <Header currentRoute={currentRoute} />
             {props.children}
             <Footer />
-        </appContext.Provider>
+        </AppProvider>
     )
 }

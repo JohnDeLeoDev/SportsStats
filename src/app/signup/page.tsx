@@ -115,9 +115,18 @@ export default function Signup() {
 
     function AccountCreated() {
         return (
-            <div className="p-2 bg-green-500 text-white rounded-lg w-full">
-                Your account has been created successfully.
-            </div>
+            <>
+                <div className="p-2 bg-green-500 text-white rounded-lg w-full">
+                    Your account has been created successfully.
+                </div>
+                <a
+                    href="/signin"
+                    className="text-blue-500 hover:text-blue-700 w-full  text-right
+                "
+                >
+                    Sign In
+                </a>
+            </>
         )
     }
 
@@ -212,12 +221,14 @@ export default function Signup() {
                         />
                         {!passwordsMatch && <PasswordsDoNotMatch />}
                     </div>
-                    <button
-                        className="w-full p-3 bg-blue-500 text-white rounded-lg bg-red-800 hover:bg-red-900"
-                        onClick={handleSignUp}
-                    >
-                        Sign Up
-                    </button>
+                    {!success && (
+                        <button
+                            className="w-full p-3 bg-blue-500 text-white rounded-lg bg-red-800 hover:bg-red-900"
+                            onClick={handleSignUp}
+                        >
+                            Sign Up
+                        </button>
+                    )}
                 </div>
                 {missingFields && <MissingFields />}
                 {success && <AccountCreated />}

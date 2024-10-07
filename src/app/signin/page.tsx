@@ -17,6 +17,7 @@ export default function Signin() {
     const {
         user,
         setUser,
+        setLocalUser,
         searchQuery,
         setSearchQuery,
         searchTriggered,
@@ -45,7 +46,7 @@ export default function Signin() {
                     password: null,
                 }
                 // update the user in the app context
-                setUser(userRes)
+                setLocalUser(userRes)
 
                 // redirect to the home page
                 window.location.href = '/'
@@ -60,6 +61,7 @@ export default function Signin() {
             value={{
                 user,
                 setUser,
+                setLocalUser,
                 searchQuery,
                 setSearchQuery,
                 searchTriggered,

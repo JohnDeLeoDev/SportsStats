@@ -13,6 +13,9 @@ import {
 
 import { Bars3Icon, BellIcon, UserIcon } from '@heroicons/react/24/outline'
 
+import { signOut } from './helpers/signOut'
+import { on } from 'events'
+
 const navigation = [
     { name: 'SearchStats', href: '/', current: false },
     { name: 'Examples', href: '/examples', current: false },
@@ -34,7 +37,9 @@ interface HeaderProps {
 }
 
 export default function Header({ currentRoute }: HeaderProps) {
-    const { user } = React.useContext(appContext)
+    const { user, setLocalUser } = React.useContext(appContext)
+
+    console.log(user)
 
     navigation.forEach((item) => {
         item.current = item.href === currentRoute
@@ -44,15 +49,32 @@ export default function Header({ currentRoute }: HeaderProps) {
 
     if (user) {
         profileMenu = [
-            { name: 'Profile', href: '/profile' },
+            { name: `Welcome, ${user.firstName}`, href: '/profile' },
+            { name: 'Dashboard', href: '/dashboard' },
             { name: 'Settings', href: '/settings' },
-            { name: 'Sign out', href: '/signout' },
+            { name: 'Sign out', onclick: handleSignOut },
         ]
     } else {
         profileMenu = [
             { name: 'Create Account', href: '/signup' },
             { name: 'Sign In', href: '/signin' },
         ]
+    }
+
+    async function handleSignOut() {
+        if (!user?.email || !user?.token) {
+            return
+        }
+        console.log('Signing out...')
+        try {
+            await signOut(user.email, user.token)
+            // update the user in the app context
+            setLocalUser(null)
+            // redirect to the home page
+            window.location.href = '/'
+        } catch (error) {
+            console.error('Sign out failed', error)
+        }
     }
 
     return (
@@ -166,6 +188,7 @@ export default function Header({ currentRoute }: HeaderProps) {
                                             <a
                                                 href={item.href}
                                                 className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                                                onClick={item.onclick}
                                             >
                                                 {item.name}
                                             </a>
