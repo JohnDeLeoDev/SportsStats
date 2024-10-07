@@ -14,7 +14,6 @@ import {
 import { Bars3Icon, BellIcon, UserIcon } from '@heroicons/react/24/outline'
 
 import { signOut } from './helpers/signOut'
-import { on } from 'events'
 
 const navigation = [
     { name: 'SearchStats', href: '/', current: false },
@@ -38,8 +37,6 @@ interface HeaderProps {
 
 export default function Header({ currentRoute }: HeaderProps) {
     const { user, setLocalUser } = React.useContext(appContext)
-
-    console.log(user)
 
     navigation.forEach((item) => {
         item.current = item.href === currentRoute

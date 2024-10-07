@@ -1,6 +1,46 @@
 'use client'
 import React from 'react'
 import { appContext } from '../app'
+import { getQueries } from '../helpers/getQueries'
+
+function PastQueries() {
+    const { user } = React.useContext(appContext)
+    const [queries, setQueries] = React.useState([])
+    const [loading, setLoading] = React.useState(true)
+
+    React.useEffect(() => {
+        async function fetchQueries() {
+            if (user) {
+                const res = await getQueries(user)
+                if (res) {
+                    setQueries(res.queries)
+                    setLoading(false)
+                }
+            }
+        }
+
+        fetchQueries()
+    }, [user])
+
+    return (
+        <div className="flex flex-col gap-4 items-center sm:items-start">
+            <h2 className="text-2xl sm:text-3xl font-bold">Past Queries</h2>
+            {loading ? (
+                <p>Loading...</p>
+            ) : queries.length > 0 ? (
+                <ul className="flex flex-col gap-2">
+                    {queries.map((query, index) => (
+                        <li key={index} className="text-lg sm:text-xl">
+                            {query}
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p>No past queries found.</p>
+            )}
+        </div>
+    )
+}
 
 export default function Profile() {
     const { user } = React.useContext(appContext)
@@ -19,6 +59,7 @@ export default function Profile() {
                         <p className="text-lg sm:text-xl text-center sm:text-left">
                             Your email address is {user.email}.
                         </p>
+                        <PastQueries />
                     </div>
                 ) : (
                     <p className="text-lg sm:text-xl text-center sm:text-left">
