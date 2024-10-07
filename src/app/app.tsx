@@ -25,9 +25,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
     const [user, setUser] = React.useState<User | null>(() => {
-        const user = localStorage.getItem('user')
-        if (user) {
-            return JSON.parse(user)
+        const userStorage = localStorage.getItem('user')
+        if (userStorage) {
+            return JSON.parse(userStorage)
         } else {
             return null
         }
