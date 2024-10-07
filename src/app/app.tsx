@@ -6,6 +6,7 @@ import Footer from './footer'
 import { User } from './types/user'
 
 export const appContext = React.createContext({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     user: null as User | null,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setUser: (user: User | null) => {},
@@ -32,7 +33,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
             return null
         }
     })
-    console.log(user?.email, ' is currently logged in.')
     const [searchQuery, setSearchQuery] = React.useState('')
     const [searchTriggered, setSearchTriggered] = React.useState(false)
     const [searchResponseReceived, setSearchResponseReceived] =
