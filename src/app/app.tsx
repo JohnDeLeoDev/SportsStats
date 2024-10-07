@@ -32,10 +32,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
             return null
         }
     })
+    console.log(user?.email, ' is currently logged in.')
     const [searchQuery, setSearchQuery] = React.useState('')
     const [searchTriggered, setSearchTriggered] = React.useState(false)
     const [searchResponseReceived, setSearchResponseReceived] =
         React.useState(false)
+
     const setLocalUser = (user: User | null) => {
         if (user) {
             localStorage.setItem('user', JSON.stringify(user))
