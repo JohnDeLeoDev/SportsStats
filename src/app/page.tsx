@@ -6,6 +6,7 @@ import { appContext } from './app'
 
 export default function Home() {
     const {
+        user,
         searchQuery,
         setSearchQuery,
         searchTriggered,
@@ -29,7 +30,7 @@ export default function Home() {
             setSearchTriggered(true)
             try {
                 console.log('Searching for:', query)
-                const res = await searchRequest(query)
+                const res = await searchRequest(user, query)
                 if (res) {
                     setSearchResponseReceived(true)
                 }

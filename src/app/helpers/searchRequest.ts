@@ -1,4 +1,6 @@
-export default function searchRequest(searchQuery: string) {
+import { User } from '../types/user'
+
+export default function searchRequest(user: User | null, searchQuery: string) {
     // https://aril0iseol.execute-api.us-east-1.amazonaws.com/default/ss_Search
     // Endpoint URL
     const url =
@@ -14,7 +16,11 @@ export default function searchRequest(searchQuery: string) {
     // Request body
     const body = {
         query: searchQuery,
+        email: user?.email,
+        token: user?.token,
     }
+
+    console.log(body)
 
     // HTTP request options
     const options = {

@@ -5,15 +5,21 @@ import { getQueries } from '../helpers/getQueries'
 
 function PastQueries() {
     const { user } = React.useContext(appContext)
-    const [queries, setQueries] = React.useState([])
+    const [queries, setQueries] = React.useState<Query[]>([])
     const [loading, setLoading] = React.useState(true)
+
+    type Query = {
+        id: string
+        query: string
+        created_at: string
+    }
 
     React.useEffect(() => {
         async function fetchQueries() {
             if (user) {
                 const res = await getQueries(user)
                 if (res) {
-                    setQueries(res.queries)
+                    setQueries(res)
                     setLoading(false)
                 }
             }
@@ -28,15 +34,26 @@ function PastQueries() {
             {loading ? (
                 <p>Loading...</p>
             ) : queries.length > 0 ? (
-                <ul className="flex flex-col gap-2">
-                    {queries.map((query, index) => (
-                        <li key={index} className="text-lg sm:text-xl">
-                            {query}
-                        </li>
+                <table className="table-auto w-full">
+                    <thead>
+                        <tr>
+                            <th className="px-4 py-2">Date</th>
+                            <th className="px-4 py-2">Query</th>
+                        </tr>
+                    </thead>
+                    {queries.map((query: Query, index: number) => (
+                        <tr key={index}>
+                            <td className="border px-4 py-2">
+                                {new Date(
+                                    query.created_at
+                                ).toLocaleDateString()}
+                            </td>
+                            <td className="border px-4 py-2">{query.query}</td>
+                        </tr>
                     ))}
-                </ul>
+                </table>
             ) : (
-                <p>No past queries found.</p>
+                <p>No past queries.</p>
             )}
         </div>
     )
@@ -56,9 +73,7 @@ export default function Profile() {
                         <p className="text-lg sm:text-xl text-center sm:text-left">
                             Welcome, {user.firstName} {user.lastName}.
                         </p>
-                        <p className="text-lg sm:text-xl text-center sm:text-left">
-                            Your email address is {user.email}.
-                        </p>
+
                         <PastQueries />
                     </div>
                 ) : (
