@@ -42,6 +42,12 @@ export default function Home() {
     )
 
     React.useEffect(() => {
+        if (searchTriggered === true) {
+            handleSearch(searchQuery)
+        }
+    }, [searchTriggered, searchQuery, handleSearch])
+
+    React.useEffect(() => {
         if (inputRef.current) {
             inputRef.current.focus()
         }
