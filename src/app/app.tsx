@@ -44,6 +44,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         const queryStorage = localStorage.getItem('query')
         console.log('queryStorage', queryStorage)
         if (queryStorage) {
+            localStorage.removeItem('query')
             return JSON.parse(queryStorage)
         } else {
             return ''
