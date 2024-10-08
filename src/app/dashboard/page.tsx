@@ -7,6 +7,7 @@ function PastQueries() {
     const { user } = React.useContext(appContext)
     const [queries, setQueries] = React.useState<Query[]>([])
     const [loading, setLoading] = React.useState(true)
+    const { setSearchQuery, setSearchTriggered } = React.useContext(appContext)
 
     type Query = {
         id: string
@@ -27,6 +28,16 @@ function PastQueries() {
 
         fetchQueries()
     }, [user])
+
+    function handleViewQuery(pastQuery: string) {
+        console.log('View query')
+
+        setSearchTriggered(true)
+
+        // redirect to the search results page, and search for the query
+        setSearchQuery(pastQuery)
+        window.location.href = '/'
+    }
 
     return (
         <div className="flex flex-col gap-4 items-center sm:items-start">
@@ -49,6 +60,14 @@ function PastQueries() {
                                 ).toLocaleDateString()}
                             </td>
                             <td className="border px-4 py-2">{query.query}</td>
+                            <td className="border px-4 py-2">
+                                <button
+                                    onClick={() => handleViewQuery(query.query)}
+                                    className="text-blue-500"
+                                >
+                                    View
+                                </button>
+                            </td>
                         </tr>
                     ))}
                 </table>
