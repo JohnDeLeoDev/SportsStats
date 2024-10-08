@@ -11,8 +11,8 @@ export default function Home() {
         setSearchQuery,
         searchTriggered,
         setSearchTriggered,
-        searchResponseReceived,
-        setSearchResponseReceived,
+        searchResponse,
+        setSearchResponse,
     } = React.useContext(appContext)
 
     const inputRef = React.useRef<HTMLInputElement>(null)
@@ -32,13 +32,13 @@ export default function Home() {
                 console.log('Searching for:', query)
                 const res = await searchRequest(user, query)
                 if (res) {
-                    setSearchResponseReceived(true)
+                    setSearchResponse(res)
                 }
             } catch (error) {
                 console.error('Search failed', error)
             }
         },
-        [setSearchTriggered, setSearchResponseReceived, user]
+        [setSearchTriggered, user, setSearchResponse]
     )
 
     React.useEffect(() => {
@@ -96,7 +96,7 @@ export default function Home() {
     return (
         <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-5 font-[family-name:var(--font-geist-sans)] transition-all duration-2000 ease-in-out transform">
             {searchTriggered === false ? <HomePage /> : null}
-            {searchResponseReceived === true ? <SearchResults /> : null}
+            {searchResponse ? <SearchResults /> : null}
         </div>
     )
 }
