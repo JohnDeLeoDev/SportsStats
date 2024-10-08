@@ -16,6 +16,9 @@ export const appContext = React.createContext({
     searchQuery: '',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setSearchQuery: (query: string) => {},
+    localQuery: '',
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setLocalQuery: (query: string) => {},
     searchTriggered: false,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setSearchTriggered: (triggered: boolean) => {},
@@ -37,9 +40,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
             return null
         }
     })
-    const [searchQuery, setSearchQuery] = React.useState('')
+    const [searchQuery, setSearchQuery] = React.useState<string>(() => {
+        const queryStorage = localStorage.getItem('query')
+        console.log('queryStorage', queryStorage)
+        if (queryStorage) {
+            return JSON.parse(queryStorage)
+        } else {
+            return ''
+        }
+    })
     const [searchTriggered, setSearchTriggered] = React.useState(false)
-    React.useState(false)
+    const [localQuery] = React.useState<string>('')
     const [searchResponse, setSearchResponse] =
         React.useState<SearchResponse | null>(null)
 
@@ -52,6 +63,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         setUser(user)
     }
 
+    const setLocalQuery = (query: string) => {
+        localStorage.setItem('query', JSON.stringify(query))
+        setSearchQuery(query)
+    }
+
     return (
         <appContext.Provider
             value={{
@@ -60,6 +76,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
                 setLocalUser,
                 searchQuery,
                 setSearchQuery,
+                localQuery,
+                setLocalQuery,
                 searchTriggered,
                 setSearchTriggered,
                 searchResponse,

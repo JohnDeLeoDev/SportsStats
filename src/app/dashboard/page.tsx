@@ -4,10 +4,10 @@ import { appContext } from '../app'
 import { getQueries } from '../helpers/getQueries'
 
 function PastQueries() {
-    const { user } = React.useContext(appContext)
+    const { user, setUser } = React.useContext(appContext)
     const [queries, setQueries] = React.useState<Query[]>([])
     const [loading, setLoading] = React.useState(true)
-    const { setSearchQuery, setSearchTriggered } = React.useContext(appContext)
+    const { setLocalQuery } = React.useContext(appContext)
 
     type Query = {
         id: string
@@ -19,24 +19,32 @@ function PastQueries() {
         async function fetchQueries() {
             if (user) {
                 const res = await getQueries(user)
-                if (res) {
-                    setQueries(res)
-                    setLoading(false)
+                await res
+                console.log(res)
+                if (res === 'Error: User is not logged in') {
+                    console.error('User is not logged in')
+                    setUser(null)
+                    return
                 }
+                setQueries(res)
+                setLoading(false)
             }
         }
 
         fetchQueries()
-    }, [user])
+    }, [user, setUser])
 
     function handleViewQuery(pastQuery: string) {
         console.log('View query')
+        console.log(pastQuery)
+        setLocalQuery(pastQuery)
 
-        setSearchTriggered(true)
-
-        // redirect to the search results page, and search for the query
-        setSearchQuery(pastQuery)
+        // load home page with searchTriggered set to true
         window.location.href = '/'
+    }
+
+    if (!user) {
+        return <p>Please sign in to view past queries.</p>
     }
 
     return (
@@ -52,24 +60,30 @@ function PastQueries() {
                             <th className="px-4 py-2">Query</th>
                         </tr>
                     </thead>
-                    {queries.map((query: Query, index: number) => (
-                        <tr key={index}>
-                            <td className="border px-4 py-2">
-                                {new Date(
-                                    query.created_at
-                                ).toLocaleDateString()}
-                            </td>
-                            <td className="border px-4 py-2">{query.query}</td>
-                            <td className="border px-4 py-2">
-                                <button
-                                    onClick={() => handleViewQuery(query.query)}
-                                    className="text-blue-500"
-                                >
-                                    View
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
+                    <tbody>
+                        {queries.map((query: Query, index: number) => (
+                            <tr key={index}>
+                                <td className="border px-4 py-2">
+                                    {new Date(
+                                        query.created_at
+                                    ).toLocaleDateString()}
+                                </td>
+                                <td className="border px-4 py-2">
+                                    {query.query}
+                                </td>
+                                <td className="border px-4 py-2">
+                                    <button
+                                        onClick={() =>
+                                            handleViewQuery(query.query)
+                                        }
+                                        className="text-blue-500"
+                                    >
+                                        View
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
                 </table>
             ) : (
                 <p>No past queries.</p>
