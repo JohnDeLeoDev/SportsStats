@@ -5,6 +5,7 @@ import Header from './header'
 import Footer from './footer'
 import { User } from './types/user'
 import { SearchResponse } from './types/response'
+import { Player } from './types/player'
 
 export const appContext = React.createContext({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -26,6 +27,15 @@ export const appContext = React.createContext({
     searchResponse: null as SearchResponse | null,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setSearchResponse: (response: SearchResponse | null) => {},
+    playerQuery: '',
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setPlayerQuery: (query: string) => {},
+    playerResponse: null as SearchResponse | null,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setPlayerResponse: (response: SearchResponse | null) => {},
+    playerResult: [] as Player[],
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setPlayerResult: (result: Player[]) => {},
 })
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -52,8 +62,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     })
     const [searchTriggered, setSearchTriggered] = React.useState(false)
     const [localQuery] = React.useState<string>('')
+    const [playerQuery, setPlayerQuery] = React.useState<string>('')
     const [searchResponse, setSearchResponse] =
         React.useState<SearchResponse | null>(null)
+
+    const [playerResponse, setPlayerResponse] =
+        React.useState<SearchResponse | null>(null)
+
+    const [playerResult, setPlayerResult] = React.useState<Player[]>([])
 
     const setLocalUser = (user: User | null) => {
         if (user) {
@@ -83,6 +99,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
                 setSearchTriggered,
                 searchResponse,
                 setSearchResponse,
+                playerQuery,
+                setPlayerQuery,
+                playerResponse,
+                setPlayerResponse,
+                playerResult,
+                setPlayerResult,
             }}
         >
             {children}
