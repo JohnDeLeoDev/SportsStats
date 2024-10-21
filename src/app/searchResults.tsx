@@ -1,5 +1,7 @@
 import { appContext } from './app'
 import React from 'react'
+import { Player } from './types/player'
+import { Team } from './types/team'
 
 export default function SearchResults() {
     const { searchResponse, searchQuery } = React.useContext(appContext)
@@ -12,18 +14,50 @@ export default function SearchResults() {
             return
         }
 
-        // sort the search results by year then by city
-        searchResponse.sort((a, b) => {
-            if (a && b && a.yearid === b.yearid) {
-                if (!a || !a.city) return 1
-                if (!b || !b.city) return -1
-                return a.city.localeCompare(b.city)
-            }
-            if (!a || !b || a.yearid === undefined || b.yearid === undefined) {
-                return 0
-            }
-            return a.yearid - b.yearid
-        })
+        if (
+            Array.isArray(searchResponse) &&
+            (searchResponse as Player[]).length > 0
+        ) {
+            // sort the search results by last name then by first name
+            ;(searchResponse as Player[]).sort((a, b) => {
+                if (a.nameLast && b.nameLast && a.nameLast === b.nameLast) {
+                    if (!a.nameFirst) return 1
+                    if (!b.nameFirst) return -1
+                    return a.nameFirst.localeCompare(b.nameFirst)
+                }
+                if (
+                    !a ||
+                    !b ||
+                    a.nameLast === undefined ||
+                    b.nameLast === undefined
+                ) {
+                    return 0
+                }
+                return a.nameLast.localeCompare(b.nameLast)
+            })
+        }
+
+        if (
+            Array.isArray(searchResponse) &&
+            (searchResponse as Team[]).length > 0
+        ) {
+            ;(searchResponse as Team[]).sort((a, b) => {
+                if (a.yearid && b.yearid && a.yearid === b.yearid) {
+                    if (!a.city) return 1
+                    if (!b.city) return -1
+                    return a.city.localeCompare(b.city)
+                }
+                if (
+                    !a ||
+                    !b ||
+                    a.yearid === undefined ||
+                    b.yearid === undefined
+                ) {
+                    return 0
+                }
+                return a.yearid - b.yearid
+            })
+        }
 
         return (
             <div className="flex flex-col gap-8 items-center sm:items-start transition-all duration-2000 ease-in-out transform">
@@ -54,28 +88,40 @@ export default function SearchResults() {
                             return (
                                 <tr key={index}>
                                     <td className="border px-4 py-2">
-                                        {result.yearid}
+                                        {'yearid' in result
+                                            ? result.yearid
+                                            : ''}
                                     </td>
                                     <td className="border px-4 py-2">
-                                        {result.city}
+                                        {'city' in result ? result.city : ''}
                                     </td>
                                     <td className="border px-4 py-2">
-                                        {result.name}
+                                        {'name' in result ? result.name : ''}
                                     </td>
                                     <td className="border px-4 py-2">
-                                        {result.franchid}
+                                        {'franchid' in result
+                                            ? result.franchid
+                                            : ''}
                                     </td>
                                     <td className="border px-4 py-2">
-                                        {result.teamid}
+                                        {'teamid' in result
+                                            ? result.teamid
+                                            : ''}
                                     </td>
                                     <td className="border px-4 py-2">
-                                        {result.teamidbr}
+                                        {'teamidbr' in result
+                                            ? result.teamidbr
+                                            : ''}
                                     </td>
                                     <td className="border px-4 py-2">
-                                        {result.teamidfg}
+                                        {'teamidfg' in result
+                                            ? result.teamidfg
+                                            : ''}
                                     </td>
                                     <td className="border px-4 py-2">
-                                        {result.teamidretro}
+                                        {'teamidretro' in result
+                                            ? result.teamidretro
+                                            : ''}
                                     </td>
                                 </tr>
                             )
