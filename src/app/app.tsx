@@ -43,6 +43,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [user, setUser] = React.useState<User | null>(() => {
+        if (typeof localStorage === 'undefined') {
+            return null
+        }
         const userStorage = localStorage.getItem('user')
         if (userStorage) {
             return JSON.parse(userStorage)
@@ -51,6 +54,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         }
     })
     const [searchQuery, setSearchQuery] = React.useState<string>(() => {
+        if (typeof localStorage === 'undefined') {
+            return ''
+        }
         const queryStorage = localStorage.getItem('query')
         console.log('queryStorage', queryStorage)
         if (queryStorage) {
