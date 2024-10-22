@@ -51,3 +51,13 @@ test('Renders menu when menu button clicked', () => {
     const mainMenu = screen.getByTestId('main-menu')
     expect(mainMenu).toBeInTheDocument()
 })
+
+test('User state information is displayed in the user menu - not logged in', () => {
+    render(<Header currentRoute={null} />)
+    const userButton = screen.getByTestId('user')
+    act(() => {
+        userButton.click()
+    })
+    const userState = screen.getByText('Sign In')
+    expect(userState).toBeInTheDocument()
+})
