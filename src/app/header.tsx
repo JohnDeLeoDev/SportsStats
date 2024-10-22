@@ -1,6 +1,5 @@
 import React from 'react'
 import { appContext } from './app'
-
 import {
     Disclosure,
     DisclosureButton,
@@ -75,7 +74,7 @@ export default function Header({ currentRoute }: HeaderProps) {
     }
 
     return (
-        <header className="grid grid-cols-3 w-full gap-4">
+        <header data-testid="header" className="grid grid-cols-3 w-full gap-4">
             <Disclosure
                 as="nav"
                 className="bg-red-800 bg-opacity-90 text-white
@@ -106,6 +105,7 @@ export default function Header({ currentRoute }: HeaderProps) {
                                         className="
                                     
                                     "
+                                        data-testid="menu"
                                     >
                                         <Bars3Icon
                                             aria-hidden="true"
@@ -115,6 +115,7 @@ export default function Header({ currentRoute }: HeaderProps) {
                                     <MenuItems
                                         transition
                                         className="absolute left-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                                        data-testid="main-menu"
                                     >
                                         {appMenu.map((item) => (
                                             <MenuItem key={item.name}>
@@ -148,6 +149,7 @@ export default function Header({ currentRoute }: HeaderProps) {
                                 className="relative rounded-full p-1 
                                 hover:outline-black hover:bg-red-900 transition-colors duration-100 ease-in-out
                                 "
+                                data-testid="bell"
                             >
                                 <span className="absolute -inset-1.5" />
                                 <span className="sr-only">
@@ -166,6 +168,7 @@ export default function Header({ currentRoute }: HeaderProps) {
                                         className="relative rounded-full p-1
                                 hover:outline-black hover:bg-red-900 transition-colors duration-100 ease-in-out
                                 "
+                                        data-testid="user"
                                     >
                                         <span className="sr-only">
                                             Open user menu
@@ -179,6 +182,7 @@ export default function Header({ currentRoute }: HeaderProps) {
                                 <MenuItems
                                     transition
                                     className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                                    data-testid="user-menu"
                                 >
                                     {profileMenu.map((item) => (
                                         <MenuItem key={item.name}>
