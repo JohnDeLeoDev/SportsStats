@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SportsStats: AI-Powered Sports Statistics Application
 
-## Getting Started
+SportsStats is a web application that allows users to query and retrieve Major League Baseball (MLB) statistics using natural language processing (NLP). The project leverages AI/ML technologies to transform user queries into SQL queries and provides data visualizations for better insights.
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Project Overview
+- Features
+- Tech Stack
+- Testing
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Project Overview
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+SportsStats enables users to retrieve MLB statistics by entering natural language queries. The application processes the input using an AI-powered NLP model to convert it into SQL queries, which are then executed to return relevant statistics from a database. It also provides visualized insights, making it easy for users to interpret sports data.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### Key Goals:
+- Allow users to query MLB statistics naturally (e.g., "What were Aaron Judge’s stats in 2023?").
+- Provide clean, interactive data visualizations for easier interpretation.
+- Ensure a seamless user experience with features like user accounts and saved query history.
 
-## Learn More
+### Features
 
-To learn more about Next.js, take a look at the following resources:
+- Natural Language Querying: Retrieve sports statistics using conversational queries.
+- AI-Driven Query Processing: AI/ML models convert natural language into SQL queries for data retrieval.
+- Real-Time Data Visualizations: Charts and graphs show user-requested sports statistics.
+- User Account Support: Create accounts, log in, and access previous queries.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### Frontend:
 
-## Deploy on Vercel
+- Next.js: Framework for server-side rendering and React-based UI.
+- TypeScript: Strong typing for better code reliability.
+- SWC: Next.js’s default compiler, used for transforming code.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Backend:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Node.js: Backend runtime for handling API requests.
+- PostgreSQL: Database used to store and query MLB statistics.
+- AWS RDS: Managed database service for PostgreSQL.
+- AWS Lambda: Serverless compute for processing user queries.
+
+#### CI/CD and Hosting:
+
+- Amazon Amplify: Used to automate the build and deployment process for production.
+
+### Testing
+
+SportsStats employs Jest for unit and integration testing, using SWC to transpile TypeScript files quickly.
+
+- Test Suite: Comprehensive tests covering UI components, backend functionality, and API interactions.
+- Test Coverage: Focuses on key features, including natural language query translation, data retrieval, and rendering of statistics.
+#### Running Tests
+Tests are run as part of the continuous integration process with GitHub and Amplify to ensure code quality and reliability.
+
+- Unit & Integration Tests: Test individual components and integrations across the system.
+- Mocking APIs: Third-party API calls (e.g., MLB API) are mocked to test system behavior without external dependencies.
+
+### Deployment
+
+The application is deployed using Amazon Amplify, which automates the build, deployment, and hosting processes for the production environment.
+
+#### Key Deployment Details:
+- CI/CD: Every push to the production branch triggers a new build and deployment.
+- Amplify Build Pipeline: Amplify automates the creation of optimized production builds and handles environment variables for database connections and API endpoints.
