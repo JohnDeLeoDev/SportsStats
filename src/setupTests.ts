@@ -2,6 +2,7 @@
 
 // Import custom matchers from jest-dom to test DOM elements
 import '@testing-library/jest-dom'
+global.fetch = require('node-fetch');
 
 // Optional: Extend Jest's timeout if you have tests that may take longer to run
 jest.setTimeout(30000) // Increase timeout if needed
@@ -30,3 +31,4 @@ class ResizeObserver {
 }
 
 window.ResizeObserver = ResizeObserver
+// jest.setup.js

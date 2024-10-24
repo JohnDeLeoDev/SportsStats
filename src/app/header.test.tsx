@@ -61,3 +61,14 @@ test('User state information is displayed in the user menu - not logged in', () 
     const userState = screen.getByText('Sign In')
     expect(userState).toBeInTheDocument()
 })
+
+test('User state information is displayed in the user menu - logged in', () => {
+    render(<Header currentRoute={null} />)
+    const userButton = screen.getByTestId('user')
+    act(() => {
+        userButton.click()
+    })
+    const userState = screen.getByText('Sign In')
+    expect(userState).toBeInTheDocument()
+})
+
