@@ -70,13 +70,10 @@ export default function Signup() {
         const response = createAccount(user)
 
         response.then((data) => {
-            console.log(data)
-            if (data.id) {
-                setSuccess(true)
-                console.log('Account created successfully.')
-            } else if (data === 'Error: User already exists') {
-                console.log(data)
+            if (data === 'Account exists') {
                 setEmailExists(true)
+            } else {
+                setSuccess(true)
             }
         })
     }
