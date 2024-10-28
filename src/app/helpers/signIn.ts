@@ -1,34 +1,27 @@
+import { AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
+import { userPool } from "./userpool";
+
+
 export function signIn(email: string, password: string) {
-    const url =
-        'https://xbv2mvcqy5.execute-api.us-east-1.amazonaws.com/default/ss_Login'
+    return new Promise((resolve, reject) => {
+        const user = new CognitoUser({
+            Username: email,
+            Pool: userPool
+        });
 
-    // Request headers
-    const headers = {
-        'Content-Type': 'application/json',
-        'X-Api-Key': 'O79yWaCl7m8IXYa5HWikraFft2GMMGBd1ujGN780',
-        'Access-Control-Allow-Origin': '*',
-    }
+        const authDetails = new AuthenticationDetails({
+            Username: email,
+            Password: password
+        });
 
-    // Request body
-    const body = {
-        email: email,
-        password: password,
-    }
+        user.authenticateUser(authDetails, {
+            onSuccess: result => {
+                resolve(result);
+            },
+            onFailure: err => {
+                reject(err);
+            }
+        });
+    });
 
-    // HTTP request options
-    const options = {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(body),
-    }
-
-    // Send HTTP request
-    return fetch(url, options)
-        .then((response) => response.json())
-        .then((data) => {
-            return data
-        })
-        .catch((error) => {
-            console.error('Error:', error)
-        })
 }

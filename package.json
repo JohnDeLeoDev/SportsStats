@@ -7,11 +7,13 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "test": "jest --watch --coverage"
+        "test": "jest --watchAll --coverage"
     },
     "dependencies": {
         "@headlessui/react": "^2.1.7",
         "@heroicons/react": "^2.1.5",
+        "@next/env": "^15.0.1",
+        "amazon-cognito-identity-js": "^6.3.12",
         "aws-amplify": "^6.6.2",
         "isomorphic-fetch": "^3.0.0",
         "jest-environment-jsdom": "^29.7.0",

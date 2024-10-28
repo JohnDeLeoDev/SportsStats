@@ -20,8 +20,6 @@ export default function searchRequest(user: User | null, searchQuery: string) {
         token: user?.token,
     }
 
-    console.log(body)
-
     // HTTP request options
     const options = {
         method: 'POST',
@@ -33,7 +31,6 @@ export default function searchRequest(user: User | null, searchQuery: string) {
     return fetch(url, options)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
             return data
         })
         .catch((error) => {

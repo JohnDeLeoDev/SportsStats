@@ -36,12 +36,15 @@ export const appContext = React.createContext({
     playerResult: [] as Player[],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setPlayerResult: (result: Player[]) => {},
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setLocalToken: (token: object ) => {},
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setUserToken: (token: object) => {},
 })
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [user, setUser] = React.useState<User | null>(() => {
         if (typeof localStorage === 'undefined') {
             return null
@@ -53,12 +56,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
             return null
         }
     })
+    const [userToken, setUserToken] = React.useState<object | null>(() => {
+        if (typeof localStorage === 'undefined') {
+            return null
+        }
+        const tokenStorage = localStorage.getItem('token')
+        if (tokenStorage) {
+            return JSON.parse(tokenStorage)
+        } else {
+            return null
+        }
+    })
+
     const [searchQuery, setSearchQuery] = React.useState<string>(() => {
         if (typeof localStorage === 'undefined') {
             return ''
         }
         const queryStorage = localStorage.getItem('query')
-        console.log('queryStorage', queryStorage)
         if (queryStorage) {
             localStorage.removeItem('query')
             return JSON.parse(queryStorage)
@@ -80,10 +94,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     const setLocalUser = (user: User | null) => {
         if (user) {
             localStorage.setItem('user', JSON.stringify(user))
+            console.log("Setting user in local storage")
         } else {
             localStorage.removeItem('user')
         }
         setUser(user)
+    }
+
+    const setLocalToken = (token: object) => {
+        if (token) {
+            localStorage.setItem('token', JSON.stringify(token))
+            console.log("Setting token in local storage")
+        } else {
+            localStorage.removeItem('token')
+        }
+        setUserToken(token)
     }
 
     const setLocalQuery = (query: string) => {
@@ -91,26 +116,30 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         setSearchQuery(query)
     }
 
+    console.log(userToken)
+
     return (
         <appContext.Provider
             value={{
-                user,
-                setUser,
-                setLocalUser,
-                searchQuery,
-                setSearchQuery,
                 localQuery,
-                setLocalQuery,
-                searchTriggered,
-                setSearchTriggered,
-                searchResponse,
-                setSearchResponse,
                 playerQuery,
-                setPlayerQuery,
                 playerResponse,
-                setPlayerResponse,
                 playerResult,
+                searchQuery,
+                searchResponse,
+                searchTriggered,
+                setLocalQuery,
+                setLocalToken,
+                setLocalUser,
+                setPlayerQuery,
+                setPlayerResponse,
                 setPlayerResult,
+                setSearchQuery,
+                setSearchResponse,
+                setSearchTriggered,
+                setUser,
+                setUserToken,
+                user,
             }}
         >
             {children}

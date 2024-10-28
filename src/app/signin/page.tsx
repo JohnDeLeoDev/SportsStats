@@ -3,7 +3,6 @@
 import { signIn } from '../helpers/signIn'
 import React from 'react'
 import { appContext } from '../app'
-import { User } from '../types/user'
 
 function MissingFields() {
     return (
@@ -22,33 +21,23 @@ function FailedSignIn() {
 }
 
 export default function Signin() {
-    const { setLocalUser } = React.useContext(appContext)
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
     const [missingFields, setMissingFields] = React.useState(false)
     const [failedSignIn, setFailedSignIn] = React.useState(false)
+    const { setLocalToken } = React.useContext(appContext)
 
     async function handleSignIn() {
-        console.log('Signing in...')
         if (email === '' || password === '') {
             setMissingFields(true)
             return
         }
         try {
             const res = await signIn(email, password)
-            if (res && res.user) {
-                const userRes: User = {
-                    email: email,
-                    firstName: res.user.first_name,
-                    lastName: res.user.last_name,
-                    token: res.token,
-                    password: null,
-                }
+            if (res) {
+                console.log(res)
                 // update the user in the app context
-                setLocalUser(userRes)
-
-                // store the user in localStorage
-                localStorage.setItem('user', JSON.stringify(userRes))
+                setLocalToken(res)
 
                 // redirect to the home page
                 window.location.href = '/'
