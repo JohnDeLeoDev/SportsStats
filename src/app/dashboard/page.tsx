@@ -4,7 +4,7 @@ import { appContext } from '../app'
 import { getQueries } from '../helpers/getQueries'
 
 function PastQueries() {
-    const { user, setUser } = React.useContext(appContext)
+    const { user, setUser, userToken } = React.useContext(appContext)
     const [queries, setQueries] = React.useState<Query[]>([])
     const [loading, setLoading] = React.useState(true)
     const { setLocalQuery } = React.useContext(appContext)
@@ -17,8 +17,8 @@ function PastQueries() {
 
     React.useEffect(() => {
         async function fetchQueries() {
-            if (user) {
-                const res = await getQueries(user)
+            if (userToken) {
+                const res = await getQueries(userToken)
                 await res
                 console.log(res)
                 if (res === 'Error: User is not logged in') {

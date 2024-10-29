@@ -1,6 +1,7 @@
-import { User } from '../types/user'
+import {CognitoUserSession} from "amazon-cognito-identity-js";
 
-export function getQueries(user: User) {
+
+export function getQueries(accessToken: CognitoUserSession) {
     const url =
         'https://34i8h13ttj.execute-api.us-east-1.amazonaws.com/default/ss_GetQueries'
 
@@ -13,8 +14,7 @@ export function getQueries(user: User) {
 
     // Request body
     const body = {
-        email: user.email,
-        token: user.token,
+        accessToken: accessToken.getAccessToken().getJwtToken(),
     }
 
     // HTTP request options

@@ -6,6 +6,8 @@ import Footer from './footer'
 import { User } from './types/user'
 import { SearchResponse } from './types/response'
 import { Player } from './types/player'
+import {CognitoIdToken, CognitoUserSession, CognitoAccessToken, CognitoRefreshToken} from "amazon-cognito-identity-js";
+
 
 export const appContext = React.createContext({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -37,9 +39,9 @@ export const appContext = React.createContext({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setPlayerResult: (result: Player[]) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setLocalToken: (token: object ) => {},
+    setLocalSession: (token: CognitoUserSession | null ) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setUserToken: (token: object) => {},
+    userSession: null as CognitoUserSession  | null,
 })
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -56,16 +58,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
             return null
         }
     })
-    const [userToken, setUserToken] = React.useState<object | null>(() => {
+    const [userSession] = React.useState<CognitoUserSession | null>(() => {
         if (typeof localStorage === 'undefined') {
             return null
         }
-        const tokenStorage = localStorage.getItem('token')
-        if (tokenStorage) {
-            return JSON.parse(tokenStorage)
-        } else {
-            return null
+        const sessionStorage = localStorage.getItem('session')
+        if (sessionStorage) {
+            const session = JSON.parse(sessionStorage)
+            const idToken = new CognitoIdToken({ IdToken: session.idToken.jwtToken })
+            const accessToken = new CognitoAccessToken({ AccessToken: session.accessToken.jwtToken })
+            const refreshToken = new CognitoRefreshToken({ RefreshToken: session.refreshToken.token })
+            return new CognitoUserSession({
+                IdToken: idToken,
+                AccessToken: accessToken,
+                RefreshToken: refreshToken
+            })
         }
+        return null
     })
 
     const [searchQuery, setSearchQuery] = React.useState<string>(() => {
@@ -94,29 +103,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     const setLocalUser = (user: User | null) => {
         if (user) {
             localStorage.setItem('user', JSON.stringify(user))
-            console.log("Setting user in local storage")
         } else {
             localStorage.removeItem('user')
         }
         setUser(user)
     }
 
-    const setLocalToken = (token: object) => {
-        if (token) {
-            localStorage.setItem('token', JSON.stringify(token))
-            console.log("Setting token in local storage")
+    const setLocalSession = (session: CognitoUserSession | null) => {
+        if (session) {
+            localStorage.setItem('session', JSON.stringify(session))
         } else {
-            localStorage.removeItem('token')
+            localStorage.removeItem('session')
         }
-        setUserToken(token)
     }
 
     const setLocalQuery = (query: string) => {
         localStorage.setItem('query', JSON.stringify(query))
         setSearchQuery(query)
     }
-
-    console.log(userToken)
 
     return (
         <appContext.Provider
@@ -129,7 +133,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
                 searchResponse,
                 searchTriggered,
                 setLocalQuery,
-                setLocalToken,
+                setLocalSession: setLocalSession,
                 setLocalUser,
                 setPlayerQuery,
                 setPlayerResponse,
@@ -138,8 +142,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
                 setSearchResponse,
                 setSearchTriggered,
                 setUser,
-                setUserToken,
                 user,
+                userSession: userSession,
             }}
         >
             {children}

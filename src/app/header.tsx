@@ -12,8 +12,6 @@ import {
 
 import { Bars3Icon, BellIcon, UserIcon } from '@heroicons/react/24/outline'
 
-import { signOut } from './helpers/signOut'
-
 const navigation = [
     { name: 'SearchStats', href: '/', current: false },
     { name: 'Examples', href: '/examples', current: false },
@@ -35,7 +33,7 @@ interface HeaderProps {
 }
 
 export default function Header({ currentRoute }: HeaderProps) {
-    const { user, setLocalUser } = React.useContext(appContext)
+    const { user, setLocalUser, setLocalSession } = React.useContext(appContext)
 
     navigation.forEach((item) => {
         item.current = item.href === currentRoute
@@ -58,10 +56,8 @@ export default function Header({ currentRoute }: HeaderProps) {
     }
 
     async function handleSignOut() {
-        if (!user?.email || !user?.token) {
-            return
-        }
         console.log('Signing out...')
+        /*
         try {
             await signOut(user.email, user.token)
             // update the user in the app context
@@ -71,6 +67,11 @@ export default function Header({ currentRoute }: HeaderProps) {
         } catch (error) {
             console.error('Sign out failed', error)
         }
+
+         */
+
+        setLocalUser(null)
+        setLocalSession(null)
     }
 
     return (

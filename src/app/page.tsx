@@ -7,6 +7,7 @@ import { appContext } from './app'
 export default function Home() {
     const {
         user,
+        userSession,
         searchQuery,
         setSearchQuery,
         searchTriggered,
@@ -29,9 +30,17 @@ export default function Home() {
         async (query: string) => {
             setSearchTriggered(true)
             try {
-                console.log('Searching for:', query)
-                const res = await searchRequest(user, query)
-                if (res) {
+                if (userSession) {
+                    const idToken = userSession.getIdToken().getJwtToken()
+                    const accessToken = userSession.getAccessToken().getJwtToken()
+                    const refreshToken = userSession.getRefreshToken().getToken()
+
+                    const res = await searchRequest(
+                        query,
+                        idToken,
+                        accessToken,
+                        refreshToken
+                    )
                     setSearchResponse(res)
                 }
             } catch (error) {
