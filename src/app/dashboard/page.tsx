@@ -32,7 +32,7 @@ function PastQueries() {
         }
 
         fetchQueries()
-    }, [user, setUser])
+    }, [user, setUser, userSession])
 
     function handleViewQuery(pastQuery: string) {
         console.log('View query')

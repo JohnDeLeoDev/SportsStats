@@ -63,11 +63,9 @@ export default function Signup() {
             email,
             firstName,
             lastName,
-            password: passwordOne,
-            token: null,
         }
 
-        const response = createAccount(user)
+        const response = createAccount(user, passwordOne)
 
         response.then((data) => {
             if (data === 'Account exists') {
@@ -220,7 +218,7 @@ export default function Signup() {
                     </div>
                     {!success && (
                         <button
-                            className="w-full p-3 bg-blue-500 text-white rounded-lg bg-red-800 hover:bg-red-900"
+                            className="w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-red-900"
                             onClick={handleSignUp}
                         >
                             Sign Up
