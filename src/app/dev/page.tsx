@@ -8,7 +8,6 @@ import { PlayerResult } from '../types/response'
 
 export default function Dev() {
     const {
-        user,
         userSession,
         playerQuery,
         setPlayerQuery,
@@ -40,7 +39,7 @@ export default function Dev() {
                 console.error('Search failed', error)
             }
         },
-        [user, setPlayerResponse]
+        [setPlayerResponse, userSession]
     )
 
     React.useEffect(() => {
