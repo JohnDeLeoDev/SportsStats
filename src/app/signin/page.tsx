@@ -1,9 +1,9 @@
 'use client'
 
-import {signIn} from '../helpers/signIn'
+import { signIn } from '../helpers/signIn'
 import React from 'react'
-import {appContext} from '../app'
-import {User} from '../types/user'
+import { appContext } from '../app'
+import { User } from '../types/user'
 
 function MissingFields() {
     return (
@@ -15,8 +15,22 @@ function MissingFields() {
 
 function FailedSignIn() {
     return (
-        <div className="p-2 bg-red-500 text-white rounded-lg w-full" data-testid='failed-signin'>
+        <div
+            className="p-2 bg-red-500 text-white rounded-lg w-full"
+            data-testid="failed-signin"
+        >
             Sign in failed. Please try again.
+        </div>
+    )
+}
+
+function UserNotConfirmed() {
+    return (
+        <div
+            className="p-2 bg-red-500 text-white rounded-lg w-full"
+            data-testid="user-not-confirmed"
+        >
+            Check your email to confirm your account.
         </div>
     )
 }
@@ -26,8 +40,8 @@ export default function Signin() {
     const [password, setPassword] = React.useState('')
     const [missingFields, setMissingFields] = React.useState(false)
     const [failedSignIn, setFailedSignIn] = React.useState(false)
+    const [userNotConfirmed, setUserNotConfirmed] = React.useState(false)
     const { setLocalSession, setLocalUser } = React.useContext(appContext)
-
 
     async function handleSignIn() {
         if (email === '' || password === '') {
@@ -36,11 +50,13 @@ export default function Signin() {
         }
         try {
             const res = await signIn(email, password)
+
             if (res) {
+                console.log(res)
                 // update the user in the app context
                 setLocalSession(res)
 
-                const { payload } = res.getIdToken();
+                const { payload } = res.getIdToken()
                 const user: User = {
                     email: payload.email,
                     firstName: payload.given_name,
@@ -55,14 +71,21 @@ export default function Signin() {
                 setFailedSignIn(true)
             }
         } catch (error) {
-            setFailedSignIn(true)
+            if (error === 'UserNotConfirmedException') {
+                setUserNotConfirmed(true)
+            } else {
+                setFailedSignIn(true)
+            }
         }
     }
 
     return (
         <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-5 font-[family-name:var(--font-geist-sans)]">
             <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-                <h1 className="text-4xl sm:text-5xl text-center sm:text-left font-bold" data-testid="signin-title"   >
+                <h1
+                    className="text-4xl sm:text-5xl text-center sm:text-left font-bold"
+                    data-testid="signin-title"
+                >
                     Sign In
                 </h1>
                 <p className="text-lg sm:text-xl text-center sm:text-left">
@@ -134,6 +157,7 @@ export default function Signin() {
                 </div>
                 {missingFields && <MissingFields />}
                 {failedSignIn && <FailedSignIn />}
+                {userNotConfirmed && <UserNotConfirmed />}
             </main>
         </div>
     )

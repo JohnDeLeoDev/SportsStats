@@ -92,8 +92,19 @@ function PastQueries() {
     )
 }
 
-export default function Profile() {
+export default function Dashboard() {
     const { user } = React.useContext(appContext)
+    const [loading, setLoading] = React.useState(true)
+
+    React.useEffect(() => {
+        if (user !== undefined) {
+            setLoading(false)
+        }
+    }, [user])
+
+    if (loading) {
+        return <p>Loading...</p>
+    }
 
     return (
         <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-5 font-[family-name:var(--font-geist-sans)]">
@@ -110,9 +121,11 @@ export default function Profile() {
                         <PastQueries />
                     </div>
                 ) : (
-                    <p className="text-lg sm:text-xl text-center sm:text-left">
-                        Please sign in to view your profile.
-                    </p>
+                    <div className="flex flex-col gap-4 items-center sm:items-start">
+                        <p className="text-lg sm:text-xl text-center sm:text-left">
+                            Please sign in to view your profile.
+                        </p>
+                    </div>
                 )}
             </main>
         </div>

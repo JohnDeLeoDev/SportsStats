@@ -25,7 +25,7 @@ export default function Signup() {
         }
     }
 
-    function handleSignUp() {
+    async function handleSignUp() {
         // check if any fields are missing
         if (
             firstName === '' ||
@@ -65,15 +65,17 @@ export default function Signup() {
             lastName,
         }
 
-        const response = createAccount(user, passwordOne)
-
-        response.then((data) => {
-            if (data === 'Account exists') {
+        try {
+            const response = await createAccount(user, passwordOne)
+            setSuccess(true)
+            console.log(response)
+        } catch (error) {
+            if (error === 'UsernameExistsException') {
                 setEmailExists(true)
             } else {
-                setSuccess(true)
+                console.error('Error creating account:', error)
             }
-        })
+        }
     }
 
     function AccountExists() {

@@ -1,12 +1,15 @@
 import { User } from '../types/user'
 import { userPool } from './userpool'
-import { CognitoUserAttribute } from 'amazon-cognito-identity-js'
+import { CognitoUser, CognitoUserAttribute } from 'amazon-cognito-identity-js'
 
-export async function createAccount(user: User, password: string) {
+export async function createAccount(
+    user: User,
+    password: string
+): Promise<CognitoUser | string> {
     // make sure user is the correct type and has all the required fields
     if (!user.email || !user.firstName || !user.lastName || !password) {
         console.error('Missing required fields')
-        return
+        return 'Missing required fields'
     }
 
     return new Promise((resolve, reject) => {
@@ -31,9 +34,15 @@ export async function createAccount(user: User, password: string) {
             null as never,
             (err, result) => {
                 if (err) {
+                    if (
+                        (err as unknown as { code: string }).code ===
+                        'UsernameExistsException'
+                    ) {
+                        reject('UsernameExistsException')
+                    }
                     reject(err)
                 } else {
-                    resolve(result)
+                    resolve(result!.user)
                 }
             }
         )

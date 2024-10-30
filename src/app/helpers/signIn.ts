@@ -1,15 +1,22 @@
-import {AuthenticationDetails, CognitoUser, CognitoUserSession} from "amazon-cognito-identity-js";
-import { userPool } from "./userpool";
+import {
+    AuthenticationDetails,
+    CognitoUser,
+    CognitoUserSession,
+} from 'amazon-cognito-identity-js'
+import { userPool } from './userpool'
 
-export function signIn(email: string, password: string): Promise<CognitoUserSession> {
+export function signIn(
+    email: string,
+    password: string
+): Promise<CognitoUserSession> {
     const user = new CognitoUser({
         Username: email,
-        Pool: userPool
+        Pool: userPool,
     })
 
     const authDetails = new AuthenticationDetails({
         Username: email,
-        Password: password
+        Password: password,
     })
 
     const res = new Promise<CognitoUserSession>((resolve, reject) => {
@@ -18,8 +25,14 @@ export function signIn(email: string, password: string): Promise<CognitoUserSess
                 resolve(data)
             },
             onFailure: (err) => {
+                if (
+                    (err as unknown as { code: string }).code ===
+                    'UserNotConfirmedException'
+                ) {
+                    reject('UserNotConfirmedException')
+                }
                 reject(err)
-            }
+            },
         })
     })
 
