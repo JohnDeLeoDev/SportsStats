@@ -1,38 +1,29 @@
+import authHeaders from './authorization'
+import { CognitoUserSession } from 'amazon-cognito-identity-js'
 
-export default function searchRequest(
+export default async function searchRequest(
     searchQuery: string,
-    idToken: string,
-    accessToken: string,
-    refreshToken: string
-
+    userSession: CognitoUserSession
 ) {
-    const url = 'https://aril0iseol.execute-api.us-east-1.amazonaws.com/default/ss_Search';
+    const url =
+        'https://aril0iseol.execute-api.us-east-1.amazonaws.com/default/ss_Search'
 
-    const headers = {
-        'Content-Type': 'application/json',
-        'X-Api-Key': 'qi4Xkv4meC1cJD03iNyxJ3chJRBic2wW5bCRhGDC',
-        'Access-Control-Allow-Origin': '*',
-    };
+    const headers = authHeaders(userSession)
 
     const body = {
-        searchQuery,
-        idToken,
-        accessToken,
-        refreshToken,
-    };
+        searchQuery: searchQuery,
+    }
 
     const options = {
         method: 'POST',
-        headers,
+        headers: headers,
         body: JSON.stringify(body),
-    };
+    }
 
-    return fetch(url, options)
-        .then((response) => response.json())
-        .then((data) => {
-            return data;
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+    try {
+        const response = await fetch(url, options)
+        return await response.json()
+    } catch (error) {
+        console.error('Error:', error)
+    }
 }

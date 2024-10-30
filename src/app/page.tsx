@@ -31,16 +31,7 @@ export default function Home() {
             setSearchTriggered(true)
             try {
                 if (userSession) {
-                    const idToken = userSession.getIdToken().getJwtToken()
-                    const accessToken = userSession.getAccessToken().getJwtToken()
-                    const refreshToken = userSession.getRefreshToken().getToken()
-
-                    const res = await searchRequest(
-                        query,
-                        idToken,
-                        accessToken,
-                        refreshToken
-                    )
+                    const res = await searchRequest(query, userSession)
                     setSearchResponse(res)
                 }
             } catch (error) {
@@ -51,7 +42,7 @@ export default function Home() {
     )
 
     React.useEffect(() => {
-        if (searchTriggered === true) {
+        if (searchTriggered) {
             handleSearch(searchQuery)
         }
     }, [searchTriggered, searchQuery, handleSearch])
