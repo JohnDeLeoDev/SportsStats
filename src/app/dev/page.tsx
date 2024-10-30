@@ -9,6 +9,7 @@ import { PlayerResult } from '../types/response'
 export default function Dev() {
     const {
         user,
+        userSession,
         playerQuery,
         setPlayerQuery,
         playerResponse,
@@ -31,7 +32,7 @@ export default function Dev() {
     const handleSearch = React.useCallback(
         async (query: string) => {
             try {
-                const res = await searchPlayer(user, query)
+                const res = await searchPlayer(userSession, query)
                 if (res) {
                     setPlayerResponse(res)
                 }
