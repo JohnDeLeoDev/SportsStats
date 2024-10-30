@@ -1,28 +1,22 @@
-import { User } from '../types/user'
+import authHeaders from './authorization'
+import { CognitoUserSession } from 'amazon-cognito-identity-js'
 
-export default function searchPlayer(user: User | null, searchQuery: string) {
+export default function searchPlayer(
+    userSession: CognitoUserSession | null,
+    searchQuery: string
+) {
     // https://aril0iseol.execute-api.us-east-1.amazonaws.com/default/ss_Search
     // Endpoint URL
     const url =
         'https://6o7a01lmp1.execute-api.us-east-1.amazonaws.com/default/ss_SearchPlayer'
 
     // Request headers
-    const headers = {
-        'Content-Type': 'application/json',
-        'X-Api-Key': 'BL1iUfnyWG2EAKYdDpBO16nRrkDCdW3g3UHGDbOw',
-        'Access-Control-Allow-Origin': '*',
-    }
+    const headers = authHeaders(userSession)
 
     // Request body
     const body = {
-        query: searchQuery,
-        email: user?.email,
-        token: user?.token,
+        searchQuery: searchQuery,
     }
-
-    console.log(body)
-
-    console.log(body)
 
     // HTTP request options
     const options = {
