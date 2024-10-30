@@ -71,7 +71,6 @@ export default function SearchResults() {
                     <thead>
                         <tr>
                             <th className="px-4 py-2">Year</th>
-                            <th className="px-4 py-2">City</th>
                             <th className="px-4 py-2">Name</th>
                             <th className="px-4 py-2">Franchise ID</th>
                             <th className="px-4 py-2">Team ID</th>
@@ -88,39 +87,62 @@ export default function SearchResults() {
                             return (
                                 <tr key={index}>
                                     <td className="border px-4 py-2">
-                                        {'yearid' in result
-                                            ? result.yearid
+                                        {typeof result === 'object' &&
+                                        result !== null &&
+                                        'yearID' in result
+                                            ? (
+                                                  result as {
+                                                      yearID: React.ReactNode
+                                                  }
+                                              ).yearID
                                             : ''}
-                                    </td>
-                                    <td className="border px-4 py-2">
-                                        {'city' in result ? result.city : ''}
                                     </td>
                                     <td className="border px-4 py-2">
                                         {'name' in result ? result.name : ''}
                                     </td>
                                     <td className="border px-4 py-2">
-                                        {'franchid' in result
-                                            ? result.franchid
+                                        {'franchID' in result
+                                            ? (
+                                                  result as {
+                                                      franchID: React.ReactNode
+                                                  }
+                                              ).franchID
                                             : ''}
                                     </td>
                                     <td className="border px-4 py-2">
-                                        {'teamid' in result
-                                            ? result.teamid
+                                        {'teamID' in result
+                                            ? (
+                                                  result as {
+                                                      teamID: React.ReactNode
+                                                  }
+                                              ).teamID
                                             : ''}
                                     </td>
                                     <td className="border px-4 py-2">
-                                        {'teamidbr' in result
-                                            ? result.teamidbr
+                                        {'teamIDBR' in result
+                                            ? (
+                                                  result as {
+                                                      teamIDBR: React.ReactNode
+                                                  }
+                                              ).teamIDBR
                                             : ''}
                                     </td>
                                     <td className="border px-4 py-2">
-                                        {'teamidfg' in result
-                                            ? result.teamidfg
+                                        {'teamIDlahman45' in result
+                                            ? (
+                                                  result as {
+                                                      teamIDlahman45: React.ReactNode
+                                                  }
+                                              ).teamIDlahman45
                                             : ''}
                                     </td>
                                     <td className="border px-4 py-2">
-                                        {'teamidretro' in result
-                                            ? result.teamidretro
+                                        {'teamIDretro' in result
+                                            ? (
+                                                  result as {
+                                                      teamIDretro: React.ReactNode
+                                                  }
+                                              ).teamIDretro
                                             : ''}
                                     </td>
                                 </tr>
