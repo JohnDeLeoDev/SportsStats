@@ -1,21 +1,15 @@
-import {CognitoUserSession} from "amazon-cognito-identity-js";
+import { CognitoUserSession } from 'amazon-cognito-identity-js'
+import authHeaders from '../helpers/authorization'
 
-
-export function getQueries(accessToken: CognitoUserSession) {
+export async function getQueries(userSession: CognitoUserSession) {
     const url =
         'https://34i8h13ttj.execute-api.us-east-1.amazonaws.com/default/ss_GetQueries'
 
     // Request headers
-    const headers = {
-        'Content-Type': 'application/json',
-        'X-Api-Key': 'gQoJbHTohJ2wq8zkaQGJAaKnboT70B8V2GraDO4i',
-        'Access-Control-Allow-Origin': '*',
-    }
+    const headers = authHeaders(userSession)
 
     // Request body
-    const body = {
-        accessToken: accessToken.getAccessToken().getJwtToken(),
-    }
+    const body = {}
 
     // HTTP request options
     const options = {
@@ -25,12 +19,10 @@ export function getQueries(accessToken: CognitoUserSession) {
     }
 
     // Send HTTP request
-    return fetch(url, options)
-        .then((response) => response.json())
-        .then((data) => {
-            return data
-        })
-        .catch((error) => {
-            console.error('Error:', error)
-        })
+    try {
+        const response = await fetch(url, options)
+        return await response.json()
+    } catch (error) {
+        console.error('Error:', error)
+    }
 }
