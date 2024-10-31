@@ -2,6 +2,7 @@
 
 // Import custom matchers from jest-dom to test DOM elements
 import '@testing-library/jest-dom'
+import {jestEnv} from '@/jestEnv'
 
 global.fetch = require('node-fetch')
 
@@ -36,7 +37,4 @@ class ResizeObserver {
 window.ResizeObserver = ResizeObserver
 // jest.setup.js
 
-process.env = Object.assign(process.env, {
-    REACT_APP_USER_POOL_ID: 'us-east-1_NkLMErOEX',
-    REACT_APP_CLIENT_ID: '76nas759ecrmat7tul05j41hic',
-})
+process.env = Object.assign(process.env, jestEnv)

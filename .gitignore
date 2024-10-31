@@ -46,5 +46,5 @@ amplifyconfiguration*
 # coverage
 /coverage/
 
-/src/app/helpers/testCredentials.ts
-
+src/app/helpers/testCredentials.ts
+src/jestEnv.ts
