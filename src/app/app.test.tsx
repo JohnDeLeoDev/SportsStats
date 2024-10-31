@@ -1,17 +1,29 @@
-import { appContext, AppProvider } from './app'
-import { render } from '@testing-library/react'
+import App, { appContext, AppProvider } from './app'
+import { act, render } from '@testing-library/react'
 
 import React from 'react'
+import {
+    CognitoAccessToken,
+    CognitoIdToken,
+    CognitoRefreshToken,
+    CognitoUserSession,
+} from 'amazon-cognito-identity-js' // mock local storage
 
 // mock local storage
 const localStorageMock = {
     getItem: jest.fn(),
     setItem: jest.fn(),
+    removeItem: jest.fn(),
     clear: jest.fn(),
 }
 
-Object.defineProperty(window, 'localStorage', {
-    value: localStorageMock,
+beforeEach(() => {
+    localStorageMock.getItem.mockClear()
+    localStorageMock.setItem.mockClear()
+    localStorageMock.removeItem.mockClear()
+    Object.defineProperty(window, 'localStorage', {
+        value: localStorageMock,
+    })
 })
 
 describe('AppProvider', () => {
@@ -155,6 +167,195 @@ describe('AppProvider', () => {
                 </appContext.Consumer>
             </AppProvider>
         )
+        expect(container).toMatchSnapshot()
+    })
+
+    it('user null when localStorage is undefined', () => {
+        Object.defineProperty(window, 'localStorage', {
+            value: undefined,
+        })
+        const { container } = render(
+            <AppProvider>
+                <appContext.Consumer>
+                    {(value) => {
+                        expect(value.user).toBeNull()
+                        return null
+                    }}
+                </appContext.Consumer>
+            </AppProvider>
+        )
+        expect(container).toMatchSnapshot()
+    })
+
+    it('should set and remove user in localStorage', () => {
+        const session: CognitoUserSession = {
+            getIdToken: jest.fn(),
+            getAccessToken: jest.fn(),
+            getRefreshToken: jest.fn(),
+            isValid: jest.fn(),
+        }
+
+        const { container } = render(
+            <AppProvider>
+                <appContext.Consumer>
+                    {(value) => {
+                        act(() => {
+                            value.setLocalSession(session)
+                        })
+                        expect(localStorageMock.setItem).toHaveBeenCalledTimes(
+                            1
+                        )
+                        expect(localStorageMock.setItem).toHaveBeenCalledWith(
+                            'session',
+                            JSON.stringify(session)
+                        )
+                        act(() => {
+                            value.setLocalSession(null)
+                        })
+                        expect(
+                            localStorageMock.removeItem
+                        ).toHaveBeenCalledTimes(1)
+                        expect(
+                            localStorageMock.removeItem
+                        ).toHaveBeenCalledWith('session')
+                        return null
+                    }}
+                </appContext.Consumer>
+            </AppProvider>
+        )
+        expect(container).toMatchSnapshot()
+    })
+
+    it('should pull userSession from localStorage', () => {
+        const session = {
+            idToken: { jwtToken: 'idToken' },
+            accessToken: { jwtToken: 'accessToken' },
+            refreshToken: { token: 'refreshToken' },
+        }
+
+        localStorageMock.getItem.mockReturnValue(JSON.stringify(session))
+        const { container } = render(
+            <AppProvider>
+                <appContext.Consumer>
+                    {(value) => {
+                        const expectedSession = new CognitoUserSession({
+                            IdToken: new CognitoIdToken({ IdToken: 'idToken' }),
+                            AccessToken: new CognitoAccessToken({
+                                AccessToken: 'accessToken',
+                            }),
+                            RefreshToken: new CognitoRefreshToken({
+                                RefreshToken: 'refreshToken',
+                            }),
+                        })
+                        expect(value.userSession).toEqual(expectedSession)
+                        return null
+                    }}
+                </appContext.Consumer>
+            </AppProvider>
+        )
+        expect(container).toMatchSnapshot()
+    })
+
+    it('should set a user in localStorage', () => {
+        const user = {
+            email: 'testing@gmail.com',
+            firstName: 'test',
+            lastName: 'test',
+        }
+        const { container } = render(
+            <AppProvider>
+                <appContext.Consumer>
+                    {(value) => {
+                        act(() => {
+                            value.setLocalUser(user)
+                        })
+                        expect(localStorageMock.setItem).toHaveBeenCalledWith(
+                            'user',
+                            JSON.stringify(user)
+                        )
+                        return null
+                    }}
+                </appContext.Consumer>
+            </AppProvider>
+        )
+        expect(container).toMatchSnapshot()
+    })
+
+    it('should remove user from localStorage if passed null', () => {
+        const session = {
+            idToken: { jwtToken: 'idToken' },
+            accessToken: { jwtToken: 'accessToken' },
+            refreshToken: { token: 'refreshToken' },
+        }
+
+        localStorageMock.getItem.mockReturnValue(JSON.stringify(session))
+
+        const { container } = render(
+            <AppProvider>
+                <appContext.Consumer>
+                    {(value) => {
+                        act(() => {
+                            value.setLocalUser(null)
+                        })
+                        expect(
+                            localStorageMock.removeItem
+                        ).toHaveBeenCalledWith('user')
+                        return null
+                    }}
+                </appContext.Consumer>
+            </AppProvider>
+        )
+        expect(container).toMatchSnapshot()
+    })
+
+    it('should set and remove searchQuery in localStorage', () => {
+        const { container } = render(
+            <AppProvider>
+                <appContext.Consumer>
+                    {(value) => {
+                        act(() => {
+                            value.setLocalQuery('searchQuery')
+                        })
+                        expect(localStorageMock.setItem).toHaveBeenCalledTimes(
+                            1
+                        )
+                        expect(localStorageMock.setItem).toHaveBeenCalledWith(
+                            'query',
+                            JSON.stringify('searchQuery')
+                        )
+                        act(() => {
+                            value.setLocalQuery('')
+                        })
+                        expect(
+                            localStorageMock.removeItem
+                        ).toHaveBeenCalledTimes(1)
+                        expect(
+                            localStorageMock.removeItem
+                        ).toHaveBeenCalledWith('query')
+                        return null
+                    }}
+                </appContext.Consumer>
+            </AppProvider>
+        )
+        expect(container).toMatchSnapshot()
+    })
+
+    it('should render the App component with Header, children, and Footer', () => {
+        const { container } = render(
+            <App currentRoute="/home">
+                <div>Test Child</div>
+            </App>
+        )
+
+        // Check if Header is rendered
+        expect(container.querySelector('header')).toBeInTheDocument()
+
+        // Check if children are rendered
+        expect(container.querySelector('div')).toBeInTheDocument()
+
+        // Check if Footer is rendered
+        expect(container.querySelector('footer')).toBeInTheDocument()
+
         expect(container).toMatchSnapshot()
     })
 })

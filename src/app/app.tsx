@@ -6,8 +6,12 @@ import Footer from './footer'
 import { User } from './types/user'
 import { SearchResponse } from './types/response'
 import { Player } from './types/player'
-import {CognitoIdToken, CognitoUserSession, CognitoAccessToken, CognitoRefreshToken} from "amazon-cognito-identity-js";
-
+import {
+    CognitoAccessToken,
+    CognitoIdToken,
+    CognitoRefreshToken,
+    CognitoUserSession,
+} from 'amazon-cognito-identity-js'
 
 export const appContext = React.createContext({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,9 +43,9 @@ export const appContext = React.createContext({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setPlayerResult: (result: Player[]) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setLocalSession: (token: CognitoUserSession | null ) => {},
+    setLocalSession: (token: CognitoUserSession | null) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    userSession: null as CognitoUserSession  | null,
+    userSession: null as CognitoUserSession | null,
 })
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -65,13 +69,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         const sessionStorage = localStorage.getItem('session')
         if (sessionStorage) {
             const session = JSON.parse(sessionStorage)
-            const idToken = new CognitoIdToken({ IdToken: session.idToken.jwtToken })
-            const accessToken = new CognitoAccessToken({ AccessToken: session.accessToken.jwtToken })
-            const refreshToken = new CognitoRefreshToken({ RefreshToken: session.refreshToken.token })
+            const idToken = new CognitoIdToken({
+                IdToken: session.idToken.jwtToken,
+            })
+            const accessToken = new CognitoAccessToken({
+                AccessToken: session.accessToken.jwtToken,
+            })
+            const refreshToken = new CognitoRefreshToken({
+                RefreshToken: session.refreshToken.token,
+            })
             return new CognitoUserSession({
                 IdToken: idToken,
                 AccessToken: accessToken,
-                RefreshToken: refreshToken
+                RefreshToken: refreshToken,
             })
         }
         return null

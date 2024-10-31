@@ -71,9 +71,10 @@ export default function Home() {
                     </p>
                     <div className="flex flex-row gap-4 items-center sm:items-start w-full transition-all duration-2000 ease-in-out transform">
                         <input
-                            className="w-full p-2 text-lg border-2 border-gray-300 
+                            className="w-full p-2 text-lg border-2 border-gray-300
                         focus:outline-none focus:border-red-800
                         rounded-lg "
+                            data-testid="search-field"
                             placeholder="Search for a statistic"
                             ref={inputRef}
                             value={searchQuery}

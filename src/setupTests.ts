@@ -2,7 +2,7 @@
 
 // Import custom matchers from jest-dom to test DOM elements
 import '@testing-library/jest-dom'
-import {jestEnv} from '@/jestEnv'
+import {jestEnv} from './jestEnv'
 
 global.fetch = require('node-fetch')
 

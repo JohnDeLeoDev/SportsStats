@@ -43,33 +43,39 @@ export default function Header({ currentRoute }: HeaderProps) {
 
     if (user) {
         profileMenu = [
-            { name: `Welcome, ${user.firstName}`, href: '/profile' },
-            { name: 'Dashboard', href: '/dashboard' },
-            { name: 'Settings', href: '/settings' },
-            { name: 'Sign out', onclick: handleSignOut },
+            {
+                name: `Welcome, ${user.firstName}`,
+                href: '/dashboard',
+                dataTestID: 'welcome',
+            },
+            {
+                name: 'Dashboard',
+                href: '/dashboard',
+                dataTestID: 'dashboard',
+            },
+            {
+                name: 'Settings',
+                href: '/settings',
+                dataTestID: 'settings',
+            },
+            {
+                name: 'Sign Out',
+                onclick: handleSignOut,
+                dataTestID: 'signout-button',
+            },
         ]
     } else {
         profileMenu = [
-            { name: 'Create Account', href: '/signup' },
-            { name: 'Sign In', href: '/signin' },
+            {
+                name: 'Create Account',
+                href: '/signup',
+                dataTestID: 'create-account',
+            },
+            { name: 'Sign In', href: '/signin', dataTestID: 'signin-button' },
         ]
     }
 
     async function handleSignOut() {
-        console.log('Signing out...')
-        /*
-        try {
-            await signOut(user.email, user.token)
-            // update the user in the app context
-            setLocalUser(null)
-            // redirect to the home page
-            window.location.href = '/'
-        } catch (error) {
-            console.error('Sign out failed', error)
-        }
-
-         */
-
         setLocalUser(null)
         setLocalSession(null)
     }
@@ -191,6 +197,7 @@ export default function Header({ currentRoute }: HeaderProps) {
                                                 href={item.href}
                                                 className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
                                                 onClick={item.onclick}
+                                                data-testid={item.dataTestID}
                                             >
                                                 {item.name}
                                             </a>
