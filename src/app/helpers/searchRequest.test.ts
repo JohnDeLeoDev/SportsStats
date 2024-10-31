@@ -1,27 +1,26 @@
-import { User } from '../types/user'
-
 import searchRequest from './searchRequest'
+import { CognitoUserSession } from 'amazon-cognito-identity-js'
+import { testCredentials } from './testCredentials'
+import { signIn } from './signIn'
 
-const noUser: User | null = null
-const user: User = {
-    email: 'testing@gmail.com',
-    token: 'hjpn3l2yu68r5jio7qskc5br6dh7uvnmnm0bmnmp2zd',
-    firstName: 'Test',
-    lastName: 'User',
-    password: '',
-}
+let user: CognitoUserSession
+
+beforeAll(async () => {
+    user = await signIn(testCredentials.username, testCredentials.password)
+})
 
 describe('searchRequest', () => {
     test('no user', async () => {
         const searchQuery = 'test'
-        const response = await searchRequest(noUser, searchQuery)
+        const response = await searchRequest(searchQuery)
+        console.log('No user response:', response)
         expect(response)
     })
 
     test('user', async () => {
         const searchQuery = 'test'
-        const response = await searchRequest(user, searchQuery)
+        const response = await searchRequest(searchQuery, user)
+        console.log('User response:', response)
         expect(response)
     })
 })
-

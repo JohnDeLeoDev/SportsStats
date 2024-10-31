@@ -2,7 +2,8 @@
 
 // Import custom matchers from jest-dom to test DOM elements
 import '@testing-library/jest-dom'
-global.fetch = require('node-fetch');
+
+global.fetch = require('node-fetch')
 
 // Optional: Extend Jest's timeout if you have tests that may take longer to run
 jest.setTimeout(30000) // Increase timeout if needed
@@ -26,9 +27,16 @@ Object.defineProperty(window, 'matchMedia', {
 // Mock ResizeObserver for tests
 class ResizeObserver {
     observe() {}
+
     unobserve() {}
+
     disconnect() {}
 }
 
 window.ResizeObserver = ResizeObserver
 // jest.setup.js
+
+process.env = Object.assign(process.env, {
+    REACT_APP_USER_POOL_ID: 'us-east-1_NkLMErOEX',
+    REACT_APP_CLIENT_ID: '76nas759ecrmat7tul05j41hic',
+})

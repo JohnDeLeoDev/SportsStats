@@ -1,19 +1,15 @@
-export function signOut(email: string, token: string) {
+import { CognitoUserSession } from 'amazon-cognito-identity-js'
+import authHeaders from './authorization'
+
+export async function signOut(userSession: CognitoUserSession) {
     const url =
         'https://d6d7x2tz90.execute-api.us-east-1.amazonaws.com/default/ss_Logout'
 
     // Request headers
-    const headers = {
-        'Content-Type': 'application/json',
-        'X-Api-Key': 'isVR6O5mhw4XRCZ34Dsdl5r7mHMWH2O11to6yFMW',
-        'Access-Control-Allow-Origin': '*',
-    }
+    const headers = authHeaders(userSession)
 
     // Request body
-    const body = {
-        email: email,
-        token: token,
-    }
+    const body = {}
 
     // HTTP request options
     const options = {
@@ -23,12 +19,11 @@ export function signOut(email: string, token: string) {
     }
 
     // Send HTTP request
-    return fetch(url, options)
-        .then((response) => response.json())
-        .then((data) => {
-            return data
-        })
-        .catch((error) => {
-            console.error('Error:', error)
-        })
+    try {
+        const response = await fetch(url, options)
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error:', error)
+    }
 }

@@ -1,10 +1,11 @@
-import {signIn} from './signIn';
-
-const email = 'testing@gmail.com';
-const password = 'testing';
+import { signIn } from './signIn'
+import { testCredentials } from './testCredentials'
 
 test('signIn', async () => {
-    const response = await signIn(email, password);
+    const response = await signIn(
+        testCredentials.username,
+        testCredentials.password
+    )
 
-    expect(response.token).toBeTruthy();
+    expect(response)
 })

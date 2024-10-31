@@ -3,7 +3,7 @@ import { CognitoUserSession } from 'amazon-cognito-identity-js'
 
 export default async function searchRequest(
     searchQuery: string,
-    userSession: CognitoUserSession
+    userSession?: CognitoUserSession
 ) {
     const url =
         'https://aril0iseol.execute-api.us-east-1.amazonaws.com/default/ss_Search'
