@@ -52,7 +52,6 @@ export default function Signin() {
             const res = await signIn(email, password)
 
             if (res) {
-                console.log(res)
                 // update the user in the app context
                 setLocalSession(res)
 

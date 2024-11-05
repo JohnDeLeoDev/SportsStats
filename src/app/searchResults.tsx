@@ -6,12 +6,23 @@ import { Team } from './types/team'
 export default function SearchResults() {
     const { searchResponse, searchQuery } = React.useContext(appContext)
 
-    console.log(searchResponse)
-
     function displaySearchResults() {
         if (!searchResponse) {
             console.error('No search results found')
             return
+        }
+        console.log(searchResponse)
+        if ('message' in searchResponse) {
+            return (
+                <div className="text-2xl sm:text-2xl text-center sm:text-left font-bold transition-all duration-2000 ease-in-out transform">
+                    <h2>
+                        An error occurred while fetching the search results.
+                    </h2>
+                    <p className={'text-lg'}>
+                        Message: {String(searchResponse.message)}
+                    </p>
+                </div>
+            )
         }
 
         if (

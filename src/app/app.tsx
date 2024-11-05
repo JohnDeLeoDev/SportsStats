@@ -110,14 +110,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const [playerResult, setPlayerResult] = React.useState<Player[]>([])
 
-    const setLocalUser = (user: User | null) => {
+    const setLocalUser = React.useCallback((user: User | null) => {
         if (user) {
             localStorage.setItem('user', JSON.stringify(user))
         } else {
             localStorage.removeItem('user')
         }
-        setUser(user)
-    }
+    }, [])
+
+    React.useEffect(() => {
+        if (typeof localStorage !== 'undefined') {
+            const storedUser = localStorage.getItem('user')
+            if (storedUser) {
+                setUser(JSON.parse(storedUser))
+            } else {
+                setUser(null)
+            }
+        }
+    }, [setLocalUser])
 
     const setLocalSession = (session: CognitoUserSession | null) => {
         if (session) {
@@ -129,8 +139,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const setLocalQuery = (query: string) => {
         localStorage.setItem('query', JSON.stringify(query))
-        setSearchQuery(query)
     }
+
+    React.useEffect(() => {
+        if (typeof localStorage !== 'undefined') {
+            const storedQuery = localStorage.getItem('query')
+            if (storedQuery) {
+                setSearchQuery(JSON.parse(storedQuery))
+            }
+        }
+    }, [setLocalQuery])
 
     return (
         <appContext.Provider

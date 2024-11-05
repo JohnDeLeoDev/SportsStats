@@ -48,3 +48,12 @@ amplifyconfiguration*
 
 src/app/helpers/testCredentials.ts
 src/jestEnv.ts
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/jsLinters/eslint.xml
+/.idea/.gitignore
+/.idea/aws.xml
+/.idea/frontend.iml
+/.idea/modules.xml
+/.idea/prettier.xml
+/.idea/vcs.xml
+/src/app/__snapshots__/app.test.tsx.snap
