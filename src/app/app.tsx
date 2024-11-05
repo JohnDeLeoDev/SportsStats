@@ -137,9 +137,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         }
     }
 
-    const setLocalQuery = (query: string) => {
+    const setLocalQuery = React.useCallback((query: string) => {
         localStorage.setItem('query', JSON.stringify(query))
-    }
+    }, [])
 
     React.useEffect(() => {
         if (typeof localStorage !== 'undefined') {

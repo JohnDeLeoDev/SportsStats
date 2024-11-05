@@ -28,9 +28,13 @@ export default function Home() {
     const handleSearch = React.useCallback(
         async (query: string) => {
             setSearchTriggered(true)
+
             try {
                 if (userSession) {
                     const res = await searchRequest(query, userSession)
+                    setSearchResponse(res)
+                } else {
+                    const res = await searchRequest(query)
                     setSearchResponse(res)
                 }
             } catch (error) {

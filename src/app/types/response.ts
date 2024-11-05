@@ -3,9 +3,17 @@
 import { Player } from './player'
 import { Team } from './team'
 
-export type SearchResponse = [SearchResult]
+export type SearchResponse = {
+    data: {
+        type: string
+        results: SearchResult
+    }
+}
 
-export type SearchResult = Team | null | Player
+export type SearchResult = {
+    teams?: Team[]
+    players?: Player[]
+}
 
 // PlayerResults is an array of players
 export type PlayerResult = Player
