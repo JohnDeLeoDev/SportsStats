@@ -1,15 +1,16 @@
 import { appContext } from './app'
 import React from 'react'
+import { tableDict } from '@/app/types/tableDict'
 
 export default function SearchResults() {
-    const { searchResponse, searchQuery } = React.useContext(appContext)
+    const { searchQuery, searchDisplay } = React.useContext(appContext)
 
     function displaySearchResults() {
-        if (!searchResponse) {
-            console.error('No search results found')
-            return
+        if (!searchDisplay) {
+            console.log('No search results')
+            return null
         }
-        if ('message' in searchResponse) {
+        if ('errorMessage' in searchDisplay) {
             return (
                 <div
                     className="
@@ -19,13 +20,13 @@ export default function SearchResults() {
                         An error occurred while fetching the search results.
                     </h2>
                     <p className={'text-lg'}>
-                        Message: {String(searchResponse.message)}
+                        Message: {String(searchDisplay.errorMessage)}
                     </p>
                 </div>
             )
         }
 
-        const results = searchResponse.result.rows
+        const results = searchDisplay.result.rows
         if (results.length > 0) {
             return (
                 <div className="mt-10 w-full flex flex-col gap-4 items-center ">
@@ -37,7 +38,7 @@ export default function SearchResults() {
                             <tr>
                                 {Object.keys(results[0]).map((key, index) => (
                                     <th key={index} className="px-4 py-2">
-                                        {key}
+                                        {tableDict[key] || key}
                                     </th>
                                 ))}
                             </tr>
@@ -60,11 +61,7 @@ export default function SearchResults() {
                 </div>
             )
         }
-        return (
-            <div className="text-2xl sm:text-2xl text-center sm:text-left font-bold transition-all duration-2000 ease-in-out transform">
-                <h2>No search results found for &quot;{searchQuery}&quot;.</h2>
-            </div>
-        )
+        return null
     }
 
     return (

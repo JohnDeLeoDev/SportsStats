@@ -23,25 +23,25 @@ export default function SearchBox() {
         [setSearchQuery]
     )
 
-    const handleSearch = React.useCallback(
-        async (query: string) => {
-            setSearchTriggered(true)
+    const handleSearch = React.useCallback(async (query: string) => {
+        setSearchTriggered(true)
+        setSearchResponse(null)
 
-            try {
-                if (userSession) {
-                    const res = await searchRequest(query, userSession)
-                    console.log(res)
-                    setSearchResponse(res)
-                } else {
-                    const res = await searchRequest(query)
-                    setSearchResponse(res)
-                }
-            } catch (error) {
-                console.error('Search failed', error)
+        try {
+            if (userSession) {
+                const res = await searchRequest(query, userSession)
+                console.log(res)
+                setSearchResponse(res)
+                setSearchTriggered(false)
+            } else {
+                const res = await searchRequest(query)
+                setSearchResponse(res)
+                setSearchTriggered(false)
             }
-        },
-        [setSearchTriggered, userSession, setSearchResponse]
-    )
+        } catch (error) {
+            console.error('Search failed', error)
+        }
+    }, [])
 
     React.useEffect(() => {
         if (searchTriggered) {

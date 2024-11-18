@@ -46,6 +46,9 @@ export const appContext = React.createContext({
     setLocalSession: (token: CognitoUserSession | null) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     userSession: null as CognitoUserSession | null,
+    searchDisplay: null as SearchResponse | null,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setSearchDisplay: (response: SearchResponse | null) => {},
 })
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -110,6 +113,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const [playerResult, setPlayerResult] = React.useState<Player[]>([])
 
+    const [searchDisplay, setSearchDisplay] =
+        React.useState<SearchResponse | null>(null)
+
     const setLocalUser = React.useCallback((user: User | null) => {
         if (user) {
             localStorage.setItem('user', JSON.stringify(user))
@@ -117,6 +123,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
             localStorage.removeItem('user')
         }
     }, [])
+
+    React.useEffect(() => {
+        if (searchResponse !== null) {
+            setSearchDisplay(searchResponse)
+        }
+    }, [searchResponse])
 
     React.useEffect(() => {
         if (typeof localStorage !== 'undefined') {
@@ -170,6 +182,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
                 setSearchResponse,
                 setSearchTriggered,
                 setUser,
+                searchDisplay,
+                setSearchDisplay,
                 user,
                 userSession: userSession,
             }}

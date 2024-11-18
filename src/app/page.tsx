@@ -5,7 +5,8 @@ import { appContext } from './app'
 import SearchBox from '@/app/searchBox'
 
 export default function Home() {
-    const { searchTriggered, searchResponse } = React.useContext(appContext)
+    const { searchTriggered, searchResponse, searchDisplay } =
+        React.useContext(appContext)
 
     function HomePage() {
         return (
@@ -32,8 +33,8 @@ export default function Home() {
 
     return (
         <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start p-8 pb-20 sm:p-5">
-            {!searchTriggered ? <HomePage /> : null}
-            {searchTriggered ? (
+            {!searchTriggered && !searchDisplay ? <HomePage /> : null}
+            {searchDisplay || searchTriggered ? (
                 <div
                     className=" m-auto
                 mt-10
@@ -41,7 +42,7 @@ export default function Home() {
                 "
                 >
                     <SearchBox />
-                    {searchResponse ? <SearchResults /> : null}
+                    {searchDisplay ? <SearchResults /> : null}
                 </div>
             ) : null}
         </main>
