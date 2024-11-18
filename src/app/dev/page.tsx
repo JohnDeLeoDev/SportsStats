@@ -1,12 +1,7 @@
 'use client'
-import PlayerComponent from '../components/Player'
-import searchPlayer from '../helpers/searchPlayer'
-import { appContext } from '../app'
-import React from 'react'
-import { Player } from '../types/player'
-import { PlayerResult } from '../types/response'
 
 export default function Dev() {
+    /*
     const {
         userSession,
         playerQuery,
@@ -41,6 +36,7 @@ export default function Dev() {
         },
         [setPlayerResponse, userSession]
     )
+
 
     React.useEffect(() => {
         if (playerResponse && playerResponse.length > 0) {
@@ -134,6 +130,14 @@ export default function Dev() {
                     <p>No results found.</p>
                 )}
             </div>
+        </div>
+    )
+        
+     */
+
+    return (
+        <div>
+            <h1>Dev</h1>
         </div>
     )
 }
