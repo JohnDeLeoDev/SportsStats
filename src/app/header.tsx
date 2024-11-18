@@ -85,7 +85,7 @@ export default function Header({ currentRoute }: HeaderProps) {
             <Disclosure
                 as="nav"
                 className="bg-red-800 bg-opacity-90 text-white
-                fixed w-screen z-10 top-0"
+                 w-screen "
             >
                 <div className="mx-auto px-2 sm:px-6 lg:px-8">
                     <div className="relative flex h-16 items-center justify-between">

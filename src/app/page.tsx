@@ -1,112 +1,49 @@
 'use client'
 import React from 'react'
 import SearchResults from './searchResults'
-import searchRequest from './helpers/searchRequest'
 import { appContext } from './app'
+import SearchBox from '@/app/searchBox'
 
 export default function Home() {
-    const {
-        userSession,
-        searchQuery,
-        setSearchQuery,
-        searchTriggered,
-        setSearchTriggered,
-        searchResponse,
-        setSearchResponse,
-    } = React.useContext(appContext)
-
-    const inputRef = React.useRef<HTMLInputElement>(null)
-
-    const handleTextInput = React.useCallback(
-        (query: string) => {
-            setSearchQuery(query)
-            // focus on the input field
-        },
-        [setSearchQuery]
-    )
-
-    const handleSearch = React.useCallback(
-        async (query: string) => {
-            setSearchTriggered(true)
-
-            try {
-                if (userSession) {
-                    const res = await searchRequest(query, userSession)
-                    setSearchResponse(res)
-                } else {
-                    const res = await searchRequest(query)
-                    setSearchResponse(res)
-                }
-            } catch (error) {
-                console.error('Search failed', error)
-            }
-        },
-        [setSearchTriggered, userSession, setSearchResponse]
-    )
-
-    React.useEffect(() => {
-        if (searchTriggered) {
-            handleSearch(searchQuery)
-        }
-    }, [searchTriggered, searchQuery, handleSearch])
-
-    React.useEffect(() => {
-        if (inputRef.current) {
-            inputRef.current.focus()
-        }
-    }, [searchQuery])
+    const { searchTriggered, searchResponse } = React.useContext(appContext)
 
     function HomePage() {
         return (
-            <main
-                className="flex flex-col gap-8 row-start-2 items-center  transition-all duration-2000 ease-in-out transform w-full align-middle justify-items-center text-center 
-        "
-            >
-                <div
-                    className="flex flex-col gap-8  items-center sm:items-start transition-all duration-2000 ease-in-out transform max-w-lg 
+            <div
+                className="
+                m-auto
+                mt-20
+
             "
-                >
-                    <h1 className="text-4xl sm:text-5xl text-center sm:text-left font-bold transition-all duration-2000 ease-in-out transform">
+            >
+                <div className="">
+                    <h1 className="text-4xl sm:text-5xl text-center sm:text-left font-bold">
                         SportsStats
                     </h1>
-                    <p className="text-lg sm:text-xl text-center sm:text-left transition-all duration-2000 ease-in-out transform">
+                    <p className="mt-4 mb-4 text-lg sm:text-xl text-center sm:text-left transition-all duration-2000 ease-in-out transform">
                         Welcome to SportsStats, where your sports statistics are
                         a search away.
                     </p>
-                    <div className="flex flex-row gap-4 items-center sm:items-start w-full transition-all duration-2000 ease-in-out transform">
-                        <input
-                            className="w-full p-2 text-lg border-2 border-gray-300
-                        focus:outline-none focus:border-red-800
-                        rounded-lg "
-                            data-testid="search-field"
-                            placeholder="Search for a statistic"
-                            ref={inputRef}
-                            value={searchQuery}
-                            onChange={(e) => handleTextInput(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    handleSearch(searchQuery)
-                                }
-                            }}
-                        />
-                        <button
-                            className="p-2 bg-red-800 
-                        hover:bg-gray-800 
-                        text-white rounded-lg self-stretch transition-all duration-2000 ease-in-out transform"
-                            onClick={() => handleSearch(searchQuery)}
-                        >
-                            Search
-                        </button>
-                    </div>
+                    <SearchBox />
                 </div>
-            </main>
+            </div>
         )
     }
 
     return (
-        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-5 font-[family-name:var(--font-geist-sans)] transition-all duration-2000 ease-in-out transform">
+        <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start p-8 pb-20 sm:p-5">
             {!searchTriggered ? <HomePage /> : null}
-            {searchResponse ? <SearchResults /> : null}
-        </div>
+            {searchTriggered ? (
+                <div
+                    className=" m-auto
+                mt-10
+                w-8/12
+                "
+                >
+                    <SearchBox />
+                    {searchResponse ? <SearchResults /> : null}
+                </div>
+            ) : null}
+        </main>
     )
 }

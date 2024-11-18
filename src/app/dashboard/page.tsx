@@ -26,6 +26,11 @@ function PastQueries() {
                     setUser(null)
                     return
                 }
+                if (res.message === 'The incoming token has expired') {
+                    console.error('User session has expired')
+                    setUser(null)
+                    return
+                }
                 setQueries(res)
                 setLoading(false)
             }
@@ -44,7 +49,12 @@ function PastQueries() {
     }
 
     if (!user) {
-        return <p>Please sign in to view past queries.</p>
+        return (
+            <div>
+                <p>Please sign in to view past queries.</p>
+                <a href="/signin">Sign in</a>
+            </div>
+        )
     }
 
     return (
@@ -125,6 +135,7 @@ export default function Dashboard() {
                         <p className="text-lg sm:text-xl text-center sm:text-left">
                             Please sign in to view your profile.
                         </p>
+                        <a href="/signin">Sign in</a>
                     </div>
                 )}
             </main>

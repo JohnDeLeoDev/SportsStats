@@ -187,9 +187,11 @@ export default function App(props: {
 
     return (
         <AppProvider>
-            <Header currentRoute={currentRoute} />
-            {props.children}
-            <Footer />
+            <div className="flex flex-col min-h-screen ">
+                <Header currentRoute={currentRoute} />
+                {props.children}
+                <Footer />
+            </div>
         </AppProvider>
     )
 }
