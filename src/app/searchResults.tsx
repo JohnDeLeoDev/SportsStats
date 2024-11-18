@@ -3,7 +3,7 @@ import React from 'react'
 import { tableDict } from '@/app/types/tableDict'
 
 export default function SearchResults() {
-    const { searchQuery, searchDisplay } = React.useContext(appContext)
+    const { searchDisplay } = React.useContext(appContext)
 
     function displaySearchResults() {
         if (!searchDisplay) {
