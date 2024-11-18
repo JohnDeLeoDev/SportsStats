@@ -2,10 +2,6 @@ import { act, render, screen } from '@testing-library/react'
 import React from 'react'
 import Header from './header'
 
-const email = 'testing@gmail.com'
-const password = 'testing'
-const wrongPassword = 'test'
-
 const localStorageMock = {
     getItem: jest.fn(),
     setItem: jest.fn(),
