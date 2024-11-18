@@ -5,8 +5,7 @@ import { appContext } from './app'
 import SearchBox from '@/app/searchBox'
 
 export default function Home() {
-    const { searchTriggered, searchResponse, searchDisplay } =
-        React.useContext(appContext)
+    const { searchTriggered, searchDisplay } = React.useContext(appContext)
 
     function HomePage() {
         return (
