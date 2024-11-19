@@ -1,6 +1,7 @@
 import { appContext } from './app'
 import React from 'react'
 import { tableDict } from '@/app/types/tableDict'
+import SampleQueries from '@/app/sampleQueries'
 
 export default function SearchResults() {
     const { searchDisplay } = React.useContext(appContext)
@@ -25,48 +26,69 @@ export default function SearchResults() {
                 </div>
             )
         }
-
-        const results = searchDisplay.result.rows
-        if (results.length > 0) {
-            return (
-                <div className="mt-10 w-full flex flex-col gap-4 items-center ">
-                    <h2 className="text-2xl sm:text-3xl font-bold">
-                        Search Results
-                    </h2>
-                    <table className="table-auto w-8/12 min-w-400">
-                        <thead>
-                            <tr>
-                                {Object.keys(results[0]).map((key, index) => (
-                                    <th key={index} className="px-4 py-2">
-                                        {tableDict[key] || key}
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {results.map((row, index) => (
-                                <tr key={index}>
-                                    {Object.values(row).map((value, index) => (
-                                        <td
-                                            key={index}
-                                            className="border px-4 py-2"
-                                        >
-                                            {String(value)}
-                                        </td>
-                                    ))}
+        if ('result' in searchDisplay) {
+            const results = searchDisplay.result.rows
+            console.log(searchDisplay)
+            if (results.length > 0) {
+                return (
+                    <div className="mt-10 w-full flex flex-col gap-4 items-center ">
+                        <h2 className="text-2xl sm:text-3xl font-bold">
+                            Search Results
+                        </h2>
+                        <p className="text-lg">{searchDisplay.answer}</p>
+                        <table className="table-auto w-8/12 min-w-400">
+                            <thead>
+                                <tr>
+                                    {Object.keys(results[0]).map(
+                                        (key, index) => (
+                                            <th
+                                                key={index}
+                                                className="px-4 py-2"
+                                            >
+                                                {tableDict[key] || key}
+                                            </th>
+                                        )
+                                    )}
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            )
+                            </thead>
+                            <tbody>
+                                {results.map((row, index) => (
+                                    <tr key={index}>
+                                        {Object.values(row).map(
+                                            (value, index) => (
+                                                <td
+                                                    key={index}
+                                                    className="border px-4 py-2"
+                                                >
+                                                    {String(value)}
+                                                </td>
+                                            )
+                                        )}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )
+            } else {
+                return (
+                    <div
+                        className="
+                text-2xl sm:text-2xl text-center sm:text-left font-bold transition-all duration-2000 ease-in-out transform"
+                    >
+                        <h2>No search results found.</h2>
+                    </div>
+                )
+            }
+        } else {
+            return null
         }
-        return null
     }
 
     return (
         <div className="flex flex-col gap-8 items-center sm:items-start transition-all duration-2000 ease-in-out transform">
             {displaySearchResults()}
+            <SampleQueries />
         </div>
     )
 }

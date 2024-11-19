@@ -7,6 +7,7 @@ export type SearchResponse = {
     logMessage: logMessages
     prompts: prompts
     result: SearchResult
+    answer: string
 }
 
 /*

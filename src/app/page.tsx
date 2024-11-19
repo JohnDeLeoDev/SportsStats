@@ -3,6 +3,7 @@ import React from 'react'
 import SearchResults from './searchResults'
 import { appContext } from './app'
 import SearchBox from '@/app/searchBox'
+import SampleQueries from '@/app/sampleQueries'
 
 export default function Home() {
     const { searchTriggered, searchDisplay } = React.useContext(appContext)
@@ -25,6 +26,7 @@ export default function Home() {
                         a search away.
                     </p>
                     <SearchBox />
+                    <SampleQueries />
                 </div>
             </div>
         )

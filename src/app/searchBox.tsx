@@ -11,6 +11,7 @@ export default function SearchBox() {
         searchResponse,
         setSearchResponse,
         userSession,
+        setSearchDisplay,
     } = React.useContext(appContext)
 
     const inputRef = React.useRef<HTMLInputElement>(null)
@@ -26,11 +27,11 @@ export default function SearchBox() {
     const handleSearch = React.useCallback(async (query: string) => {
         setSearchTriggered(true)
         setSearchResponse(null)
+        setSearchDisplay(null)
 
         try {
             if (userSession) {
                 const res = await searchRequest(query, userSession)
-                console.log(res)
                 setSearchResponse(res)
                 setSearchTriggered(false)
             } else {
