@@ -26,8 +26,8 @@ export default function SearchResults() {
                 </div>
             )
         }
-        if ('result' in searchDisplay) {
-            const results = searchDisplay.result.rows
+        if ('dbResult' in searchDisplay) {
+            const results = searchDisplay.dbResult.rows
             console.log(searchDisplay)
             if (results.length > 0) {
                 return (
@@ -35,7 +35,7 @@ export default function SearchResults() {
                         <h2 className="text-2xl sm:text-3xl font-bold">
                             Search Results
                         </h2>
-                        <p className="text-lg">{searchDisplay.answer}</p>
+                        <p className="text-lg">{searchDisplay.llmAnswer}</p>
                         <table className="table-auto w-8/12 min-w-400">
                             <thead>
                                 <tr>

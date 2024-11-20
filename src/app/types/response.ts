@@ -6,8 +6,8 @@ export type SearchResponse = {
     attemptedSQL: sqlAttempt
     logMessage: logMessages
     prompts: prompts
-    result: SearchResult
-    answer: string
+    dbResult: SearchResult
+    llmAnswer: string
 }
 
 /*
