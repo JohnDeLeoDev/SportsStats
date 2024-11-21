@@ -15,6 +15,7 @@ export default function SearchBox() {
     } = React.useContext(appContext)
 
     const inputRef = React.useRef<HTMLInputElement>(null)
+    const [showMessage, setShowMessage] = React.useState(false)
 
     const handleTextInput = React.useCallback(
         (query: string) => {
@@ -24,29 +25,34 @@ export default function SearchBox() {
         [setSearchQuery]
     )
 
-    const handleSearch = React.useCallback(async (query: string) => {
-        setSearchTriggered(true)
-        setSearchResponse(null)
-        setSearchDisplay(null)
+    const handleSearch = React.useCallback(
+        async (query: string) => {
+            setSearchTriggered(true)
+            setSearchResponse(null)
+            setSearchDisplay(null)
 
-        try {
-            if (userSession) {
-                const res = await searchRequest(query, userSession)
-                setSearchResponse(res)
-                setSearchTriggered(false)
-            } else {
-                const res = await searchRequest(query)
-                setSearchResponse(res)
-                setSearchTriggered(false)
+            try {
+                if (userSession) {
+                    const res = await searchRequest(query, userSession)
+                    setSearchResponse(res)
+                    setSearchTriggered(false)
+                } else {
+                    const res = await searchRequest(query)
+                    setSearchResponse(res)
+                    setSearchTriggered(false)
+                }
+            } catch (error) {
+                console.error('Search failed', error)
             }
-        } catch (error) {
-            console.error('Search failed', error)
-        }
-    }, [])
+        },
+        [setSearchTriggered, setSearchResponse, setSearchDisplay, userSession]
+    )
 
     React.useEffect(() => {
         if (searchTriggered) {
-            handleSearch(searchQuery)
+            handleSearch(searchQuery).then(() => {
+                console.log('Search completed')
+            })
         }
     }, [searchTriggered, searchQuery, handleSearch])
 
@@ -55,41 +61,57 @@ export default function SearchBox() {
             inputRef.current.focus()
         }
     }, [searchQuery])
+
+    if (searchTriggered && !searchResponse) {
+        setTimeout(() => {
+            setShowMessage(true)
+        }, 2000)
+    }
+
     return (
-        <div className="flex flex-row gap-4 items-center sm:items-start w-full transition-all duration-2000 ease-in-out transform">
-            <input
-                className="w-full p-2 text-lg border-2 border-gray-300
+        <>
+            <div className="flex flex-row gap-4 items-center sm:items-start w-full transition-all duration-2000 ease-in-out transform">
+                <input
+                    className="w-full p-2 text-lg border-2 border-gray-300
                         focus:outline-none focus:border-red-800
                         rounded-lg "
-                data-testid="search-field"
-                placeholder="Search for a statistic"
-                ref={inputRef}
-                value={searchQuery}
-                onChange={(e) => handleTextInput(e.target.value)}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                        handleSearch(searchQuery)
-                    }
-                }}
-            />
-            {searchTriggered && !searchResponse ? (
-                <button
-                    className="p-2 bg-blue-300
+                    data-testid="search-field"
+                    placeholder="Search for a statistic"
+                    ref={inputRef}
+                    value={searchQuery}
+                    onChange={(e) => handleTextInput(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            handleSearch(searchQuery).then(() => {
+                                console.log('Search completed')
+                            })
+                        }
+                    }}
+                />
+                {searchTriggered && !searchResponse ? (
+                    <button
+                        className="p-2 bg-blue-300
                         hover:bg-gray-800
                         text-white rounded-lg self-stretch transition-all duration-2000 ease-in-out transform"
-                >
-                    Searching...
-                </button>
-            ) : (
-                <button
-                    className="p-2 bg-red-800
+                    >
+                        Searching...
+                    </button>
+                ) : (
+                    <button
+                        className="p-2 bg-red-800
                         hover:bg-gray-800
                         text-white rounded-lg self-stretch transition-all duration-2000 ease-in-out transform"
-                    onClick={() => handleSearch(searchQuery)}
-                >
-                    Search
-                </button>
+                        onClick={() => handleSearch(searchQuery)}
+                    >
+                        Search
+                    </button>
+                )}
+            </div>
+            {showMessage && (
+                <div className="mt-10 w-full flex flex-col gap-4 items-center">
+                    <p>Our LLM is processing your request. Please wait...</p>
+                </div>
             )}
-        </div>
+        </>
     )
 }

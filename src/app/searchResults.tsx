@@ -28,7 +28,6 @@ export default function SearchResults() {
         }
         if ('dbResult' in searchDisplay) {
             const results = searchDisplay.dbResult.rows
-            console.log(searchDisplay)
             if (results.length > 0) {
                 return (
                     <div className="mt-10 w-full flex flex-col gap-4 items-center ">
