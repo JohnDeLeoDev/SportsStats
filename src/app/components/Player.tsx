@@ -1,24 +1,42 @@
 'use client'
 import { Player } from '../types/player'
+import { appContext } from '@/app/app'
+import { getData } from '@/app/helpers/getData'
+import React from 'react'
 
-export default function PlayerComponent(props: { player: Player }) {
+export default function PlayerComponent(props: { playerID: string }) {
+    const playerID: string = props.playerID
+    const [playerData, setPlayerData] = React.useState<Player | null>(null)
+    const { userSession } = React.useContext(appContext)
+
+    React.useEffect(() => {
+        getData(userSession, 'player', playerID).then((data) => {
+            setPlayerData(data)
+            console.log(data)
+        })
+    }, [playerID, userSession])
+
+    if (!playerData) {
+        return <div>Loading...</div>
+    }
+
     return (
         <div className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
             <div>
                 <div className="">
-                    <h1>First Name: {props.player.nameFirst}</h1>
-                    <h1>Last Name: {props.player.nameLast}</h1>
+                    <h1>First Name: {playerData.nameFirst}</h1>
+                    <h1>Last Name: {playerData.nameLast}</h1>
                 </div>
                 <div>
                     <p>
-                        Born: {props.player.birthMonth}/{props.player.birthDay}/
-                        {props.player.birthYear}
+                        Born: {playerData.birthMonth}/{playerData.birthDay}/
+                        {playerData.birthYear}
                     </p>
 
-                    {props.player.deathYear ? (
+                    {playerData.deathYear ? (
                         <p>
-                            Died: {props.player.deathMonth}/
-                            {props.player.deathDay}/{props.player.deathYear}
+                            Died: {playerData.deathMonth}/{playerData.deathDay}/
+                            {playerData.deathYear}
                         </p>
                     ) : (
                         <p></p>
@@ -26,29 +44,26 @@ export default function PlayerComponent(props: { player: Player }) {
                 </div>
 
                 <p>
-                    Place of Birth: {props.player.birthCity},{' '}
-                    {props.player.birthState}, {props.player.birthCountry}
+                    Place of Birth: {playerData.birthCity},{' '}
+                    {playerData.birthState}, {playerData.birthCountry}
                 </p>
                 <div>
-                    <p>Weight: {props.player.weight} lbs</p>
+                    <p>Weight: {playerData.weight} lbs</p>
                     <p>
-                        Height: {(Number(props.player.height) / 12).toFixed(0)}{' '}
-                        feet, {Number(props.player.height) % 12} inches
+                        Height: {(Number(playerData.height) / 12).toFixed(0)}{' '}
+                        feet, {Number(playerData.height) % 12} inches
                     </p>
                 </div>
 
                 <div>
-                    <p>Bats: {props.player.bats}</p>
-                    <p>Throws: {props.player.throws}</p>
+                    <p>Bats: {playerData.bats}</p>
+                    <p>Throws: {playerData.throws}</p>
                 </div>
 
                 <div>
-                    <p>Debut: {props.player.debut}</p>
-                    <p>Final game: {props.player.finalGame}</p>
+                    <p>Debut: {playerData.debut}</p>
+                    <p>Final game: {playerData.finalGame}</p>
                 </div>
-            </div>
-            <div>
-                <h1>Career Stats</h1>
             </div>
         </div>
     )

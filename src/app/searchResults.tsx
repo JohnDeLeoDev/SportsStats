@@ -1,10 +1,14 @@
 import { appContext } from './app'
 import React from 'react'
-import { tableDict } from '@/app/types/tableDict'
 import SampleQueries from '@/app/sampleQueries'
+import PlayerComponent from './components/Player'
 
 export default function SearchResults() {
     const { searchDisplay } = React.useContext(appContext)
+
+    const headerDict = {
+        playerID: 'Player',
+    }
 
     function displaySearchResults() {
         if (!searchDisplay) {
@@ -28,7 +32,24 @@ export default function SearchResults() {
         }
         if ('dbResult' in searchDisplay) {
             const results = searchDisplay.dbResult.rows
+            const componentList: JSX.Element[] = []
+
             if (results.length > 0) {
+                for (let i = 0; i < results.length; i++) {
+                    if (
+                        'playerID' in results[i] &&
+                        typeof results[i] === 'object' &&
+                        results[i] !== null
+                    ) {
+                        const playerID = String(
+                            (results[i] as { playerID: string }).playerID
+                        )
+                        componentList.push(
+                            <PlayerComponent key={i} playerID={playerID} />
+                        )
+                    }
+                }
+
                 return (
                     <div className="mt-10 w-full flex flex-col gap-4 items-center ">
                         <h2 className="text-2xl sm:text-3xl font-bold">
@@ -44,7 +65,13 @@ export default function SearchResults() {
                                                 key={index}
                                                 className="px-4 py-2"
                                             >
-                                                {tableDict[key] || key}
+                                                {headerDict[
+                                                    key as keyof typeof headerDict
+                                                ]
+                                                    ? headerDict[
+                                                          key as keyof typeof headerDict
+                                                      ]
+                                                    : key}
                                             </th>
                                         )
                                     )}
@@ -59,7 +86,13 @@ export default function SearchResults() {
                                                     key={index}
                                                     className="border px-4 py-2"
                                                 >
-                                                    {String(value)}
+                                                    {componentList[index] ? (
+                                                        componentList[index]
+                                                    ) : (
+                                                        <div>
+                                                            {String(value)}
+                                                        </div>
+                                                    )}
                                                 </td>
                                             )
                                         )}
