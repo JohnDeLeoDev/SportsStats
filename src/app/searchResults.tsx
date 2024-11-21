@@ -85,10 +85,19 @@ export default function SearchResults() {
         }
     }
 
+    let queries: string[] | undefined = []
+    if (searchDisplay && 'similarQueries' in searchDisplay) {
+        // remove [ ] from the string and split by comma
+        queries = searchDisplay.similarQueries
+            .slice(1, -1)
+            .split(',')
+            .map((query) => query.trim())
+    }
+
     return (
         <div className="flex flex-col gap-8 items-center sm:items-start transition-all duration-2000 ease-in-out transform">
             {displaySearchResults()}
-            <SampleQueries />
+            <SampleQueries similarQueries={queries} />
         </div>
     )
 }

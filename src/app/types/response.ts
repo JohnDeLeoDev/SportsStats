@@ -8,6 +8,8 @@ export type SearchResponse = {
     prompts: prompts
     dbResult: SearchResult
     llmAnswer: string
+    query: string
+    similarQueries: string
 }
 
 /*
