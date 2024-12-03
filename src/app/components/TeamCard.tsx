@@ -4,15 +4,18 @@ import { appContext } from '@/app/app'
 import { getData } from '@/app/helpers/getData'
 import React from 'react'
 
-export default function PlayerComponent(props: { teamID: string }) {
+export default function PlayerComponent(props: {
+    teamID: string
+    yearID: string
+}) {
     const teamID: string = props.teamID
+    const yearID: string = props.yearID
     const [teamData, setTeamData] = React.useState<Team | null>(null)
     const { userSession } = React.useContext(appContext)
 
     React.useEffect(() => {
-        getData(userSession, 'team', teamID).then((data) => {
+        getData(userSession, 'team', teamID, yearID).then((data) => {
             setTeamData(data)
-            console.log(data)
         })
     }, [teamID, userSession])
 

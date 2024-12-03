@@ -10,9 +10,8 @@ export default function PlayerComponent(props: { playerID: string }) {
     const { userSession } = React.useContext(appContext)
 
     React.useEffect(() => {
-        getData(userSession, 'player', playerID).then((data) => {
+        getData(userSession, 'player', playerID, '').then((data) => {
             setPlayerData(data)
-            console.log(data)
         })
     }, [playerID, userSession])
 

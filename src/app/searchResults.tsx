@@ -8,9 +8,9 @@ import TeamName from '@/app/components/TeamName'
 
 export default function SearchResults() {
     const { searchDisplay } = React.useContext(appContext)
-    const [activeCard, setActiveCard] = React.useState<[string, string] | null>(
-        null
-    )
+    const [activeCard, setActiveCard] = React.useState<
+        [string, string, string] | null
+    >(null)
     const [clickPosition, setClickPosition] = React.useState({ x: 0, y: 0 })
 
     const headerDict = {
@@ -19,25 +19,29 @@ export default function SearchResults() {
         yearID: 'Year',
         W: 'Wins',
         L: 'Losses',
+        lgID: 'League',
     }
 
-    React.useEffect(() => {
-        if (activeCard) {
-            console.log('Active card:', activeCard)
-        }
-        if (clickPosition) {
-            console.log('Click position:', clickPosition)
-        }
-    }, [activeCard, clickPosition])
+    const hiddenFields = [
+        'stint',
+        'G_batting',
+        'G_old',
+        'SH',
+        'SF',
+        'IBB',
+        'SO',
+        'GIDP',
+        'HBP',
+    ]
 
     // show PlayerCard when a player is clicked
     function handleItemClick(
         event: React.MouseEvent,
-        index: number,
-        playerID: string
+        type: string,
+        id: string,
+        yearID: string
     ) {
-        console.log('Clicked on player:', playerID)
-        setActiveCard(['player', playerID])
+        setActiveCard([type, id, yearID])
         setClickPosition({
             x: event.clientX,
             y: event.clientY,
@@ -50,12 +54,10 @@ export default function SearchResults() {
         }
         setActiveCard(null)
         setClickPosition({ x: 0, y: 0 })
-        console.log('Clicked outside')
     }
 
     function displaySearchResults() {
         if (!searchDisplay) {
-            console.log('No search results')
             return null
         }
         if ('errorMessage' in searchDisplay) {
@@ -81,16 +83,25 @@ export default function SearchResults() {
                 for (let i = 0; i < results.length; i++) {
                     if (
                         'playerID' in results[i] &&
+                        'yearID' in results[i] &&
                         typeof results[i] === 'object' &&
                         results[i] !== null
                     ) {
                         const playerID = String(
                             (results[i] as { playerID: string }).playerID
                         )
+                        const yearID = String(
+                            (results[i] as { yearID: string }).yearID
+                        )
                         componentList.push(
                             <a
                                 onClick={(e) => {
-                                    handleItemClick(e, i, playerID)
+                                    handleItemClick(
+                                        e,
+                                        'player',
+                                        playerID,
+                                        yearID
+                                    )
                                 }}
                                 key={i}
                                 className={'cursor-pointer text-blue-500'}
@@ -101,25 +112,29 @@ export default function SearchResults() {
                     }
                     if (
                         'teamID' in results[i] &&
+                        'yearID' in results[i] &&
                         typeof results[i] === 'object' &&
                         results[i] !== null
                     ) {
                         const teamID = String(
                             (results[i] as { teamID: string }).teamID
                         )
+                        const yearID = String(
+                            (results[i] as { yearID: string }).yearID
+                        )
                         componentList.push(
                             <a
                                 onClick={(e) => {
-                                    setActiveCard(['team', teamID])
-                                    setClickPosition({
-                                        x: e.clientX,
-                                        y: e.clientY,
-                                    })
+                                    handleItemClick(e, 'team', teamID, yearID)
                                 }}
                                 key={i}
                                 className={'cursor-pointer text-blue-500'}
                             >
-                                <TeamName key={i} teamID={teamID} />
+                                <TeamName
+                                    key={i}
+                                    teamID={teamID}
+                                    yearID={yearID}
+                                />
                             </a>
                         )
                     }
@@ -136,22 +151,25 @@ export default function SearchResults() {
                                 <thead className={'bg-gray-200'}>
                                     <tr>
                                         {Object.keys(results[0]).map(
-                                            (key, index) => (
-                                                <th
-                                                    key={index}
-                                                    className={
-                                                        'text-left border border-gray-400 p-2'
-                                                    }
-                                                >
-                                                    {headerDict[
-                                                        key as keyof typeof headerDict
-                                                    ]
-                                                        ? headerDict[
-                                                              key as keyof typeof headerDict
-                                                          ]
-                                                        : key}
-                                                </th>
-                                            )
+                                            (key, index) =>
+                                                hiddenFields.includes(
+                                                    key
+                                                ) ? null : (
+                                                    <th
+                                                        key={index}
+                                                        className={
+                                                            'text-left border border-gray-400 p-2'
+                                                        }
+                                                    >
+                                                        {headerDict[
+                                                            key as keyof typeof headerDict
+                                                        ]
+                                                            ? headerDict[
+                                                                  key as keyof typeof headerDict
+                                                              ]
+                                                            : key}
+                                                    </th>
+                                                )
                                         )}
                                     </tr>
                                 </thead>
@@ -159,79 +177,99 @@ export default function SearchResults() {
                                     {results.map((result, index) => (
                                         <tr key={index}>
                                             {Object.keys(result).map(
-                                                (key, index) => (
-                                                    <td
-                                                        key={index}
-                                                        className={
-                                                            'border border-gray-400 p-2'
-                                                        }
-                                                    >
-                                                        {key === 'playerID' ? (
-                                                            <a
-                                                                onClick={(
-                                                                    e
-                                                                ) => {
-                                                                    handleItemClick(
-                                                                        e,
-                                                                        index,
-                                                                        String(
-                                                                            result[
-                                                                                key
-                                                                            ]
-                                                                        )
-                                                                    )
-                                                                }}
-                                                                className={
-                                                                    'cursor-pointer text-blue-500'
-                                                                }
-                                                            >
-                                                                <PlayerName
-                                                                    playerID={
-                                                                        result[
-                                                                            key
-                                                                        ]
-                                                                    }
-                                                                />
-                                                            </a>
-                                                        ) : key === 'teamID' ? (
-                                                            <a
-                                                                onClick={(
-                                                                    e
-                                                                ) => {
-                                                                    setActiveCard(
-                                                                        [
-                                                                            'team',
+                                                (key, index) =>
+                                                    hiddenFields.includes(
+                                                        key
+                                                    ) ? null : (
+                                                        <td
+                                                            key={index}
+                                                            className={
+                                                                'border border-gray-400 p-2'
+                                                            }
+                                                        >
+                                                            {key ===
+                                                            'playerID' ? (
+                                                                <a
+                                                                    onClick={(
+                                                                        e
+                                                                    ) => {
+                                                                        handleItemClick(
+                                                                            e,
+                                                                            'player',
                                                                             String(
                                                                                 result[
                                                                                     key
                                                                                 ]
                                                                             ),
-                                                                        ]
-                                                                    )
-                                                                    setClickPosition(
-                                                                        {
-                                                                            x: e.clientX,
-                                                                            y: e.clientY,
-                                                                        }
-                                                                    )
-                                                                }}
-                                                                className={
-                                                                    'cursor-pointer text-blue-500'
-                                                                }
-                                                            >
-                                                                <TeamName
-                                                                    teamID={
-                                                                        result[
-                                                                            key
-                                                                        ]
+                                                                            String(
+                                                                                result[
+                                                                                    'yearID'
+                                                                                ]
+                                                                            )
+                                                                        )
+                                                                    }}
+                                                                    className={
+                                                                        'cursor-pointer text-blue-500'
                                                                     }
-                                                                />
-                                                            </a>
-                                                        ) : (
-                                                            result[key]
-                                                        )}
-                                                    </td>
-                                                )
+                                                                >
+                                                                    <PlayerName
+                                                                        playerID={
+                                                                            result[
+                                                                                key
+                                                                            ]
+                                                                        }
+                                                                    />
+                                                                </a>
+                                                            ) : key ===
+                                                              'teamID' ? (
+                                                                <a
+                                                                    onClick={(
+                                                                        e
+                                                                    ) => {
+                                                                        setActiveCard(
+                                                                            [
+                                                                                'team',
+                                                                                String(
+                                                                                    result[
+                                                                                        key
+                                                                                    ]
+                                                                                ),
+                                                                                String(
+                                                                                    result[
+                                                                                        'yearID'
+                                                                                    ]
+                                                                                ),
+                                                                            ]
+                                                                        )
+                                                                        setClickPosition(
+                                                                            {
+                                                                                x: e.clientX,
+                                                                                y: e.clientY,
+                                                                            }
+                                                                        )
+                                                                    }}
+                                                                    className={
+                                                                        'cursor-pointer text-blue-500'
+                                                                    }
+                                                                >
+                                                                    <TeamName
+                                                                        teamID={
+                                                                            result[
+                                                                                key
+                                                                            ]
+                                                                        }
+                                                                        yearID={
+                                                                            result[
+                                                                                'yearID'
+                                                                            ]
+                                                                        }
+                                                                    />
+                                                                </a>
+                                                            ) : (
+                                                                result[key]
+                                                            )}
+                                                        </td>
+                                                    )
                                             )}
                                         </tr>
                                     ))}
@@ -254,7 +292,10 @@ export default function SearchResults() {
                                     <PlayerCard playerID={activeCard[1]} />
                                 ) : null}
                                 {activeCard[0] === 'team' ? (
-                                    <TeamCard teamID={activeCard[1]} />
+                                    <TeamCard
+                                        teamID={activeCard[1]}
+                                        yearID={activeCard[2]}
+                                    />
                                 ) : null}
                             </div>
                         ) : null}

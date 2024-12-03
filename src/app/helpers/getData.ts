@@ -4,7 +4,8 @@ import authHeaders from '@/app/helpers/authorization'
 export async function getData(
     userSession: CognitoUserSession | null,
     dataType: string,
-    dataId: string
+    dataId: string,
+    yearID: string
 ) {
     const url =
         'https://2nr77cbpx9.execute-api.us-east-1.amazonaws.com/default/ss_GetData'
@@ -12,12 +13,11 @@ export async function getData(
     // Request headers
     const headers = authHeaders(userSession)
 
-    console.log(dataId)
-
     // Request body
     const body = {
         dataType: dataType,
         dataId: dataId,
+        yearID: yearID,
     }
 
     // HTTP request options

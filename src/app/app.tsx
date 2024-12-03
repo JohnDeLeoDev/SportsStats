@@ -126,7 +126,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
     React.useEffect(() => {
         if (searchResponse !== null) {
-            console.log(searchResponse)
             setSearchDisplay(searchResponse)
         }
     }, [searchResponse])

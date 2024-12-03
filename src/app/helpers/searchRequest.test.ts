@@ -13,14 +13,12 @@ describe('searchRequest', () => {
     test('no user', async () => {
         const searchQuery = 'test'
         const response = await searchRequest(searchQuery)
-        console.log('No user response:', response)
         expect(response)
     })
 
     test('user', async () => {
         const searchQuery = 'test'
         const response = await searchRequest(searchQuery, user)
-        console.log('User response:', response)
         expect(response)
     })
 })

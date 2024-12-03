@@ -50,9 +50,7 @@ export default function SearchBox() {
 
     React.useEffect(() => {
         if (searchTriggered) {
-            handleSearch(searchQuery).then(() => {
-                console.log('Search completed')
-            })
+            handleSearch(searchQuery).then(() => {})
         }
     }, [searchTriggered, searchQuery, handleSearch])
 
@@ -82,9 +80,7 @@ export default function SearchBox() {
                     onChange={(e) => handleTextInput(e.target.value)}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                            handleSearch(searchQuery).then(() => {
-                                console.log('Search completed')
-                            })
+                            handleSearch(searchQuery).then(() => {})
                         }
                     }}
                 />
