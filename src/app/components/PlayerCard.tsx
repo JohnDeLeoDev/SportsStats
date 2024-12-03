@@ -26,7 +26,7 @@ export default function PlayerComponent(props: { playerID: string }) {
                     <a href={`/player/${playerID}`}>
                         <h1
                             className={
-                                'text-4xl sm:text-xl text-center sm:text-left font-bold mb-4'
+                                'text-4xl sm:text-xl text-center sm:text-left font-bold mb-4 text-blue-500'
                             }
                         >
                             {playerData.nameFirst} {playerData.nameLast}

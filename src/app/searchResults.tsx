@@ -77,69 +77,8 @@ export default function SearchResults() {
         }
         if ('dbResult' in searchDisplay) {
             const results = searchDisplay.dbResult.rows
-            const componentList: JSX.Element[] = []
 
             if (results.length > 0) {
-                for (let i = 0; i < results.length; i++) {
-                    if (
-                        'playerID' in results[i] &&
-                        'yearID' in results[i] &&
-                        typeof results[i] === 'object' &&
-                        results[i] !== null
-                    ) {
-                        const playerID = String(
-                            (results[i] as { playerID: string }).playerID
-                        )
-                        const yearID = String(
-                            (results[i] as { yearID: string }).yearID
-                        )
-                        componentList.push(
-                            <a
-                                onClick={(e) => {
-                                    handleItemClick(
-                                        e,
-                                        'player',
-                                        playerID,
-                                        yearID
-                                    )
-                                }}
-                                key={i}
-                                className={'cursor-pointer text-blue-500'}
-                            >
-                                <PlayerName key={i} playerID={playerID} />
-                            </a>
-                        )
-                    }
-                    if (
-                        'teamID' in results[i] &&
-                        'yearID' in results[i] &&
-                        typeof results[i] === 'object' &&
-                        results[i] !== null
-                    ) {
-                        const teamID = String(
-                            (results[i] as { teamID: string }).teamID
-                        )
-                        const yearID = String(
-                            (results[i] as { yearID: string }).yearID
-                        )
-                        componentList.push(
-                            <a
-                                onClick={(e) => {
-                                    handleItemClick(e, 'team', teamID, yearID)
-                                }}
-                                key={i}
-                                className={'cursor-pointer text-blue-500'}
-                            >
-                                <TeamName
-                                    key={i}
-                                    teamID={teamID}
-                                    yearID={yearID}
-                                />
-                            </a>
-                        )
-                    }
-                }
-
                 return (
                     <div className="relative mt-10 w-full">
                         <h2 className="text-2xl sm:text-3xl font-bold">
@@ -281,8 +220,8 @@ export default function SearchResults() {
                             <div
                                 style={{
                                     position: 'absolute',
-                                    top: clickPosition.y - 150,
-                                    left: clickPosition.x - 150,
+                                    top: clickPosition.y - 200,
+                                    left: clickPosition.x - 175,
                                 }}
                                 className={
                                     'bg-white border border-gray-400 rounded-lg shadow-lg p-4'
