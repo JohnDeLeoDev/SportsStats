@@ -12,6 +12,7 @@ export default function SearchResults() {
         [string, string, string] | null
     >(null)
     const [clickPosition, setClickPosition] = React.useState({ x: 0, y: 0 })
+    const [errorOccurred, setErrorOccurred] = React.useState(false)
 
     const headerDict = {
         playerID: 'Player',
@@ -60,7 +61,9 @@ export default function SearchResults() {
         if (!searchDisplay) {
             return null
         }
+        console.log(searchDisplay)
         if ('errorMessage' in searchDisplay) {
+            setErrorOccurred(true)
             return (
                 <div
                     className="
@@ -75,6 +78,19 @@ export default function SearchResults() {
                 </div>
             )
         }
+
+        if ('message' in searchDisplay) {
+            setErrorOccurred(true)
+            return (
+                <div>
+                    <h2 className={'text-2xl sm:text-2xl font-bold'}>
+                        An error occurred while fetching the search results.
+                    </h2>
+                    <p>Message: {String(searchDisplay.message)}</p>
+                </div>
+            )
+        }
+
         if ('dbResult' in searchDisplay) {
             const results = searchDisplay.dbResult.rows
 
@@ -270,7 +286,7 @@ export default function SearchResults() {
             className="flex flex-col gap-8 items-center sm:items-start transition-all duration-2000 ease-in-out transform"
         >
             {displaySearchResults()}
-            <SampleQueries similarQueries={queries} />
+            {!errorOccurred ? <SampleQueries similarQueries={queries} /> : null}
         </div>
     )
 }
