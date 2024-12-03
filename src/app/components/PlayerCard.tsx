@@ -24,8 +24,15 @@ export default function PlayerComponent(props: { playerID: string }) {
         <div className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
             <div>
                 <div className="">
-                    <h1>First Name: {playerData.nameFirst}</h1>
-                    <h1>Last Name: {playerData.nameLast}</h1>
+                    <a href={`/player/${playerID}`}>
+                        <h1
+                            className={
+                                'text-4xl sm:text-xl text-center sm:text-left font-bold mb-4'
+                            }
+                        >
+                            {playerData.nameFirst} {playerData.nameLast}
+                        </h1>
+                    </a>
                 </div>
                 <div>
                     <p>

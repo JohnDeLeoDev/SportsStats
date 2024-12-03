@@ -1,6 +1,6 @@
 export type Team = {
     id?: number
-    yearid?: number
+    yearID?: number
     lgid?: string
     teamid?: string
     franchid?: string
@@ -9,4 +9,6 @@ export type Team = {
     teamidretro?: string
     name?: string
     city?: string
+    W?: number
+    L?: number
 }
