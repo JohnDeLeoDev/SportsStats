@@ -51,9 +51,9 @@ export const appContext = React.createContext({
     setSearchDisplay: (response: SearchResponse | null) => {},
 })
 
-export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
-    children,
-}) => {
+export const AppProvider: React.FC<{
+    children: React.ReactNode
+}> = ({ children }) => {
     const [user, setUser] = React.useState<User | null>(() => {
         if (typeof localStorage === 'undefined') {
             return null
