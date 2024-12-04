@@ -1,14 +1,50 @@
 export type Team = {
     id?: number
     yearID?: number
-    lgid?: string
-    teamid?: string
-    franchid?: string
-    teamidbr?: string
-    teamidfg?: string
-    teamidretro?: string
+    lgID?: string
+    divID?: string
+    teamID?: string
+    franchID?: string
+    teamIDBR?: string
+    teamIDFG?: string
+    teamIDretro?: string
     name?: string
     city?: string
     W?: number
     L?: number
+    G?: number
+    DivWin?: string
+    WCWin?: string
+    LgWin?: string
+    WSWin?: string
+    R?: number
+    AB?: number
+    H?: number
+    '2B'?: number
+    '3B'?: number
+    HR?: number
+    BB?: number
+    SO?: number
+    SB?: number
+    CS?: number
+    HBP?: number
+    SF?: number
+    RA?: number
+    ER?: number
+    ERA?: number
+    CG?: number
+    SHO?: number
+    SV?: number
+    IPouts?: number
+    HA?: number
+    HRA?: number
+    BBA?: number
+    SOA?: number
+    E?: number
+    DP?: number
+    FP?: number
+    park?: string
+    attendance?: number
+    BPF?: number
+    PPF?: number
 }
