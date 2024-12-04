@@ -81,7 +81,10 @@ export default function Header({ currentRoute }: HeaderProps) {
     }
 
     return (
-        <header data-testid="header" className="grid grid-cols-3 w-full gap-4">
+        <header
+            data-testid="header"
+            className="grid grid-cols-3 w-full gap-4 fixed top-0 z-50"
+        >
             <Disclosure
                 as="nav"
                 className="bg-red-800 bg-opacity-90 text-white

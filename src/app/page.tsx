@@ -13,7 +13,10 @@ export default function Home() {
             <div
                 className="
                 m-auto
-                mt-20
+                bg-white
+                p-12
+                w-11/12
+
 
             "
             >
@@ -33,13 +36,13 @@ export default function Home() {
     }
 
     return (
-        <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start p-8 pb-20 sm:p-5">
+        <main className="flex flex-col m-auto gap-8 row-start-2 items-center sm:items-start p-8 sm:p-5 mt-20  w-11/12 bg-white shadow rounded-lg ">
             {!searchTriggered && !searchDisplay ? <HomePage /> : null}
             {searchDisplay || searchTriggered ? (
                 <div
                     className=" m-auto
-                mt-10
-                w-8/12
+                    p-10
+                    w-full
                 "
                 >
                     <SearchBox />

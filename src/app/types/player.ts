@@ -25,3 +25,85 @@ export type Player = {
     finalGame?: string
     retroID?: string
 }
+
+export type PlayerStats = {
+    batting?: BattingStats[]
+    pitching?: PitchingStats[]
+    fielding?: FieldingStats[]
+}
+
+export type BattingStats = {
+    yearID?: number
+    stint?: number
+    teamID?: string
+    lgID?: string
+    G?: number
+    AB?: number
+    R?: number
+    H?: number
+    '2B'?: number
+    '3B'?: number
+    HR?: number
+    RBI?: number
+    SB?: number
+    CS?: number
+    BB?: number
+    SO?: number
+    IBB?: number
+    HBP?: number
+    SH?: number
+    SF?: number
+    GIDP?: number
+}
+
+export type PitchingStats = {
+    yearID?: number
+    stint?: number
+    teamID?: string
+    lgID?: string
+    W?: number
+    L?: number
+    G?: number
+    GS?: number
+    CG?: number
+    SHO?: number
+    SV?: number
+    IPouts?: number
+    H?: number
+    ER?: number
+    HR?: number
+    BB?: number
+    SO?: number
+    BAOpp?: number
+    ERA?: number
+    IBB?: number
+    WP?: number
+    HBP?: number
+    BK?: number
+    BFP?: number
+    GF?: number
+    R?: number
+    SH?: number
+    SF?: number
+    GIDP?: number
+}
+
+export type FieldingStats = {
+    yearID?: number
+    stint?: number
+    teamID?: string
+    lgID?: string
+    POS?: string
+    G?: number
+    GS?: number
+    InnOuts?: number
+    PO?: number
+    A?: number
+    E?: number
+    DP?: number
+    PB?: number
+    WP?: number
+    SB?: number
+    CS?: number
+    ZR?: number
+}

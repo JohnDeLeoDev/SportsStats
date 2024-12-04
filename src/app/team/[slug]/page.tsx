@@ -15,14 +15,14 @@ export default function TeamPage({ params }: { params: { slug: string } }) {
         getData(userSession, 'team', teamID, yearID).then((data) => {
             setTeamData(data)
         })
-    }, [teamID, userSession])
+    }, [teamID, userSession, yearID])
 
     if (!teamData) {
         return <div className={'m-auto'}>Loading...</div>
     }
 
     return (
-        <div className={'m-auto w-9/12'}>
+        <div className={'m-auto w-10/12 shadow bg-white rounded-lg p-12 '}>
             <div>
                 <div className="">
                     <h1

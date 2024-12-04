@@ -67,7 +67,9 @@ export default function SearchResults() {
             return (
                 <div
                     className="
-                text-2xl sm:text-2xl text-center sm:text-left font-bold transition-all duration-2000 ease-in-out transform"
+                text-2xl sm:text-2xl text-center sm:text-left font-bold transition-all duration-2000 ease-in-out transform bg-white p-4
+                shadow-lg rounded-lg
+                "
                 >
                     <h2>
                         An error occurred while fetching the search results.
@@ -82,7 +84,11 @@ export default function SearchResults() {
         if ('message' in searchDisplay) {
             setErrorOccurred(true)
             return (
-                <div>
+                <div
+                    className={
+                        'text-2xl sm:text-2xl text-center sm:text-left font-bold transition-all duration-2000 ease-in-out transform bg-white p-4 shadow-lg rounded-lg'
+                    }
+                >
                     <h2 className={'text-2xl sm:text-2xl font-bold'}>
                         An error occurred while fetching the search results.
                     </h2>
@@ -96,7 +102,7 @@ export default function SearchResults() {
 
             if (results.length > 0) {
                 return (
-                    <div className="relative mt-10 w-full">
+                    <div className="relative mt-10 w-full ">
                         <h2 className="text-2xl sm:text-3xl font-bold">
                             Search Results
                         </h2>
@@ -283,7 +289,7 @@ export default function SearchResults() {
     return (
         <div
             onClick={handleClickOutside}
-            className="flex flex-col gap-8 items-center sm:items-start transition-all duration-2000 ease-in-out transform"
+            className="flex flex-col gap-8 items-center sm:items-start transition-all duration-2000 ease-in-out transform "
         >
             {displaySearchResults()}
             {!errorOccurred ? <SampleQueries similarQueries={queries} /> : null}

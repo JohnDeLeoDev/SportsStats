@@ -48,3 +48,54 @@ export type Team = {
     BPF?: number
     PPF?: number
 }
+
+export type TeamStats = {
+    yearID?: number
+    lgID?: string
+    teamID?: string
+    franchID?: string
+    divID?: string
+    Rank?: number
+    G?: number
+    Ghome?: number
+    W?: number
+    L?: number
+    DivWin?: string
+    WCWin?: string
+    LgWin?: string
+    WSWin?: string
+    R?: number
+    AB?: number
+    H?: number
+    '2B'?: number
+    '3B'?: number
+    HR?: number
+    BB?: number
+    SO?: number
+    SB?: number
+    CS?: number
+    HBP?: number
+    SF?: number
+    RA?: number
+    ER?: number
+    ERA?: number
+    CG?: number
+    SHO?: number
+    SV?: number
+    IPouts?: number
+    HA?: number
+    HRA?: number
+    BBA?: number
+    SOA?: number
+    E?: number
+    DP?: number
+    FP?: number
+    name?: string
+    park?: string
+    attendance?: number
+    BPF?: number
+    PPF?: number
+    teamIDBR?: string
+    teamIDlahman45?: string
+    teamIDretro?: string
+}
