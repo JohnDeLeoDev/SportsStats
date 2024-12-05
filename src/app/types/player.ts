@@ -33,6 +33,7 @@ export type PlayerStats = {
 }
 
 export type BattingStats = {
+    playerID?: string
     yearID?: number
     stint?: number
     teamID?: string
@@ -57,6 +58,7 @@ export type BattingStats = {
 }
 
 export type PitchingStats = {
+    playerID?: string
     yearID?: number
     stint?: number
     teamID?: string
@@ -89,6 +91,7 @@ export type PitchingStats = {
 }
 
 export type FieldingStats = {
+    playerID?: string
     yearID?: number
     stint?: number
     teamID?: string
