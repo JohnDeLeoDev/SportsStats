@@ -62,6 +62,7 @@ export default function SampleQueries(props: { similarQueries?: string[] }) {
 
     return (
         <div className={'mt-10'}>
+            <hr className={'w-full mt-8 mb-8'} />
             <h2 className={'text-2xl font-bold'}>{title}</h2>
             <ul className={'mt-4'}>
                 {queries.map((query, index) => (

@@ -201,11 +201,9 @@ export default function App(props: {
 
     return (
         <AppProvider>
-            <div className="flex flex-col min-h-screen bg-gray-200 overflow-auto h-auto mt-10 mb-10">
-                <Header currentRoute={currentRoute} />
-                {props.children}
-                <Footer />
-            </div>
+            <Header currentRoute={currentRoute} />
+            {props.children}
+            <Footer />
         </AppProvider>
     )
 }

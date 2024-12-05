@@ -87,7 +87,7 @@ export default function Header({ currentRoute }: HeaderProps) {
         >
             <Disclosure
                 as="nav"
-                className="bg-red-800 bg-opacity-90 text-white
+                className="bg-red-800 bg-opacity-100 text-white
                  w-screen "
             >
                 <div className="mx-auto px-2 sm:px-6 lg:px-8">
@@ -198,7 +198,7 @@ export default function Header({ currentRoute }: HeaderProps) {
                                         <MenuItem key={item.name}>
                                             <a
                                                 href={item.href}
-                                                className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                                                className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 cursor-pointer"
                                                 onClick={item.onclick}
                                                 data-testid={item.dataTestID}
                                             >

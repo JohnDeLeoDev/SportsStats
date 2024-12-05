@@ -5,13 +5,14 @@ import PlayerName from '@/app/components/PlayerName'
 import PlayerCard from './components/PlayerCard'
 import TeamCard from './components/TeamCard'
 import TeamName from '@/app/components/TeamName'
+import SearchHistory from '@/app/searchHistory'
 
 export default function SearchResults() {
-    const { searchDisplay } = React.useContext(appContext)
+    const { searchDisplay, userSession } = React.useContext(appContext)
     const [activeCard, setActiveCard] = React.useState<
         [string, string, string] | null
     >(null)
-    const [clickPosition, setClickPosition] = React.useState({ x: 0, y: 0 })
+    const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 })
     const [errorOccurred, setErrorOccurred] = React.useState(false)
 
     const headerDict = {
@@ -36,32 +37,41 @@ export default function SearchResults() {
     ]
 
     // show PlayerCard when a player is clicked
-    function handleItemClick(
+    function handleItemHover(
         event: React.MouseEvent,
         type: string,
         id: string,
         yearID: string
     ) {
+        if (
+            activeCard &&
+            activeCard.every((val, index) => val === [type, id, yearID][index])
+        ) {
+            return
+        }
         setActiveCard([type, id, yearID])
-        setClickPosition({
-            x: event.clientX,
-            y: event.clientY,
+
+        console.log(event)
+        setMousePosition({
+            x: event.pageX,
+            y: event.pageY - 200,
         })
+        console.log(mousePosition)
     }
 
-    function handleClickOutside() {
+    function handleMouseOutside() {
         if (activeCard === null) {
             return
         }
+
         setActiveCard(null)
-        setClickPosition({ x: 0, y: 0 })
+        setMousePosition({ x: 0, y: 0 })
     }
 
     function displaySearchResults() {
         if (!searchDisplay) {
             return null
         }
-        console.log(searchDisplay)
         if ('errorMessage' in searchDisplay) {
             setErrorOccurred(true)
             return (
@@ -103,12 +113,12 @@ export default function SearchResults() {
             if (results.length > 0) {
                 return (
                     <div className="relative mt-10 w-full ">
-                        <h2 className="text-2xl sm:text-3xl font-bold">
+                        <h2 className="text-2xl  font-bold mb-4">
                             Search Results
                         </h2>
                         <p className="text-lg">{searchDisplay.llmAnswer}</p>
-                        <div className={'w-full overflow-auto'}>
-                            <table className={'mt-4 '}>
+                        <div className={'w-full overflow-auto shadow mt-4'}>
+                            <table className={'mt-4 shadow'}>
                                 <thead className={'bg-gray-200'}>
                                     <tr>
                                         {Object.keys(results[0]).map(
@@ -151,10 +161,10 @@ export default function SearchResults() {
                                                             {key ===
                                                             'playerID' ? (
                                                                 <a
-                                                                    onClick={(
+                                                                    onMouseOver={(
                                                                         e
                                                                     ) => {
-                                                                        handleItemClick(
+                                                                        handleItemHover(
                                                                             e,
                                                                             'player',
                                                                             String(
@@ -184,7 +194,10 @@ export default function SearchResults() {
                                                             ) : key ===
                                                               'teamID' ? (
                                                                 <a
-                                                                    onClick={(
+                                                                    className={
+                                                                        'cursor-pointer text-blue-500'
+                                                                    }
+                                                                    onMouseOver={(
                                                                         e
                                                                     ) => {
                                                                         setActiveCard(
@@ -202,16 +215,13 @@ export default function SearchResults() {
                                                                                 ),
                                                                             ]
                                                                         )
-                                                                        setClickPosition(
+                                                                        setMousePosition(
                                                                             {
                                                                                 x: e.clientX,
                                                                                 y: e.clientY,
                                                                             }
                                                                         )
                                                                     }}
-                                                                    className={
-                                                                        'cursor-pointer text-blue-500'
-                                                                    }
                                                                 >
                                                                     <TeamName
                                                                         teamID={
@@ -242,8 +252,8 @@ export default function SearchResults() {
                             <div
                                 style={{
                                     position: 'absolute',
-                                    top: clickPosition.y - 200,
-                                    left: clickPosition.x - 175,
+                                    top: mousePosition.y - 200,
+                                    left: mousePosition.x - 175,
                                 }}
                                 className={
                                     'bg-white border border-gray-400 rounded-lg shadow-lg p-4'
@@ -288,11 +298,12 @@ export default function SearchResults() {
 
     return (
         <div
-            onClick={handleClickOutside}
-            className="flex flex-col gap-8 items-center sm:items-start transition-all duration-2000 ease-in-out transform "
+            className="flex flex-col gap-8 items-center sm:items-start transition-all duration-2000 ease-in-out transform"
+            onClick={handleMouseOutside}
         >
             {displaySearchResults()}
             {!errorOccurred ? <SampleQueries similarQueries={queries} /> : null}
+            {!errorOccurred && userSession ? <SearchHistory /> : null}
         </div>
     )
 }
