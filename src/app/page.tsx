@@ -1,17 +1,15 @@
 'use client'
 import React from 'react'
 import SearchResults from './searchResults'
-import { appContext } from './app'
+import {appContext} from './app'
 import SearchBox from '@/app/searchBox'
 import SampleQueries from '@/app/sampleQueries'
 import SearchHistory from '@/app/searchHistory'
 
 export default function Home() {
-    const { userSession, searchTriggered, searchDisplay } =
+    const {user, searchTriggered, searchDisplay} =
         React.useContext(appContext)
-
-    console.log(userSession)
-
+    
     function HomePage() {
         return (
             <div className="m-auto p-10 ">
@@ -22,16 +20,17 @@ export default function Home() {
                     Welcome to SportsStats, where your sports statistics are a
                     search away.
                 </p>
-                <SearchBox />
-                <SampleQueries />
-                {userSession ? <SearchHistory /> : null}
+                <SearchBox/>
+                <SampleQueries/>
+                {user ? <SearchHistory/> : null}
             </div>
         )
     }
 
     return (
-        <main className="mt-40 ml-auto mr-auto  items-center  justify-center max-w-3xl max-h-xl bg-white shadow rounded-lg  flex flex-col mb-40 ">
-            {!searchTriggered && !searchDisplay ? <HomePage /> : null}
+        <main
+            className="mt-40 ml-auto mr-auto  items-center  justify-center max-w-3xl max-h-xl bg-white shadow rounded-lg  flex flex-col mb-40 ">
+            {!searchTriggered && !searchDisplay ? <HomePage/> : null}
             {searchDisplay || searchTriggered ? (
                 <div
                     className=" m-auto
@@ -40,8 +39,8 @@ export default function Home() {
                     h-full
                 "
                 >
-                    <SearchBox />
-                    {searchDisplay ? <SearchResults /> : null}
+                    <SearchBox/>
+                    {searchDisplay ? <SearchResults/> : null}
                 </div>
             ) : null}
         </main>
