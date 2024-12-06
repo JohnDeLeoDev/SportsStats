@@ -20,7 +20,7 @@ export default function PlayerComponent(props: { playerID: string }) {
     }
 
     return (
-        <div className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+        <div className="flex flex-col  items-center ">
             <div>
                 <div className="">
                     <a href={`/player/${playerID}`}>

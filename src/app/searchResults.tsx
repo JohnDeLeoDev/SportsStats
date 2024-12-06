@@ -1,4 +1,4 @@
-import { appContext } from './app'
+import {appContext} from './app'
 import React from 'react'
 import SampleQueries from '@/app/sampleQueries'
 import PlayerName from '@/app/components/PlayerName'
@@ -8,11 +8,11 @@ import TeamName from '@/app/components/TeamName'
 import SearchHistory from '@/app/searchHistory'
 
 export default function SearchResults() {
-    const { searchDisplay, userSession } = React.useContext(appContext)
+    const {searchDisplay, userSession} = React.useContext(appContext)
     const [activeCard, setActiveCard] = React.useState<
         [string, string, string] | null
     >(null)
-    const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 })
+    const [mousePosition, setMousePosition] = React.useState({x: 0, y: 0})
     const [errorOccurred, setErrorOccurred] = React.useState(false)
 
     const headerDict = {
@@ -53,8 +53,8 @@ export default function SearchResults() {
 
         console.log(event)
         setMousePosition({
-            x: event.pageX,
-            y: event.pageY - 200,
+            x: event.clientX,
+            y: event.clientY
         })
         console.log(mousePosition)
     }
@@ -65,7 +65,7 @@ export default function SearchResults() {
         }
 
         setActiveCard(null)
-        setMousePosition({ x: 0, y: 0 })
+        setMousePosition({x: 0, y: 0})
     }
 
     function displaySearchResults() {
@@ -112,155 +112,155 @@ export default function SearchResults() {
 
             if (results.length > 0) {
                 return (
-                    <div className="relative mt-10 w-full ">
+                    <div className="mt-10 w-full ">
                         <h2 className="text-2xl  font-bold mb-4">
                             Search Results
                         </h2>
-                        <p className="text-lg">{searchDisplay.llmAnswer}</p>
+                        <p className="text-lg mb-4">
+                            {searchDisplay.llmAnswer}
+                        </p>
                         <div className={'w-full overflow-auto shadow mt-4'}>
-                            <table className={'mt-4 shadow'}>
+                            <table className={' shadow'}>
                                 <thead className={'bg-gray-200'}>
-                                    <tr>
-                                        {Object.keys(results[0]).map(
+                                <tr>
+                                    {Object.keys(results[0]).map(
+                                        (key, index) =>
+                                            hiddenFields.includes(
+                                                key
+                                            ) ? null : (
+                                                <th
+                                                    key={index}
+                                                    className={
+                                                        'text-left border border-gray-400 p-2'
+                                                    }
+                                                >
+                                                    {headerDict[
+                                                        key as keyof typeof headerDict
+                                                        ]
+                                                        ? headerDict[
+                                                            key as keyof typeof headerDict
+                                                            ]
+                                                        : key}
+                                                </th>
+                                            )
+                                    )}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {results.map((result, index) => (
+                                    <tr key={index}>
+                                        {Object.keys(result).map(
                                             (key, index) =>
                                                 hiddenFields.includes(
                                                     key
                                                 ) ? null : (
-                                                    <th
+                                                    <td
                                                         key={index}
                                                         className={
-                                                            'text-left border border-gray-400 p-2'
+                                                            'border border-gray-400 p-2'
                                                         }
                                                     >
-                                                        {headerDict[
-                                                            key as keyof typeof headerDict
-                                                        ]
-                                                            ? headerDict[
-                                                                  key as keyof typeof headerDict
-                                                              ]
-                                                            : key}
-                                                    </th>
+                                                        {key ===
+                                                        'playerID' ? (
+                                                            <a
+                                                                href={`/player/${result[key]}`}
+                                                                onMouseOver={(
+                                                                    e
+                                                                ) => {
+                                                                    handleItemHover(
+                                                                        e,
+                                                                        'player',
+                                                                        String(
+                                                                            result[
+                                                                                key
+                                                                                ]
+                                                                        ),
+                                                                        String(
+                                                                            result[
+                                                                                'yearID'
+                                                                                ]
+                                                                        )
+                                                                    )
+                                                                }}
+                                                                className={
+                                                                    'cursor-pointer text-blue-500'
+                                                                }
+                                                            >
+                                                                <PlayerName
+                                                                    playerID={
+                                                                        result[
+                                                                            key
+                                                                            ]
+                                                                    }
+                                                                />
+                                                            </a>
+                                                        ) : key ===
+                                                        'teamID' ? (
+                                                            <a
+                                                                className={
+                                                                    'cursor-pointer text-blue-500'
+                                                                }
+                                                                href={`/team/${result['yearID']}-${result[key]}`}
+                                                                onMouseOver={(
+                                                                    e
+                                                                ) => {
+                                                                    handleItemHover(
+                                                                        e,
+                                                                        'team',
+                                                                        String(
+                                                                            result[
+                                                                                key
+                                                                                ]
+                                                                        ),
+                                                                        String(
+                                                                            result[
+                                                                                'yearID'
+                                                                                ]
+                                                                        )
+                                                                    )
+                                                                }
+                                                                }
+
+                                                            >
+                                                                <TeamName
+                                                                    teamID={
+                                                                        result[
+                                                                            key
+                                                                            ]
+                                                                    }
+                                                                    yearID={
+                                                                        result[
+                                                                            'yearID'
+                                                                            ]
+                                                                    }
+                                                                />
+                                                            </a>
+                                                        ) : (
+                                                            result[key]
+                                                        )}
+                                                    </td>
                                                 )
                                         )}
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {results.map((result, index) => (
-                                        <tr key={index}>
-                                            {Object.keys(result).map(
-                                                (key, index) =>
-                                                    hiddenFields.includes(
-                                                        key
-                                                    ) ? null : (
-                                                        <td
-                                                            key={index}
-                                                            className={
-                                                                'border border-gray-400 p-2'
-                                                            }
-                                                        >
-                                                            {key ===
-                                                            'playerID' ? (
-                                                                <a
-                                                                    onMouseOver={(
-                                                                        e
-                                                                    ) => {
-                                                                        handleItemHover(
-                                                                            e,
-                                                                            'player',
-                                                                            String(
-                                                                                result[
-                                                                                    key
-                                                                                ]
-                                                                            ),
-                                                                            String(
-                                                                                result[
-                                                                                    'yearID'
-                                                                                ]
-                                                                            )
-                                                                        )
-                                                                    }}
-                                                                    className={
-                                                                        'cursor-pointer text-blue-500'
-                                                                    }
-                                                                >
-                                                                    <PlayerName
-                                                                        playerID={
-                                                                            result[
-                                                                                key
-                                                                            ]
-                                                                        }
-                                                                    />
-                                                                </a>
-                                                            ) : key ===
-                                                              'teamID' ? (
-                                                                <a
-                                                                    className={
-                                                                        'cursor-pointer text-blue-500'
-                                                                    }
-                                                                    onMouseOver={(
-                                                                        e
-                                                                    ) => {
-                                                                        setActiveCard(
-                                                                            [
-                                                                                'team',
-                                                                                String(
-                                                                                    result[
-                                                                                        key
-                                                                                    ]
-                                                                                ),
-                                                                                String(
-                                                                                    result[
-                                                                                        'yearID'
-                                                                                    ]
-                                                                                ),
-                                                                            ]
-                                                                        )
-                                                                        setMousePosition(
-                                                                            {
-                                                                                x: e.clientX,
-                                                                                y: e.clientY,
-                                                                            }
-                                                                        )
-                                                                    }}
-                                                                >
-                                                                    <TeamName
-                                                                        teamID={
-                                                                            result[
-                                                                                key
-                                                                            ]
-                                                                        }
-                                                                        yearID={
-                                                                            result[
-                                                                                'yearID'
-                                                                            ]
-                                                                        }
-                                                                    />
-                                                                </a>
-                                                            ) : (
-                                                                result[key]
-                                                            )}
-                                                        </td>
-                                                    )
-                                            )}
-                                        </tr>
-                                    ))}
+                                ))}
                                 </tbody>
                             </table>
                         </div>
 
                         {activeCard ? (
                             <div
-                                style={{
-                                    position: 'absolute',
-                                    top: mousePosition.y - 200,
-                                    left: mousePosition.x - 175,
-                                }}
                                 className={
-                                    'bg-white border border-gray-400 rounded-lg shadow-lg p-4'
+                                    `bg-white border border-gray-400 rounded-lg shadow-lg p-4 absolute  z-10`
                                 }
+                                style={{
+                                    top: `${mousePosition.y - 200}px`,
+                                    left: `${mousePosition.x - 250}px`,
+                                    transform: 'translate(-50%, -50%)',
+                                }}
+
                             >
                                 {activeCard[0] === 'player' ? (
-                                    <PlayerCard playerID={activeCard[1]} />
+                                    <PlayerCard playerID={activeCard[1]}/>
                                 ) : null}
                                 {activeCard[0] === 'team' ? (
                                     <TeamCard
@@ -302,8 +302,8 @@ export default function SearchResults() {
             onClick={handleMouseOutside}
         >
             {displaySearchResults()}
-            {!errorOccurred ? <SampleQueries similarQueries={queries} /> : null}
-            {!errorOccurred && userSession ? <SearchHistory /> : null}
+            {!errorOccurred ? <SampleQueries similarQueries={queries}/> : null}
+            {!errorOccurred && userSession ? <SearchHistory/> : null}
         </div>
     )
 }
