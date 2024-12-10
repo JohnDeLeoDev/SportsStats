@@ -1,7 +1,7 @@
 // src/setupTests.ts
-
 // Import custom matchers from jest-dom to test DOM elements
 import '@testing-library/jest-dom'
+import * as dotenv from 'dotenv'
 
 global.fetch = require('node-fetch')
 
@@ -26,14 +26,21 @@ Object.defineProperty(window, 'matchMedia', {
 
 // Mock ResizeObserver for tests
 class ResizeObserver {
-    observe() {}
+    observe() {
+    }
 
-    unobserve() {}
+    unobserve() {
+    }
 
-    disconnect() {}
+    disconnect() {
+    }
 }
 
 window.ResizeObserver = ResizeObserver
 // jest.setup.js
 
-process.env = Object.assign(process.env)
+dotenv.config({
+    path: '.env.local',
+})
+
+process.env = Object.assign(process.env, dotenv.config().parsed)

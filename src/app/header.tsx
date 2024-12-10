@@ -5,6 +5,7 @@ import {Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIte
 import {Bars3Icon, UserIcon} from '@heroicons/react/24/outline'
 import {style} from "@/app/style";
 
+
 const navigation = [
     {name: 'SearchStats', href: '/', current: false},
     {name: 'Examples', href: '/examples', current: false},
@@ -123,6 +124,7 @@ export default function Header({currentRoute}: HeaderProps) {
                                             <a
                                                 href={item.href}
                                                 className={style.headerMenuItem}
+
                                             >
                                                 {item.name}
                                             </a>
@@ -131,7 +133,8 @@ export default function Header({currentRoute}: HeaderProps) {
                                 </MenuItems>
                             </Menu>
                         </div>
-                        <div className={style.siteTitleContainer}>
+                        <div data-testid="site-title"
+                             className={style.siteTitleContainer}>
                             <div className={style.siteTitleDiv}>
                                 <a
                                     href="/"

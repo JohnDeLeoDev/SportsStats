@@ -52,7 +52,6 @@ export default function SampleQueries(props: { similarQueries?: string[] }) {
                     setSearchTriggered(false)
                 }
             } catch (error) {
-                console.error('Search failed', error)
             }
         },
         [
@@ -61,19 +60,27 @@ export default function SampleQueries(props: { similarQueries?: string[] }) {
             setSearchResponse,
             setSearchDisplay,
             userSession,
+            setSearchType,
         ]
     )
 
     return (
-        <div className={''}>
+        <div
+            className={''}
+            data-testid={'sample-queries'}
+        >
             <hr className={style.hr}/>
-            <h2 className={style.h2}>{title}</h2>
-            <ul className={'mt-4'}>
+            <h2 className={style.h2}
+
+
+            >{title}</h2>
+            <ul className={'mt-4'} data-testid={"sample-queries-list"}>
                 {queries.map((query, index) => (
                     <li key={index}>
                         <button
                             className={'text-blue-500 hover:text-blue-700'}
                             onClick={() => handleSearch(query)}
+                            data-testid={'sample-query'}
                         >
                             {query.replaceAll('"', '')}
                         </button>

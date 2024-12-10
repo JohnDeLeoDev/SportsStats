@@ -21,7 +21,7 @@ export default function Home() {
                     Welcome to SportsStats, where your sports statistics are a
                     search away.
                 </p>
-                <SearchBox/>
+                <SearchBox placeholder={"Search for a statistic..."}/>
                 <SampleQueries/>
                 {user ? <SearchHistory/> : null}
             </div>

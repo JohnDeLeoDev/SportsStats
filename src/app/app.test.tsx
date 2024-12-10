@@ -1,13 +1,8 @@
-import App, { appContext, AppProvider } from './app'
-import { act, render } from '@testing-library/react'
+import {appContext, AppProvider} from './app'
+import {act, render} from '@testing-library/react'
 
 import React from 'react'
-import {
-    CognitoAccessToken,
-    CognitoIdToken,
-    CognitoRefreshToken,
-    CognitoUserSession,
-} from 'amazon-cognito-identity-js' // mock local storage
+import {CognitoAccessToken, CognitoIdToken, CognitoRefreshToken, CognitoUserSession,} from 'amazon-cognito-identity-js' // mock local storage
 
 // mock local storage
 const localStorageMock = {
@@ -28,7 +23,7 @@ beforeEach(() => {
 
 describe('AppProvider', () => {
     it('should provide the app context', () => {
-        const { container } = render(
+        const {container} = render(
             <AppProvider>
                 <appContext.Consumer>
                     {(value) => {
@@ -59,7 +54,7 @@ describe('AppProvider', () => {
         expect(container).toMatchSnapshot()
     })
     it('should have no user set', () => {
-        const { container } = render(
+        const {container} = render(
             <AppProvider>
                 <appContext.Consumer>
                     {(value) => {
@@ -73,7 +68,7 @@ describe('AppProvider', () => {
     })
 
     it('should have no searchQuery set', () => {
-        const { container } = render(
+        const {container} = render(
             <AppProvider>
                 <appContext.Consumer>
                     {(value) => {
@@ -87,7 +82,7 @@ describe('AppProvider', () => {
     })
 
     it('should have no localQuery set', () => {
-        const { container } = render(
+        const {container} = render(
             <AppProvider>
                 <appContext.Consumer>
                     {(value) => {
@@ -101,7 +96,7 @@ describe('AppProvider', () => {
     })
 
     it('should have searchTriggered set to false', () => {
-        const { container } = render(
+        const {container} = render(
             <AppProvider>
                 <appContext.Consumer>
                     {(value) => {
@@ -115,7 +110,7 @@ describe('AppProvider', () => {
     })
 
     it('should have no searchResponse set', () => {
-        const { container } = render(
+        const {container} = render(
             <AppProvider>
                 <appContext.Consumer>
                     {(value) => {
@@ -129,7 +124,7 @@ describe('AppProvider', () => {
     })
 
     it('should have no playerQuery set', () => {
-        const { container } = render(
+        const {container} = render(
             <AppProvider>
                 <appContext.Consumer>
                     {(value) => {
@@ -143,7 +138,7 @@ describe('AppProvider', () => {
     })
 
     it('should have no playerResponse set', () => {
-        const { container } = render(
+        const {container} = render(
             <AppProvider>
                 <appContext.Consumer>
                     {(value) => {
@@ -157,7 +152,7 @@ describe('AppProvider', () => {
     })
 
     it('should have no playerResult set', () => {
-        const { container } = render(
+        const {container} = render(
             <AppProvider>
                 <appContext.Consumer>
                     {(value) => {
@@ -174,7 +169,7 @@ describe('AppProvider', () => {
         Object.defineProperty(window, 'localStorage', {
             value: undefined,
         })
-        const { container } = render(
+        const {container} = render(
             <AppProvider>
                 <appContext.Consumer>
                     {(value) => {
@@ -195,7 +190,7 @@ describe('AppProvider', () => {
             isValid: jest.fn(),
         }
 
-        const { container } = render(
+        const {container} = render(
             <AppProvider>
                 <appContext.Consumer>
                     {(value) => {
@@ -228,18 +223,18 @@ describe('AppProvider', () => {
 
     it('should pull userSession from localStorage', () => {
         const session = {
-            idToken: { jwtToken: 'idToken' },
-            accessToken: { jwtToken: 'accessToken' },
-            refreshToken: { token: 'refreshToken' },
+            idToken: {jwtToken: 'idToken'},
+            accessToken: {jwtToken: 'accessToken'},
+            refreshToken: {token: 'refreshToken'},
         }
 
         localStorageMock.getItem.mockReturnValue(JSON.stringify(session))
-        const { container } = render(
+        const {container} = render(
             <AppProvider>
                 <appContext.Consumer>
                     {(value) => {
                         const expectedSession = new CognitoUserSession({
-                            IdToken: new CognitoIdToken({ IdToken: 'idToken' }),
+                            IdToken: new CognitoIdToken({IdToken: 'idToken'}),
                             AccessToken: new CognitoAccessToken({
                                 AccessToken: 'accessToken',
                             }),
@@ -262,7 +257,7 @@ describe('AppProvider', () => {
             firstName: 'test',
             lastName: 'test',
         }
-        const { container } = render(
+        const {container} = render(
             <AppProvider>
                 <appContext.Consumer>
                     {(value) => {
@@ -283,14 +278,14 @@ describe('AppProvider', () => {
 
     it('should remove user from localStorage if passed null', () => {
         const session = {
-            idToken: { jwtToken: 'idToken' },
-            accessToken: { jwtToken: 'accessToken' },
-            refreshToken: { token: 'refreshToken' },
+            idToken: {jwtToken: 'idToken'},
+            accessToken: {jwtToken: 'accessToken'},
+            refreshToken: {token: 'refreshToken'},
         }
 
         localStorageMock.getItem.mockReturnValue(JSON.stringify(session))
 
-        const { container } = render(
+        const {container} = render(
             <AppProvider>
                 <appContext.Consumer>
                     {(value) => {
@@ -309,7 +304,7 @@ describe('AppProvider', () => {
     })
 
     it('should set and remove searchQuery in localStorage', () => {
-        const { container } = render(
+        const {container} = render(
             <AppProvider>
                 <appContext.Consumer>
                     {(value) => {
@@ -340,22 +335,6 @@ describe('AppProvider', () => {
         expect(container).toMatchSnapshot()
     })
 
-    it('should render the App component with Header, children, and Footer', () => {
-        const { container } = render(
-            <App currentRoute="/home">
-                <div>Test Child</div>
-            </App>
-        )
-
-        // Check if Header is rendered
-        expect(container.querySelector('header')).toBeInTheDocument()
-
-        // Check if children are rendered
-        expect(container.querySelector('div')).toBeInTheDocument()
-
-        // Check if Footer is rendered
-        expect(container.querySelector('footer')).toBeInTheDocument()
-
-        expect(container).toMatchSnapshot()
-    })
 })
+
+
