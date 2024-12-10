@@ -91,3 +91,4 @@ test('if userSession not is set, searchRequest is called without userSession', a
 
     expect(searchRequest).toHaveBeenCalledWith(queryText, 'general')
 })
+

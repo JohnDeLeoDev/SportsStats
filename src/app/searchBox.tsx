@@ -55,18 +55,16 @@ export default function SearchBox(
                 })
             }
         } catch (error) {
-            console.error('Search failed', error)
         }
     }
 
     React.useEffect(() => {
-        if ((searchTriggered && !activeSearch) || props.slug && !activeSearch) {
+        if ((searchTriggered && !activeSearch) || (props.slug && !activeSearch)) {
             setSearchResponse(null)
             setSearchDisplay(null)
             setActiveSearch(true)
             handleSearch(searchQuery)
         }
-
     }, [searchTriggered, searchQuery, handleSearch, searchType, activeSearch, props.slug])
 
     React.useEffect(() => {
@@ -83,7 +81,7 @@ export default function SearchBox(
 
     return (
         <>
-            <div className={style.searchBoxOuter}>
+            <div className={style.searchBoxOuter} data-testid={'search-box'}>
                 <input
                     className={style.searchField}
                     data-testid="search-field"
@@ -100,12 +98,14 @@ export default function SearchBox(
                 {searchTriggered && !searchResponse ? (
                     <button
                         className={style.searchButtonActive}
+                        data-testid={'searching'}
                     >
                         Searching...
                     </button>
                 ) : (
                     <button
                         className={style.searchButton}
+                        data-testid="search-button"
                         onClick={() => {
                             setSearchTriggered(true)
                         }}
@@ -115,7 +115,7 @@ export default function SearchBox(
                 )}
             </div>
             {showMessage && (
-                <div className={style.pleaseWait}>
+                <div className={style.pleaseWait} data-testid={'please-wait'}>
                     <p>Our LLM is processing your request. Please wait...</p>
                 </div>
             )}
