@@ -1,13 +1,13 @@
 'use client'
 import React from 'react'
-import { appContext } from '../app'
-import { getQueries } from '../helpers/getQueries'
+import {appContext} from '../app'
+import {getQueries} from '../helpers/getQueries'
 
 function PastQueries() {
-    const { user, setUser, userSession } = React.useContext(appContext)
+    const {user, setUser, userSession} = React.useContext(appContext)
     const [queries, setQueries] = React.useState<Query[]>([])
     const [loading, setLoading] = React.useState(true)
-    const { setLocalQuery } = React.useContext(appContext)
+    const {setLocalQuery} = React.useContext(appContext)
 
     type Query = {
         id: string
@@ -20,14 +20,11 @@ function PastQueries() {
             if (userSession) {
                 const res = await getQueries(userSession)
                 await res
-                console.log(res)
                 if (res === 'Error: User is not logged in') {
-                    console.error('User is not logged in')
                     setUser(null)
                     return
                 }
                 if (res.message === 'The incoming token has expired') {
-                    console.error('User session has expired')
                     setUser(null)
                     return
                 }
@@ -40,8 +37,6 @@ function PastQueries() {
     }, [user, setUser, userSession])
 
     function handleViewQuery(pastQuery: string) {
-        console.log('View query')
-        console.log(pastQuery)
         setLocalQuery(pastQuery)
 
         // load home page with searchTriggered set to true
@@ -65,33 +60,33 @@ function PastQueries() {
             ) : queries.length > 0 ? (
                 <table className="table-auto max-w-lg">
                     <thead>
-                        <tr>
-                            <th className="px-4 py-0">Date</th>
-                            <th className="px-4 py-0">Query</th>
-                        </tr>
+                    <tr>
+                        <th className="px-4 py-0">Date</th>
+                        <th className="px-4 py-0">Query</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {queries.map((query: Query, index: number) => (
-                            <tr key={index}>
-                                <td className="px-4 py-0">
-                                    {new Date(
-                                        query.created_at
-                                    ).toLocaleDateString()}
-                                </td>
-                                <td className="px-4 py-0">{query.query}</td>
-                                <td className="">
-                                    <button
-                                        onClick={() =>
-                                            handleViewQuery(query.query)
-                                        }
-                                        className="
+                    {queries.map((query: Query, index: number) => (
+                        <tr key={index}>
+                            <td className="px-4 py-0">
+                                {new Date(
+                                    query.created_at
+                                ).toLocaleDateString()}
+                            </td>
+                            <td className="px-4 py-0">{query.query}</td>
+                            <td className="">
+                                <button
+                                    onClick={() =>
+                                        handleViewQuery(query.query)
+                                    }
+                                    className="
                                           m-2 p-2  text-red-800 rounded-lg text-nowrap hover:bg-red-800 hover:text-white"
-                                    >
-                                        Search Again
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
+                                >
+                                    Search Again
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
             ) : (
@@ -102,7 +97,7 @@ function PastQueries() {
 }
 
 export default function Dashboard() {
-    const { user } = React.useContext(appContext)
+    const {user} = React.useContext(appContext)
     const [loading, setLoading] = React.useState(true)
 
     React.useEffect(() => {
@@ -116,7 +111,8 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="h-full grid grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 font-[family-name:var(--font-geist-sans)]">
+        <div
+            className="h-full grid grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 font-[family-name:var(--font-geist-sans)]">
             <main className="m-auto mt-40  items-center  w-6/12 bg-white shadow rounded-lg">
                 <div className={'p-10 w-full'}>
                     <h1 className="text-4xl sm:text-5xl text-center sm:text-left font-bold">
@@ -127,9 +123,9 @@ export default function Dashboard() {
                             <p className="text-lg sm:text-xl text-center sm:text-left mt-4">
                                 Welcome, {user.firstName} {user.lastName}.
                             </p>
-                            <hr className="w-full" />
+                            <hr className="w-full"/>
 
-                            <PastQueries />
+                            <PastQueries/>
                         </div>
                     ) : (
                         <div className="flex flex-col gap-4 items-center sm:items-start">

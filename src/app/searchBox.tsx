@@ -1,12 +1,26 @@
 import React from 'react'
-import searchRequest from '@/app/helpers/searchRequest'
-import { appContext } from './app'
+import {appContext} from './app'
+import {style} from "@/app/style";
+import searchRequest from "@/app/helpers/searchRequest";
 
-export default function SearchBox() {
+
+export default function SearchBox(
+    props: {
+        placeholder?: string,
+        type?: string,
+        slug?: string
+    } = {
+        placeholder: 'Search for a statistic',
+        type: 'general'
+    }
+) {
     const {
         searchQuery,
         setSearchQuery,
         searchTriggered,
+        activeSearch,
+        searchType,
+        setActiveSearch,
         setSearchTriggered,
         searchResponse,
         setSearchResponse,
@@ -25,34 +39,35 @@ export default function SearchBox() {
         [setSearchQuery]
     )
 
-    const handleSearch = React.useCallback(
-        async (query: string) => {
-            setSearchTriggered(true)
-            setSearchResponse(null)
-            setSearchDisplay(null)
-
-            try {
-                if (userSession) {
-                    const res = await searchRequest(query, userSession)
+    function handleSearch(query: string) {
+        try {
+            if (userSession) {
+                return searchRequest(query, searchType, userSession).then((res) => {
                     setSearchResponse(res)
                     setSearchTriggered(false)
-                } else {
-                    const res = await searchRequest(query)
+                    setActiveSearch(false)
+                })
+            } else {
+                return searchRequest(query, searchType).then((res) => {
                     setSearchResponse(res)
                     setSearchTriggered(false)
-                }
-            } catch (error) {
-                console.error('Search failed', error)
+                    setActiveSearch(false)
+                })
             }
-        },
-        [setSearchTriggered, setSearchResponse, setSearchDisplay, userSession]
-    )
+        } catch (error) {
+            console.error('Search failed', error)
+        }
+    }
 
     React.useEffect(() => {
-        if (searchTriggered) {
-            handleSearch(searchQuery).then(() => {})
+        if ((searchTriggered && !activeSearch) || props.slug && !activeSearch) {
+            setSearchResponse(null)
+            setSearchDisplay(null)
+            setActiveSearch(true)
+            handleSearch(searchQuery)
         }
-    }, [searchTriggered, searchQuery, handleSearch])
+
+    }, [searchTriggered, searchQuery, handleSearch, searchType, activeSearch, props.slug])
 
     React.useEffect(() => {
         if (inputRef.current) {
@@ -68,43 +83,39 @@ export default function SearchBox() {
 
     return (
         <>
-            <div className="flex flex-row gap-4 items-center sm:items-start w-full transition-all duration-2000 ease-in-out transform">
+            <div className={style.searchBoxOuter}>
                 <input
-                    className="w-full p-2 text-lg border-2 border-gray-300
-                        focus:outline-none focus:border-red-800
-                        rounded-lg "
+                    className={style.searchField}
                     data-testid="search-field"
-                    placeholder="Search for a statistic"
+                    placeholder={props.placeholder}
                     ref={inputRef}
                     value={searchQuery}
                     onChange={(e) => handleTextInput(e.target.value)}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                            handleSearch(searchQuery).then(() => {})
+                            setSearchTriggered(true)
                         }
                     }}
                 />
                 {searchTriggered && !searchResponse ? (
                     <button
-                        className="p-2 bg-blue-300
-                        hover:bg-gray-800
-                        text-white rounded-lg self-stretch transition-all duration-2000 ease-in-out transform"
+                        className={style.searchButtonActive}
                     >
                         Searching...
                     </button>
                 ) : (
                     <button
-                        className="p-2 bg-red-800
-                        hover:bg-gray-800
-                        text-white rounded-lg self-stretch transition-all duration-2000 ease-in-out transform"
-                        onClick={() => handleSearch(searchQuery)}
+                        className={style.searchButton}
+                        onClick={() => {
+                            setSearchTriggered(true)
+                        }}
                     >
                         Search
                     </button>
                 )}
             </div>
             {showMessage && (
-                <div className="mt-10 w-full flex flex-col gap-4 items-center">
+                <div className={style.pleaseWait}>
                     <p>Our LLM is processing your request. Please wait...</p>
                 </div>
             )}

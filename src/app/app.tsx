@@ -3,57 +3,71 @@
 import React from 'react'
 import Header from './header'
 import Footer from './footer'
-import { User } from './types/user'
-import { SearchResponse } from './types/response'
-import { Player } from './types/player'
-import {
-    CognitoAccessToken,
-    CognitoIdToken,
-    CognitoRefreshToken,
-    CognitoUserSession,
-} from 'amazon-cognito-identity-js'
+import {User} from './types/user'
+import {SearchResponse} from './types/response'
+import {Player} from './types/player'
+import {CognitoAccessToken, CognitoIdToken, CognitoRefreshToken, CognitoUserSession,} from 'amazon-cognito-identity-js'
 
 export const appContext = React.createContext({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     user: null as User | null,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setUser: (user: User | null) => {},
+    setUser: (user: User | null) => {
+    },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setLocalUser: (user: User | null) => {},
+    setLocalUser: (user: User | null) => {
+    },
     searchQuery: '',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setSearchQuery: (query: string) => {},
+    setSearchQuery: (query: string) => {
+    },
     localQuery: '',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setLocalQuery: (query: string) => {},
+    setLocalQuery: (query: string) => {
+    },
     searchTriggered: false,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setSearchTriggered: (triggered: boolean) => {},
+    setSearchTriggered: (triggered: boolean) => {
+    },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     searchResponse: null as SearchResponse | null,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setSearchResponse: (response: SearchResponse | null) => {},
+    setSearchResponse: (response: SearchResponse | null) => {
+    },
     playerQuery: '',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setPlayerQuery: (query: string) => {},
+    setPlayerQuery: (query: string) => {
+    },
     playerResponse: null as SearchResponse | null,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setPlayerResponse: (response: SearchResponse | null) => {},
+    setPlayerResponse: (response: SearchResponse | null) => {
+    },
     playerResult: [] as Player[],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setPlayerResult: (result: Player[]) => {},
+    setPlayerResult: (result: Player[]) => {
+    },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setLocalSession: (token: CognitoUserSession | null) => {},
+    setLocalSession: (token: CognitoUserSession | null) => {
+    },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     userSession: null as CognitoUserSession | null,
     searchDisplay: null as SearchResponse | null,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setSearchDisplay: (response: SearchResponse | null) => {},
+    setSearchDisplay: (response: SearchResponse | null) => {
+    },
+    activeSearch: false,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setActiveSearch: (active: boolean) => {
+    },
+    searchType: 'general',
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setSearchType: (type: string) => {
+    },
 })
 
 export const AppProvider: React.FC<{
     children: React.ReactNode
-}> = ({ children }) => {
+}> = ({children}) => {
     const [user, setUser] = React.useState<User | null>(() => {
         if (typeof localStorage === 'undefined') {
             return null
@@ -107,6 +121,8 @@ export const AppProvider: React.FC<{
     const [playerQuery, setPlayerQuery] = React.useState<string>('')
     const [searchResponse, setSearchResponse] =
         React.useState<SearchResponse | null>(null)
+    const [activeSearch, setActiveSearch] = React.useState(false)
+    const [searchType, setSearchType] = React.useState('general')
 
     const [playerResponse, setPlayerResponse] =
         React.useState<SearchResponse | null>(null)
@@ -172,6 +188,10 @@ export const AppProvider: React.FC<{
                 searchQuery,
                 searchResponse,
                 searchTriggered,
+                activeSearch,
+                searchType,
+                setSearchType,
+                setActiveSearch,
                 setLocalQuery,
                 setLocalSession: setLocalSession,
                 setLocalUser,
@@ -197,13 +217,13 @@ export default function App(props: {
     children: React.ReactNode
     currentRoute: string | null
 }) {
-    const { currentRoute } = props
+    const {currentRoute} = props
 
     return (
         <AppProvider>
-            <Header currentRoute={currentRoute} />
+            <Header currentRoute={currentRoute}/>
             {props.children}
-            <Footer />
+            <Footer/>
         </AppProvider>
     )
 }

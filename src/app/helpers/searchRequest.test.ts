@@ -1,7 +1,7 @@
 import searchRequest from './searchRequest'
-import { CognitoUserSession } from 'amazon-cognito-identity-js'
-import { testCredentials } from './testCredentials'
-import { signIn } from './signIn'
+import {CognitoUserSession} from 'amazon-cognito-identity-js'
+import {testCredentials} from './testCredentials'
+import {signIn} from './signIn'
 
 let user: CognitoUserSession
 
@@ -12,13 +12,13 @@ beforeAll(async () => {
 describe('searchRequest', () => {
     test('no user', async () => {
         const searchQuery = 'test'
-        const response = await searchRequest(searchQuery)
+        const response = await searchRequest(searchQuery, 'general')
         expect(response)
     })
 
     test('user', async () => {
         const searchQuery = 'test'
-        const response = await searchRequest(searchQuery, user)
+        const response = await searchRequest(searchQuery, 'general', user)
         expect(response)
     })
 })

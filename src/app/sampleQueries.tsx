@@ -1,6 +1,7 @@
 import React from 'react'
 import searchRequest from '@/app/helpers/searchRequest'
-import { appContext } from './app'
+import {appContext} from './app'
+import {style} from "@/app/style";
 
 export default function SampleQueries(props: { similarQueries?: string[] }) {
     const {
@@ -9,6 +10,7 @@ export default function SampleQueries(props: { similarQueries?: string[] }) {
         setSearchResponse,
         setSearchQuery,
         setSearchDisplay,
+        setSearchType,
     } = React.useContext(appContext)
     const similarQueries = props.similarQueries
 
@@ -33,17 +35,19 @@ export default function SampleQueries(props: { similarQueries?: string[] }) {
     const handleSearch = React.useCallback(
         async (query: string) => {
             setSearchQuery(query)
+            setSearchType('general')
             setSearchTriggered(true)
             setSearchResponse(null)
             setSearchDisplay(null)
 
+
             try {
                 if (userSession) {
-                    const res = await searchRequest(query, userSession)
+                    const res = await searchRequest(query, 'general', userSession)
                     setSearchResponse(res)
                     setSearchTriggered(false)
                 } else {
-                    const res = await searchRequest(query)
+                    const res = await searchRequest(query, 'general')
                     setSearchResponse(res)
                     setSearchTriggered(false)
                 }
@@ -61,9 +65,9 @@ export default function SampleQueries(props: { similarQueries?: string[] }) {
     )
 
     return (
-        <div className={'mt-10'}>
-            <hr className={'w-full mt-8 mb-8'} />
-            <h2 className={'text-2xl font-bold'}>{title}</h2>
+        <div className={''}>
+            <hr className={style.hr}/>
+            <h2 className={style.h2}>{title}</h2>
             <ul className={'mt-4'}>
                 {queries.map((query, index) => (
                     <li key={index}>
@@ -71,7 +75,7 @@ export default function SampleQueries(props: { similarQueries?: string[] }) {
                             className={'text-blue-500 hover:text-blue-700'}
                             onClick={() => handleSearch(query)}
                         >
-                            {query}
+                            {query.replaceAll('"', '')}
                         </button>
                     </li>
                 ))}

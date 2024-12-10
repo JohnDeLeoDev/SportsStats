@@ -1,12 +1,16 @@
+'use client'
 import React from 'react'
-import { getQueries } from '@/app/helpers/getQueries'
-import { appContext } from '@/app/app'
+import {getQueries} from '@/app/helpers/getQueries'
+import {appContext} from '@/app/app'
+import searchRequest from "@/app/helpers/searchRequest";
 
 export default function SearchHistory() {
     const [pastQueries, setPastQueries] = React.useState<Query[] | undefined>(
         undefined
     )
-    const { user, setLocalUser, userSession } = React.useContext(appContext)
+    const {
+        user, setLocalUser, userSession, setSearchDisplay, setSearchResponse, setSearchTriggered, setSearchQuery
+    } = React.useContext(appContext)
 
     type Query = {
         id: string
@@ -14,7 +18,39 @@ export default function SearchHistory() {
         created_at: string
     }
 
+    const handleSearch = React.useCallback(
+        async (query: string) => {
+            setSearchQuery(query)
+            setSearchTriggered(true)
+            setSearchResponse(null)
+            setSearchDisplay(null)
+
+
+            try {
+                if (userSession) {
+                    const res = await searchRequest(query, 'general', userSession)
+                    setSearchResponse(res)
+                    setSearchTriggered(false)
+                } else {
+                    const res = await searchRequest(query, 'general')
+                    setSearchResponse(res)
+                    setSearchTriggered(false)
+                }
+            } catch (error) {
+                console.error('Search failed', error)
+            }
+        },
+        [
+            setSearchQuery,
+            setSearchTriggered,
+            setSearchResponse,
+            setSearchDisplay,
+            userSession,
+        ]
+    )
+
     React.useEffect(() => {
+
         async function fetchQueries() {
             if (userSession) {
                 const res = await getQueries(userSession)
@@ -27,51 +63,46 @@ export default function SearchHistory() {
                     setLocalUser(null)
                     setPastQueries([])
                 } else {
-                    setPastQueries(res)
+                    let queries = res.reverse()
+                    //remove blanks
+                    queries = queries.filter((query: Query) => query.query !== '')
+
+                    setPastQueries(queries)
                 }
-                console.log(res)
             }
         }
 
-        if (typeof window !== 'undefined') {
+        if (typeof window !== 'undefined' && !pastQueries) {
             fetchQueries()
         }
     }, [user, setLocalUser, userSession])
 
     if (typeof window === 'undefined') {
-        return null
+        return
     }
 
     if (!user) {
-        return (
-            <div>
-                <p>Please sign in to view past queries.</p>
-                <a href="/signin">Sign in</a>
-            </div>
-        )
+        return
     }
 
     if (pastQueries) {
         return (
             <div>
-                <hr className="w-full my-8 mb-8" />
+                <hr className="w-full my-8 mb-8"/>
                 <h2 className="text-2xl font-bold mb-4">Search History</h2>
-                <div className="flex gap-4 sm:items-start w-full flex-wrap">
+                <ul className="mt-4 mb-4">
                     {pastQueries.slice(0, 10).map((query, index) => (
-                        <div
-                            key={index}
-                            className={
-                                'cursor-pointer bg-white p-4 shadow-lg rounded-lg hover:bg-gray-200'
-                            }
-                            onClick={() => {
-                                window.location.href = `/search?q=${query.query}`
-                            }}
-                        >
-                            <p>{query.query}</p>
-                            <p>{query.created_at}</p>
-                        </div>
+                        <li key={index}>
+                            <button
+                                className="text-blue-500 hover:text-blue-700"
+                                onClick={() => handleSearch(query.query)}
+                            >
+                                {query.query}
+                            </button>
+                        </li>
                     ))}
-                </div>
+                </ul>
+
             </div>
         )
     } else {

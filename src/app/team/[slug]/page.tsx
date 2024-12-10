@@ -4,6 +4,7 @@ import {getData} from '../../helpers/getData'
 import React from 'react'
 import {appContext} from '../../app'
 import {Player, PlayerStats} from '../../types/player'
+import {style} from "@/app/style";
 
 type TeamRoster = {
     batting: PlayerStatsDB[]
@@ -77,16 +78,9 @@ export default function TeamPage({params}: { params: { slug: string } }) {
                 yearID
             )
             setTeamRoster(roster)
-
-            console.log(roster)
         }
         fetchRoster()
     }, [teamID, userSession, yearID])
-
-    // sorts the table by the column clicked
-    function handleHeaderClick(table: string, column: string) {
-        console.log('clicked', table, column)
-    }
 
     if (!teamData || !teamHistory) {
         return <div className={'m-auto'}>Loading...</div>
@@ -97,55 +91,55 @@ export default function TeamPage({params}: { params: { slug: string } }) {
             <div>
                 {teamData ? (
                         <div>
-                            <hr className={'my-4 mt-4 mb-4'}/>
+                            <hr className={style.hr}/>
                             <h2
                                 className={
-                                    statTitleStyle
+                                    style.h2
                                 }
                             >
                                 Team Stats
                             </h2>
-                            <div className={tableDivStyle}>
-                                <table className={tableStyle}>
+                            <div className={style.tableDiv}>
+                                <table className={style.table}>
                                     <thead>
-                                    <tr className={tableHeaderStyle}>
-                                        <th className={cellStyle}>R</th>
-                                        <th className={cellStyle}>R</th>
-                                        <th className={cellStyle}>AB</th>
-                                        <th className={cellStyle}>H</th>
-                                        <th className={cellStyle}>2B</th>
-                                        <th className={cellStyle}>3B</th>
-                                        <th className={cellStyle}>HR</th>
-                                        <th className={cellStyle}>BB</th>
-                                        <th className={cellStyle}>SO</th>
-                                        <th className={cellStyle}>SB</th>
-                                        <th className={cellStyle}>CS</th>
-                                        <th className={cellStyle}>ERA</th>
-                                        <th className={cellStyle}>CG</th>
-                                        <th className={cellStyle}>SHO</th>
-                                        <th className={cellStyle}>SV</th>
-                                        <th className={cellStyle}>IPouts</th>
-                                        <th className={cellStyle}>HA</th>
+                                    <tr className={style.tableHeader}>
+                                        <th className={style.cell}>R</th>
+                                        <th className={style.cell}>R</th>
+                                        <th className={style.cell}>AB</th>
+                                        <th className={style.cell}>H</th>
+                                        <th className={style.cell}>2B</th>
+                                        <th className={style.cell}>3B</th>
+                                        <th className={style.cell}>HR</th>
+                                        <th className={style.cell}>BB</th>
+                                        <th className={style.cell}>SO</th>
+                                        <th className={style.cell}>SB</th>
+                                        <th className={style.cell}>CS</th>
+                                        <th className={style.cell}>ERA</th>
+                                        <th className={style.cell}>CG</th>
+                                        <th className={style.cell}>SHO</th>
+                                        <th className={style.cell}>SV</th>
+                                        <th className={style.cell}>IPouts</th>
+                                        <th className={style.cell}>HA</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr className={tableRowStyle}>
-                                        <td className={cellStyle}>{teamData.R}</td>
-                                        <td className={cellStyle}>{teamData.AB}</td>
-                                        <td className={cellStyle}>{teamData.H}</td>
-                                        <td className={cellStyle}>{teamData['2B']}</td>
-                                        <td className={cellStyle}>{teamData['3B']}</td>
-                                        <td className={cellStyle}>{teamData.HR}</td>
-                                        <td className={cellStyle}>{teamData.BB}</td>
-                                        <td className={cellStyle}>{teamData.SO}</td>
-                                        <td className={cellStyle}>{teamData.SB}</td>
-                                        <td className={cellStyle}>{teamData.CS}</td>
-                                        <td className={cellStyle}>{teamData.ERA}</td>
-                                        <td className={cellStyle}>{teamData.CG}</td>
-                                        <td className={cellStyle}>{teamData.SHO}</td>
-                                        <td className={cellStyle}>{teamData.SV}</td>
-                                        <td className={cellStyle}>{teamData.IPouts}</td>
-                                        <td className={cellStyle}>{teamData.HA}</td>
+                                    <tr className={style.tableRow}>
+                                        <td className={style.cell}>{teamData.R}</td>
+                                        <td className={style.cell}>{teamData.AB}</td>
+                                        <td className={style.cell}>{teamData.H}</td>
+                                        <td className={style.cell}>{teamData['2B']}</td>
+                                        <td className={style.cell}>{teamData['3B']}</td>
+                                        <td className={style.cell}>{teamData.HR}</td>
+                                        <td className={style.cell}>{teamData.BB}</td>
+                                        <td className={style.cell}>{teamData.SO}</td>
+                                        <td className={style.cell}>{teamData.SB}</td>
+                                        <td className={style.cell}>{teamData.CS}</td>
+                                        <td className={style.cell}>{teamData.ERA}</td>
+                                        <td className={style.cell}>{teamData.CG}</td>
+                                        <td className={style.cell}>{teamData.SHO}</td>
+                                        <td className={style.cell}>{teamData.SV}</td>
+                                        <td className={style.cell}>{teamData.IPouts}</td>
+                                        <td className={style.cell}>{teamData.HA}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -164,172 +158,89 @@ export default function TeamPage({params}: { params: { slug: string } }) {
     function TeamBatters() {
         return (
             <div>
-                {teamRoster ? (
+                {teamRoster && teamRoster.batting ? (
                     <>
-                        <h3
-                            className={
-                                statTitleStyle
-                            }
-                        >
-                            Batters
-                        </h3>
-                        <div className={tableDivStyle}>
-                            <table
-                                className={tableStyle}
-                            >
+                        <h3 className={style.h2}>Batters</h3>
+                        <div className={style.tableDiv}>
+                            <table className={style.table}>
                                 <thead>
-                                <tr
-                                    className={
-                                        tableHeaderStyle
-                                    }
-                                >
-                                    <td className={cellStyle}>
+                                <tr className={style.tableHeader}>
+                                    <td className={style.cell}>
                                         <a
-                                            className={
-                                                columnNameStyle
-                                            }
-                                            onClick={() =>
-                                                handleHeaderClick(
-                                                    'batting',
-                                                    'name'
-                                                )
-                                            }
+                                            className={style.tableClickHeader}
+
                                         >
                                             Name
                                         </a>
                                     </td>
-
-                                    <td className={cellStyle}>
+                                    <td className={style.cell}>
                                         <a
-                                            className={
-                                                columnNameStyle
-                                            }
-                                            onClick={() =>
-                                                handleHeaderClick(
-                                                    'batting',
-                                                    'AB'
-                                                )
-                                            }
+                                            className={style.tableClickHeader}
+
                                         >
                                             AB
                                         </a>
                                     </td>
-                                    <td className={cellStyle}>
+                                    <td className={style.cell}>
                                         <a
-                                            className={
-                                                columnNameStyle
-                                            }
-                                            onClick={() =>
-                                                handleHeaderClick(
-                                                    'batting',
-                                                    'R'
-                                                )
-                                            }
+                                            className={style.tableClickHeader}
+
                                         >
                                             R
                                         </a>
                                     </td>
-                                    <td className={cellStyle}>
+                                    <td className={style.cell}>
                                         <a
-                                            className={
-                                                columnNameStyle
-                                            }
-                                            onClick={() =>
-                                                handleHeaderClick(
-                                                    'batting',
-                                                    'H'
-                                                )
-                                            }
+                                            className={style.tableClickHeader}
+
                                         >
                                             H
                                         </a>
                                     </td>
-                                    <td className={cellStyle}>
+                                    <td className={style.cell}>
                                         <a
-                                            className={
-                                                columnNameStyle
-                                            }
-                                            onClick={() =>
-                                                handleHeaderClick(
-                                                    'batting',
-                                                    'HR'
-                                                )
-                                            }
+                                            className={style.tableClickHeader}
+
                                         >
                                             HR
                                         </a>
                                     </td>
-                                    <td className={cellStyle}>
+                                    <td className={style.cell}>
                                         <a
-                                            className={
-                                                columnNameStyle
-                                            }
-                                            onClick={() =>
-                                                handleHeaderClick(
-                                                    'batting',
-                                                    'RBI'
-                                                )
-                                            }
+                                            className={style.tableClickHeader}
+
                                         >
                                             RBI
                                         </a>
                                     </td>
-                                    <td className={cellStyle}>
+                                    <td className={style.cell}>
                                         <a
-                                            className={
-                                                columnNameStyle
-                                            }
-                                            onClick={() =>
-                                                handleHeaderClick(
-                                                    'batting',
-                                                    'SB'
-                                                )
-                                            }
+                                            className={style.tableClickHeader}
+
                                         >
                                             SB
                                         </a>
                                     </td>
-                                    <td className={cellStyle}>
+                                    <td className={style.cell}>
                                         <a
-                                            className={
-                                                columnNameStyle
-                                            }
-                                            onClick={() =>
-                                                handleHeaderClick(
-                                                    'batting',
-                                                    'CS'
-                                                )
-                                            }
+                                            className={style.tableClickHeader}
+
                                         >
                                             CS
                                         </a>
                                     </td>
-                                    <td className={cellStyle}>
+                                    <td className={style.cell}>
                                         <a
-                                            className={
-                                                columnNameStyle
-                                            }
-                                            onClick={() =>
-                                                handleHeaderClick(
-                                                    'batting',
-                                                    'BB'
-                                                )
-                                            }
+                                            className={style.tableClickHeader}
+
                                         >
                                             BB
                                         </a>
                                     </td>
-                                    <td className={cellStyle}>
+                                    <td className={style.cell}>
                                         <a
-                                            className={
-                                                columnNameStyle
-                                            }
-                                            onClick={() =>
-                                                handleHeaderClick(
-                                                    'batting',
-                                                    'SO'
-                                                )
-                                            }
+                                            className={style.tableClickHeader}
+
                                         >
                                             SO
                                         </a>
@@ -337,252 +248,119 @@ export default function TeamPage({params}: { params: { slug: string } }) {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {teamRoster?.batting.map(
-                                    (batter: PlayerStatsDB) => {
-                                        return (
-                                            <tr
-                                                className={
-                                                    tableRowStyle
-                                                }
-                                                key={
-                                                    batter
-                                                        .playerData
-                                                        .playerID
-                                                }
-                                            >
-                                                <td
-                                                    className={
-                                                        cellStyle + ' text-left'
-                                                    }
+                                {teamRoster.batting.map((batter: PlayerStatsDB) => {
+                                    return (
+                                        <tr
+                                            className={style.tableRow}
+                                            key={batter.playerData.playerID}
+                                        >
+                                            <td className={style.cell + ' text-left'}>
+                                                <a
+                                                    className={'text-blue-500 text-left'}
+                                                    href={`/player/${batter.playerData.playerID}`}
                                                 >
-                                                    <a
-                                                        className={
-                                                            'text-blue-500 text-left'
-                                                        }
-                                                        href={`/player/${batter.playerData.playerID}`}
-                                                    >
-                                                        {
-                                                            batter
-                                                                .playerData
-                                                                .nameFirst
-                                                        }{' '}
-                                                        {
-                                                            batter
-                                                                .playerData
-                                                                .nameLast
-                                                        }
-                                                    </a>
-                                                </td>
-                                                <td
-                                                    className={
-                                                        cellStyle
-                                                    }
-                                                >
-                                                    {batter.AB}
-                                                </td>
-                                                <td
-                                                    className={
-                                                        cellStyle
-                                                    }
-                                                >
-                                                    {batter.R}
-                                                </td>
-                                                <td
-                                                    className={
-                                                        cellStyle
-                                                    }
-                                                >
-                                                    {batter.H}
-                                                </td>
-                                                <td
-                                                    className={
-                                                        cellStyle
-                                                    }
-                                                >
-                                                    {batter.HR}
-                                                </td>
-                                                <td
-                                                    className={
-                                                        cellStyle
-                                                    }
-                                                >
-                                                    {batter.RBI}
-                                                </td>
-                                                <td
-                                                    className={
-                                                        cellStyle
-                                                    }
-                                                >
-                                                    {batter.SB}
-                                                </td>
-                                                <td
-                                                    className={
-                                                        cellStyle
-                                                    }
-                                                >
-                                                    {batter.CS}
-                                                </td>
-                                                <td
-                                                    className={
-                                                        cellStyle
-                                                    }
-                                                >
-                                                    {batter.BB}
-                                                </td>
-                                                <td
-                                                    className={
-                                                        cellStyle
-                                                    }
-                                                >
-                                                    {batter.SO}
-                                                </td>
-                                            </tr>
-                                        )
-                                    }
-                                )}
+                                                    {batter.playerData.nameFirst}{' '}
+                                                    {batter.playerData.nameLast}
+                                                </a>
+                                            </td>
+                                            <td className={style.cell}>{batter.AB}</td>
+                                            <td className={style.cell}>{batter.R}</td>
+                                            <td className={style.cell}>{batter.H}</td>
+                                            <td className={style.cell}>{batter.HR}</td>
+                                            <td className={style.cell}>{batter.RBI}</td>
+                                            <td className={style.cell}>{batter.SB}</td>
+                                            <td className={style.cell}>{batter.CS}</td>
+                                            <td className={style.cell}>{batter.BB}</td>
+                                            <td className={style.cell}>{batter.SO}</td>
+                                        </tr>
+                                    )
+                                })}
                                 </tbody>
                             </table>
                         </div>
-
                     </>
                 ) : null}
-            </div>)
-
+            </div>
+        )
     }
 
     function TeamPitchers() {
         return (
             <div>
-
-                <h3
-                    className={
-                        statTitleStyle
-                    }
-                >
-                    Pitchers
-                </h3>
-                {teamRoster ? (
-                    <div className={tableDivStyle}>
-                        <table className={tableStyle}>
+                <h3 className={style.h2}>Pitchers</h3>
+                {teamRoster && teamRoster.pitching ? (
+                    <div className={style.tableDiv}>
+                        <table className={style.table}>
                             <thead>
-                            <tr
-                                className={
-                                    tableHeaderStyle
-                                }
-                            >
-                                <th className={cellStyle}>
+                            <tr className={style.tableHeader}>
+                                <th className={style.cell}>
                                     <a
-                                        className={columnNameStyle}
-                                        onClick={() =>
-                                            handleHeaderClick(
-                                                'pitching',
-                                                'name'
-                                            )
-                                        }
+                                        className={style.tableClickHeader}
+
                                     >
                                         Name
                                     </a>
                                 </th>
-                                <th className={cellStyle}>
+                                <th className={style.cell}>
                                     <a
-                                        className={columnNameStyle}
-                                        onClick={() =>
-                                            handleHeaderClick(
-                                                'pitching',
-                                                'G'
-                                            )
-                                        }
+                                        className={style.tableClickHeader}
+
                                     >
                                         G
                                     </a>
                                 </th>
-                                <th className={cellStyle}>
+                                <th className={style.cell}>
                                     <a
-                                        className={columnNameStyle}
-                                        onClick={() =>
-                                            handleHeaderClick(
-                                                'pitching',
-                                                'W'
-                                            )
-                                        }
+                                        className={style.tableClickHeader}
+
                                     >
                                         W
                                     </a>
                                 </th>
-                                <th className={cellStyle}>
+                                <th className={style.cell}>
                                     <a
-                                        className={columnNameStyle}
-                                        onClick={() =>
-                                            handleHeaderClick(
-                                                'pitching',
-                                                'L'
-                                            )
-                                        }
+                                        className={style.tableClickHeader}
+
                                     >
                                         L
                                     </a>
                                 </th>
-                                <th className={cellStyle}>
+                                <th className={style.cell}>
                                     <a
-                                        className={columnNameStyle}
-                                        onClick={() =>
-                                            handleHeaderClick(
-                                                'pitching',
-                                                'ERA'
-                                            )
-                                        }
+                                        className={style.tableClickHeader}
+
                                     >
                                         ERA
                                     </a>
                                 </th>
-                                <th className={cellStyle}>
+                                <th className={style.cell}>
                                     <a
-                                        className={columnNameStyle}
-                                        onClick={() =>
-                                            handleHeaderClick(
-                                                'pitching',
-                                                'CG'
-                                            )
-                                        }
+                                        className={style.tableClickHeader}
+
                                     >
                                         CG
                                     </a>
                                 </th>
-                                <th className={cellStyle}>
+                                <th className={style.cell}>
                                     <a
-                                        className={columnNameStyle}
-                                        onClick={() =>
-                                            handleHeaderClick(
-                                                'pitching',
-                                                'SHO'
-                                            )
-                                        }
+                                        className={style.tableClickHeader}
+
                                     >
                                         SHO
                                     </a>
                                 </th>
-                                <th className={cellStyle}>
+                                <th className={style.cell}>
                                     <a
-                                        className={columnNameStyle}
-                                        onClick={() =>
-                                            handleHeaderClick(
-                                                'pitching',
-                                                'SV'
-                                            )
-                                        }
+                                        className={style.tableClickHeader}
+
                                     >
                                         SV
                                     </a>
                                 </th>
-                                <th className={cellStyle}>
+                                <th className={style.cell}>
                                     <a
-                                        className={columnNameStyle}
-                                        onClick={() =>
-                                            handleHeaderClick(
-                                                'pitching',
-                                                'IPouts'
-                                            )
-                                        }
+                                        className={style.tableClickHeader}
+
                                     >
                                         IPouts
                                     </a>
@@ -590,62 +368,29 @@ export default function TeamPage({params}: { params: { slug: string } }) {
                             </tr>
                             </thead>
                             <tbody>
-                            {teamRoster?.pitching.map((pitcher) => {
+                            {teamRoster.pitching.map((pitcher) => {
                                 return (
                                     <tr
-                                        className={tableRowStyle}
-                                        key={
-                                            pitcher.playerData
-                                                .playerID
-                                        }
+                                        className={style.tableRow}
+                                        key={pitcher.playerData.playerID}
                                     >
-                                        <td
-                                            className={
-                                                cellStyle
-                                            }
-                                        >
+                                        <td className={style.cell}>
                                             <a
-                                                className={
-                                                    'text-blue-500'
-                                                }
+                                                className={'text-blue-500'}
                                                 href={`/player/${pitcher.playerData.playerID}`}
                                             >
-                                                {
-                                                    pitcher
-                                                        .playerData
-                                                        .nameFirst
-                                                }{' '}
-                                                {
-                                                    pitcher
-                                                        .playerData
-                                                        .nameLast
-                                                }
+                                                {pitcher.playerData.nameFirst}{' '}
+                                                {pitcher.playerData.nameLast}
                                             </a>
                                         </td>
-                                        <td className={cellStyle}>
-                                            {pitcher.G}
-                                        </td>
-                                        <td className={cellStyle}>
-                                            {pitcher.W}
-                                        </td>
-                                        <td className={cellStyle}>
-                                            {pitcher.L}
-                                        </td>
-                                        <td className={cellStyle}>
-                                            {pitcher.ERA}
-                                        </td>
-                                        <td className={cellStyle}>
-                                            {pitcher.CG}
-                                        </td>
-                                        <td className={cellStyle}>
-                                            {pitcher.SHO}
-                                        </td>
-                                        <td className={cellStyle}>
-                                            {pitcher.SV}
-                                        </td>
-                                        <td className={cellStyle}>
-                                            {pitcher.IPouts}
-                                        </td>
+                                        <td className={style.cell}>{pitcher.G}</td>
+                                        <td className={style.cell}>{pitcher.W}</td>
+                                        <td className={style.cell}>{pitcher.L}</td>
+                                        <td className={style.cell}>{pitcher.ERA}</td>
+                                        <td className={style.cell}>{pitcher.CG}</td>
+                                        <td className={style.cell}>{pitcher.SHO}</td>
+                                        <td className={style.cell}>{pitcher.SV}</td>
+                                        <td className={style.cell}>{pitcher.IPouts}</td>
                                     </tr>
                                 )
                             })}
@@ -653,105 +398,63 @@ export default function TeamPage({params}: { params: { slug: string } }) {
                         </table>
                     </div>
                 ) : null}
-            </div>)
-
-
+            </div>
+        )
     }
 
     function TeamFielders() {
         return (
             <div>
-                <h3
-                    className={
-                        statTitleStyle
-                    }
-                >
-                    Fielders
-                </h3>
+                <h3 className={style.h2}>Fielders</h3>
                 {teamRoster ? (
-                    <div className={tableDivStyle}>
-                        <table className={tableStyle}>
-                            <thead>
-                            <tr
-                                className={
-                                    tableHeaderStyle
-                                }
-                            >
-                                <th className={cellStyle}>
+                    <div className={style.tableDiv}>
+                        <table className={style.table}>
+                            <thead className={style.tableHeader}>
+                            <tr className={style.tableRow}>
+                                <th className={style.cell}>
                                     <a
-                                        className={columnNameStyle}
-                                        onClick={() =>
-                                            handleHeaderClick(
-                                                'fielding',
-                                                'name'
-                                            )
-                                        }
+                                        className={style.tableClickHeader}
+
                                     >
                                         Name
                                     </a>
                                 </th>
-
-                                <td className={cellStyle}>
+                                <td className={style.cell}>
                                     <a
-                                        className={columnNameStyle}
-                                        onClick={() =>
-                                            handleHeaderClick(
-                                                'fielding',
-                                                'G'
-                                            )
-                                        }
+                                        className={style.tableClickHeader}
+
                                     >
                                         G
                                     </a>
                                 </td>
-                                <td className={cellStyle}>
+                                <td className={style.cell}>
                                     <a
-                                        className={columnNameStyle}
-                                        onClick={() =>
-                                            handleHeaderClick(
-                                                'fielding',
-                                                'POS'
-                                            )
-                                        }
+                                        className={style.tableClickHeader}
+
                                     >
                                         POS
                                     </a>
                                 </td>
-                                <td className={cellStyle}>
+                                <td className={style.cell}>
                                     <a
-                                        className={columnNameStyle}
-                                        onClick={() =>
-                                            handleHeaderClick(
-                                                'fielding',
-                                                'Errors'
-                                            )
-                                        }
+                                        className={style.tableClickHeader}
+
                                     >
                                         Errors
                                     </a>
                                 </td>
-                                <td className={cellStyle}>
+                                <td className={style.cell}>
                                     <a
-                                        className={columnNameStyle}
-                                        onClick={() =>
-                                            handleHeaderClick(
-                                                'fielding',
-                                                'PO'
-                                            )
-                                        }
+                                        className={style.tableClickHeader}
+
                                     >
                                         PO
                                     </a>
                                 </td>
-                                <td className={cellStyle}>
+                                <td className={style.cell}>
                                     <a
-                                        className={columnNameStyle}
-                                        onClick={() =>
-                                            handleHeaderClick(
-                                                'fielding',
-                                                'InnOuts'
-                                            )
-                                        }
+                                        className={style.tableClickHeader}
+
                                     >
                                         InnOuts
                                     </a>
@@ -760,53 +463,25 @@ export default function TeamPage({params}: { params: { slug: string } }) {
                             </thead>
                             <tbody>
                             {teamRoster?.fielding.map((fielder) => {
-                                console.log(fielder)
                                 return (
                                     <tr
-                                        className={tableRowStyle}
-                                        key={
-                                            fielder.playerData
-                                                .playerID
-                                        }
+                                        className={style.tableRow}
+                                        key={`${fielder.playerData.playerID}-${fielder.POS}`}
                                     >
-                                        <td
-                                            className={
-                                                ' text-left'
-                                            }
-                                        >
+                                        <td className={style.cell}>
                                             <a
-                                                className={
-                                                    'text-blue-500'
-                                                }
+                                                className={'text-blue-500'}
                                                 href={`/player/${fielder.playerData.playerID}`}
                                             >
-                                                {
-                                                    fielder
-                                                        .playerData
-                                                        .nameFirst
-                                                }{' '}
-                                                {
-                                                    fielder
-                                                        .playerData
-                                                        .nameLast
-                                                }
+                                                {fielder.playerData.nameFirst}{' '}
+                                                {fielder.playerData.nameLast}
                                             </a>
                                         </td>
-                                        <td className={cellStyle}>
-                                            {fielder.G}
-                                        </td>
-                                        <td className={cellStyle}>
-                                            {fielder.POS}
-                                        </td>
-                                        <td className={cellStyle}>
-                                            {fielder.E}
-                                        </td>
-                                        <td className={cellStyle}>
-                                            {fielder.PO}
-                                        </td>
-                                        <td className={cellStyle}>
-                                            {fielder.InnOuts}
-                                        </td>
+                                        <td className={style.cell}>{fielder.G}</td>
+                                        <td className={style.cell}>{fielder.POS}</td>
+                                        <td className={style.cell}>{fielder.E}</td>
+                                        <td className={style.cell}>{fielder.PO}</td>
+                                        <td className={style.cell}>{fielder.InnOuts}</td>
                                     </tr>
                                 )
                             })}
@@ -825,33 +500,33 @@ export default function TeamPage({params}: { params: { slug: string } }) {
                         <div>
                             <h2
                                 className={
-                                    statTitleStyle
+                                    style.h2
                                 }
                             >
                                 Team History
                             </h2>
-                            <div className={tableDivStyle}>
-                                <table className={tableStyle}>
+                            <div className={style.tableDiv}>
+                                <table className={style.table}>
                                     <thead>
-                                    <tr className={tableHeaderStyle}>
-                                        <th className={cellStyle}>Year</th>
-                                        <td className={cellStyle}>Name</td>
-                                        <td className={cellStyle}>Home Park</td>
-                                        <td className={cellStyle}>Wins</td>
-                                        <td className={cellStyle}>Losses</td>
+                                    <tr className={style.tableHeader}>
+                                        <th className={style.cell}>Year</th>
+                                        <td className={style.cell}>Name</td>
+                                        <td className={style.cell}>Home Park</td>
+                                        <td className={style.cell}>Wins</td>
+                                        <td className={style.cell}>Losses</td>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {teamHistory.map((team) => {
                                         return (
                                             <tr
-                                                className={tableRowStyle}
+                                                className={style.tableRow}
                                                 key={team.yearID}
                                             >
-                                                <td className={cellStyle}>
+                                                <td className={style.cell}>
                                                     {team.yearID}
                                                 </td>
-                                                <td className={cellStyle}>
+                                                <td className={style.cell}>
                                                     <a
                                                         className={
                                                             'text-blue-500'
@@ -861,11 +536,11 @@ export default function TeamPage({params}: { params: { slug: string } }) {
                                                         {team.name}
                                                     </a>
                                                 </td>
-                                                <td className={cellStyle}>
+                                                <td className={style.cell}>
                                                     {team.park}
                                                 </td>
-                                                <td className={cellStyle}>{team.W}</td>
-                                                <td className={cellStyle}>{team.L}</td>
+                                                <td className={style.cell}>{team.W}</td>
+                                                <td className={style.cell}>{team.L}</td>
                                             </tr>
                                         )
                                     })}
@@ -882,20 +557,10 @@ export default function TeamPage({params}: { params: { slug: string } }) {
         )
     }
 
-    const columnNameStyle = 'hover:text-blue-500 cursor-pointer font-bold text-left'
-    const cellStyle = 'border-collapse p-4 text-left '
-    const tableStyle = 'border-collapse text-left w-full '
-    const tableRowStyle = ''
-
-    const tableHeaderStyle =
-        'border-collapse p-4 text-left '
-    const tableDivStyle = 'overflow-x-auto w-full shadow-lg rounded-lg p-4'
-    const statTitleStyle = 'text-xl font-bold mb-4'
-
     return (
         <div
-            className={'m-auto mt-40 mb-40 max-w-2xl justify-center flex flex-col  bg-white drop-shadow rounded-lg p-8 pl-12 pr-12'}>
-            <div>
+            className={style.pageCard}>
+            <div className={style.innerCard}>
                 <div className="">
                     <h1
                         className={
@@ -923,7 +588,7 @@ export default function TeamPage({params}: { params: { slug: string } }) {
 
                 {teamRoster ? (
                     <>
-                        <hr className={'my-4 mt-4 mb-4'}/>
+                        <hr className={style.hr}/>
 
                         <TeamBatters/>
                         <hr className={'my-4 mt-4 mb-4'}/>

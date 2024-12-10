@@ -1,27 +1,21 @@
 import React from 'react'
-import { appContext } from './app'
-import {
-    Disclosure,
-    DisclosureButton,
-    DisclosurePanel,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-} from '@headlessui/react'
+import {appContext} from './app'
+import {Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems,} from '@headlessui/react'
 
-import { Bars3Icon, BellIcon, UserIcon } from '@heroicons/react/24/outline'
+import {Bars3Icon, UserIcon} from '@heroicons/react/24/outline'
+import {style} from "@/app/style";
 
 const navigation = [
-    { name: 'SearchStats', href: '/', current: false },
-    { name: 'Examples', href: '/examples', current: false },
-    { name: 'About', href: '/about', current: false },
+    {name: 'SearchStats', href: '/', current: false},
+    {name: 'Examples', href: '/examples', current: false},
+    {name: 'About', href: '/about', current: false},
 ]
 
 const appMenu = [
-    { name: 'SearchStats', href: '/' },
-    { name: 'Examples', href: '/examples' },
-    { name: 'About', href: '/about' },
+    {name: 'Home', href: '/'},
+    {name: 'About', href: '/about'},
+    {name: 'Search for a Player', href: '/searchPlayer'},
+    {name: 'Search for a Team', href: '/searchTeam'},
 ]
 
 function classNames(...classes: (string | boolean)[]) {
@@ -32,8 +26,8 @@ interface HeaderProps {
     currentRoute: string | null
 }
 
-export default function Header({ currentRoute }: HeaderProps) {
-    const { user, setLocalUser, setLocalSession } = React.useContext(appContext)
+export default function Header({currentRoute}: HeaderProps) {
+    const {user, setLocalUser, setLocalSession} = React.useContext(appContext)
 
     navigation.forEach((item) => {
         item.current = item.href === currentRoute
@@ -71,7 +65,7 @@ export default function Header({ currentRoute }: HeaderProps) {
                 href: '/signup',
                 dataTestID: 'create-account',
             },
-            { name: 'Sign In', href: '/signin', dataTestID: 'signin-button' },
+            {name: 'Sign In', href: '/signin', dataTestID: 'signin-button'},
         ]
     }
 
@@ -83,124 +77,52 @@ export default function Header({ currentRoute }: HeaderProps) {
     return (
         <header
             data-testid="header"
-            className="grid grid-cols-3 w-full gap-4 fixed top-0 z-50"
+            className={style.header}
         >
             <Disclosure
                 as="nav"
-                className="bg-red-800 bg-opacity-100 text-white
-                 w-screen "
+                className={style.headerDisclosure}
             >
-                <div className="mx-auto px-2 sm:px-6 lg:px-8">
-                    <div className="relative flex h-16 items-center justify-between">
-                        <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                            {/* Mobile menu button*/}
-                            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                                <span className="absolute -inset-0.5" />
-                                <span className="sr-only">Open main menu</span>
-                                <Bars3Icon
-                                    aria-hidden="true"
-                                    className="block h-6 w-6 group-data-[open]:hidden"
-                                />
-                            </DisclosureButton>
-                        </div>
-                        <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                            <div className="flex flex-shrink-0 items-center">
-                                <Menu
-                                    as="div"
+                <div className={style.headerDisclosureInner}>
+                    <div className={style.headerMobile}>
+                        {/* Mobile menu button*/}
+                        <DisclosureButton
+                            className={style.headerMobileButton}>
+                            <span className="absolute -inset-0.5"/>
+                            <span className="sr-only">Open main menu</span>
+                            <Bars3Icon
+                                aria-hidden="true"
+                                className="block h-6 w-6 group-data-[open]:hidden"
+                            />
+                        </DisclosureButton>
+                    </div>
+                    <div className={style.headerNavArea}>
+                        <div className={style.headerMenu}>
+                            <Menu
+                                as="div"
+                                className={style.headerMenuButton}
+                            >
+                                <MenuButton
                                     className="
-                                    relative flex flex-col
-                                    "
-                                >
-                                    <MenuButton
-                                        className="
                                     
                                     "
-                                        data-testid="menu"
-                                    >
-                                        <Bars3Icon
-                                            aria-hidden="true"
-                                            className="h-7 w-7  text-white transition-colors duration-100 ease-in-out hover:text-black"
-                                        />
-                                    </MenuButton>
-                                    <MenuItems
-                                        transition
-                                        className="absolute left-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-                                        data-testid="main-menu"
-                                    >
-                                        {appMenu.map((item) => (
-                                            <MenuItem key={item.name}>
-                                                <a
-                                                    href={item.href}
-                                                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
-                                                >
-                                                    {item.name}
-                                                </a>
-                                            </MenuItem>
-                                        ))}
-                                    </MenuItems>
-                                </Menu>
-                            </div>
-                            <div className="hidden sm:ml-6 sm:block">
-                                <div className="flex space-x-4">
-                                    <a
-                                        href="/"
-                                        className="text-white hover:bg-red-900 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                    >
-                                        <h1 className="text-2xl font-bold font-[family-name:var(--font-geist-sans)]">
-                                            SportsStats
-                                        </h1>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                            <button
-                                type="button"
-                                className="relative rounded-full p-1 
-                                hover:outline-black hover:bg-red-900 transition-colors duration-100 ease-in-out
-                                "
-                                data-testid="bell"
-                            >
-                                <span className="absolute -inset-1.5" />
-                                <span className="sr-only">
-                                    View notifications
-                                </span>
-                                <BellIcon
-                                    aria-hidden="true"
-                                    className="text-white h-6 w-6 transition-colors duration-100 ease-in-out hover:text-black"
-                                />
-                            </button>
-
-                            {/* Profile dropdown */}
-                            <Menu as="div" className="relative ml-3">
-                                <div>
-                                    <MenuButton
-                                        className="relative rounded-full p-1
-                                hover:outline-black hover:bg-red-900 transition-colors duration-100 ease-in-out
-                                "
-                                        data-testid="user"
-                                    >
-                                        <span className="sr-only">
-                                            Open user menu
-                                        </span>
-                                        <UserIcon
-                                            aria-hidden="true"
-                                            className="text-white h-6 w-6 transition-colors duration-100 ease-in-out hover:text-white"
-                                        />
-                                    </MenuButton>
-                                </div>
+                                    data-testid="menu"
+                                >
+                                    <Bars3Icon
+                                        aria-hidden="true"
+                                        className="h-7 w-7  text-white transition-colors duration-100 ease-in-out hover:text-black"
+                                    />
+                                </MenuButton>
                                 <MenuItems
                                     transition
-                                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-                                    data-testid="user-menu"
+                                    className={style.headerMenuItems}
+                                    data-testid="main-menu"
                                 >
-                                    {profileMenu.map((item) => (
+                                    {appMenu.map((item) => (
                                         <MenuItem key={item.name}>
                                             <a
                                                 href={item.href}
-                                                className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 cursor-pointer"
-                                                onClick={item.onclick}
-                                                data-testid={item.dataTestID}
+                                                className={style.headerMenuItem}
                                             >
                                                 {item.name}
                                             </a>
@@ -209,6 +131,55 @@ export default function Header({ currentRoute }: HeaderProps) {
                                 </MenuItems>
                             </Menu>
                         </div>
+                        <div className={style.siteTitleContainer}>
+                            <div className={style.siteTitleDiv}>
+                                <a
+                                    href="/"
+                                    className={style.siteTitle}
+                                >
+                                    <h1 className={style.siteTitleFont}>
+                                        SportsStats
+                                    </h1>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={style.profileAreaDiv}>
+                        {/* Profile dropdown */}
+                        <Menu as="div" className={style.profileMenuDiv}>
+                            <div>
+                                <MenuButton
+                                    className={style.profileButton}
+                                    data-testid="user"
+                                >
+                                        <span className="sr-only">
+                                            Open user menu
+                                        </span>
+                                    <UserIcon
+                                        aria-hidden="true"
+                                        className={style.profileIcon}
+                                    />
+                                </MenuButton>
+                            </div>
+                            <MenuItems
+                                transition
+                                className={style.profileMenuItems}
+                                data-testid="user-menu"
+                            >
+                                {profileMenu.map((item) => (
+                                    <MenuItem key={item.name}>
+                                        <a
+                                            href={item.href}
+                                            className={style.profileMenuItem}
+                                            onClick={item.onclick}
+                                            data-testid={item.dataTestID}
+                                        >
+                                            {item.name}
+                                        </a>
+                                    </MenuItem>
+                                ))}
+                            </MenuItems>
+                        </Menu>
                     </div>
                 </div>
 

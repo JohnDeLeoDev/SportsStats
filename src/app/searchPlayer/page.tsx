@@ -1,17 +1,21 @@
 'use client'
 import React from 'react'
-import SearchResults from './searchResults'
-import {appContext} from './app'
+import SearchResults from '../searchResults'
+import {appContext} from '../app'
 import SearchBox from '@/app/searchBox'
-import SampleQueries from '@/app/sampleQueries'
 import {style} from "@/app/style";
-import SearchHistory from "@/app/searchHistory";
 
-export default function Home() {
-    const {user, searchTriggered, searchDisplay} =
+export default function SearchPlayerPage() {
+    const {searchTriggered, searchDisplay, searchType, setSearchType} =
         React.useContext(appContext)
 
-    function HomePage() {
+    React.useEffect(() => {
+            searchType !== 'player' && setSearchType('player')
+        }
+    ), [searchType, setSearchType]
+
+
+    function SearchPlayer() {
         return (
             <div className={style.innerCard}>
                 <h1 className={style.h1}>
@@ -21,9 +25,7 @@ export default function Home() {
                     Welcome to SportsStats, where your sports statistics are a
                     search away.
                 </p>
-                <SearchBox/>
-                <SampleQueries/>
-                {user ? <SearchHistory/> : null}
+                <SearchBox placeholder={'Search for an MLB player'}/>
             </div>
         )
     }
@@ -31,7 +33,7 @@ export default function Home() {
     return (
         <main
             className={style.pageCard}>
-            {!searchTriggered && !searchDisplay ? <HomePage/> : null}
+            {!searchTriggered && !searchDisplay ? <SearchPlayer/> : null}
             {searchDisplay || searchTriggered ? (
                 <div
                     className=" m-auto

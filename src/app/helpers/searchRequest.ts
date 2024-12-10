@@ -1,8 +1,9 @@
 import authHeaders from './authorization'
-import { CognitoUserSession } from 'amazon-cognito-identity-js'
+import {CognitoUserSession} from 'amazon-cognito-identity-js'
 
 export default async function searchRequest(
     searchQuery: string,
+    type: string,
     userSession?: CognitoUserSession
 ) {
     const url =
@@ -12,14 +13,16 @@ export default async function searchRequest(
 
     const body = {
         searchQuery: searchQuery,
+        type: type || 'general',
     }
+
 
     const options = {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(body),
     }
-
+    
     try {
         const response = await fetch(url, options)
         return await response.json()

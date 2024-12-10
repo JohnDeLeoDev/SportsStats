@@ -1,6 +1,6 @@
 'use client'
-import { createAccount } from '../helpers/createAccount'
-import { User } from '../types/user'
+import {createAccount} from '../helpers/createAccount'
+import {User} from '../types/user'
 import React from 'react'
 
 export default function Signup() {
@@ -34,14 +34,12 @@ export default function Signup() {
             passwordOne === '' ||
             passwordTwo === ''
         ) {
-            console.log('Please fill in all fields.')
             setMissingFields(true)
             return
         }
 
         // check if the passwords match
         if (passwordOne !== passwordTwo) {
-            console.log('Passwords do not match.')
             setPasswordsMatch(false)
             return
         }
@@ -50,7 +48,6 @@ export default function Signup() {
 
         if (!properEmail) {
             setProperEmailFlag(true)
-            console.log('Please enter a valid email address.')
             return
         }
 
@@ -66,9 +63,8 @@ export default function Signup() {
         }
 
         try {
-            const response = await createAccount(user, passwordOne)
+            await createAccount(user, passwordOne)
             setSuccess(true)
-            console.log(response)
         } catch (error) {
             if (error === 'UsernameExistsException') {
                 setEmailExists(true)
@@ -128,7 +124,8 @@ export default function Signup() {
     }
 
     return (
-        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-5 font-[family-name:var(--font-geist-sans)] ">
+        <div
+            className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-5 font-[family-name:var(--font-geist-sans)] ">
             <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
                 <h1 className="text-4xl sm:text-5xl text-center sm:text-left font-bold">
                     Sign Up
@@ -184,8 +181,8 @@ export default function Signup() {
                             }}
                             type="email"
                         />
-                        {emailExists && <AccountExists />}
-                        {properEmailFlag && <ImproperEmail />}
+                        {emailExists && <AccountExists/>}
+                        {properEmailFlag && <ImproperEmail/>}
                         <input
                             className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-800"
                             placeholder="Password"
@@ -216,7 +213,7 @@ export default function Signup() {
                             }}
                             type="password"
                         />
-                        {!passwordsMatch && <PasswordsDoNotMatch />}
+                        {!passwordsMatch && <PasswordsDoNotMatch/>}
                     </div>
                     {!success && (
                         <button
@@ -227,8 +224,8 @@ export default function Signup() {
                         </button>
                     )}
                 </div>
-                {missingFields && <MissingFields />}
-                {success && <AccountCreated />}
+                {missingFields && <MissingFields/>}
+                {success && <AccountCreated/>}
             </main>
         </div>
     )
