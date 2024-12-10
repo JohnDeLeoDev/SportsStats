@@ -31,7 +31,7 @@ export default function RootLayout({
     const currentRoute = headersList.get('x-current-route')
 
     return (
-        <html lang="en">
+        <html lang="en" data-theme={"light"}>
         <Head>
             <title>{String(metadata.title) ?? 'Default Title'}</title>
             <meta
