@@ -31,10 +31,6 @@ export default function SearchHistory() {
                     const res = await searchRequest(query, 'general', userSession)
                     setSearchResponse(res)
                     setSearchTriggered(false)
-                } else {
-                    const res = await searchRequest(query, 'general')
-                    setSearchResponse(res)
-                    setSearchTriggered(false)
                 }
             } catch (error) {
                 console.error('Search failed', error)
@@ -50,7 +46,6 @@ export default function SearchHistory() {
     )
 
     React.useEffect(() => {
-
         async function fetchQueries() {
             if (userSession) {
                 const res = await getQueries(userSession)
@@ -87,13 +82,16 @@ export default function SearchHistory() {
 
     if (pastQueries) {
         return (
-            <div>
+            <div
+                data-testid="search-history"
+            >
                 <hr className="w-full my-8 mb-8"/>
                 <h2 className="text-2xl font-bold mb-4">Search History</h2>
-                <ul className="mt-4 mb-4">
+                <ul className="mt-4 mb-4" data-testid="search-history-list">
                     {pastQueries.slice(0, 10).map((query, index) => (
                         <li key={index}>
                             <button
+                                data-testid={`search-history-item-${index}`}
                                 className="text-blue-500 hover:text-blue-700"
                                 onClick={() => handleSearch(query.query)}
                             >
