@@ -1,7 +1,7 @@
-import type { Metadata } from 'next'
+import type {Metadata} from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
-import { headers } from 'next/headers'
+import {headers} from 'next/headers'
 import Head from 'next/head'
 import React from 'react'
 import App from './app'
@@ -23,8 +23,8 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({
-    children,
-}: Readonly<{
+                                       children,
+                                   }: Readonly<{
     children: React.ReactNode
 }>) {
     const headersList = headers()
@@ -32,19 +32,20 @@ export default function RootLayout({
 
     return (
         <html lang="en">
-            <Head>
-                <title>{String(metadata.title) ?? 'Default Title'}</title>
-                <meta
-                    name="description"
-                    content={metadata.description ?? 'Default Description'}
-                />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-200 `}
-            >
-                <App currentRoute={currentRoute}>{children}</App>
-            </body>
+        <Head>
+            <title>{String(metadata.title) ?? 'Default Title'}</title>
+            <meta
+                name="description"
+                content={metadata.description ?? 'Default Description'}
+            />
+            <meta name={"color-scheme"} content={"light only"}/>
+            <link rel="icon" href="/favicon.ico"/>
+        </Head>
+        <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-200 `}
+        >
+        <App currentRoute={currentRoute}>{children}</App>
+        </body>
         </html>
     )
 }
