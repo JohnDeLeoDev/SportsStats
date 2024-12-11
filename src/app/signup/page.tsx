@@ -134,7 +134,7 @@ export default function Signup() {
                 <p className={style.p}>
                     Welcome to the sign up page.
                 </p>
-                <div className="flex flex-row gap-4 items-center sm:items-start w-full flex-wrap max-w-[600px]">
+                <div className="flex flex-row gap-4 items-center sm:items-start w-full flex-wrap">
                     <div className="flex flex-row gap-4 items-center sm:items-start w-full mt-3 mb-3">
                         <input
                             className={style.searchField}

@@ -1,9 +1,9 @@
 'use client'
 
-import { signIn } from '../helpers/signIn'
+import {signIn} from '../helpers/signIn'
 import React from 'react'
-import { appContext } from '../app'
-import { User } from '../types/user'
+import {appContext} from '../app'
+import {User} from '../types/user'
 
 function MissingFields() {
     return (
@@ -41,7 +41,7 @@ export default function Signin() {
     const [missingFields, setMissingFields] = React.useState(false)
     const [failedSignIn, setFailedSignIn] = React.useState(false)
     const [userNotConfirmed, setUserNotConfirmed] = React.useState(false)
-    const { setLocalSession, setLocalUser } = React.useContext(appContext)
+    const {setLocalSession, setLocalUser} = React.useContext(appContext)
 
     async function handleSignIn() {
         if (email === '' || password === '') {
@@ -55,7 +55,7 @@ export default function Signin() {
                 // update the user in the app context
                 setLocalSession(res)
 
-                const { payload } = res.getIdToken()
+                const {payload} = res.getIdToken()
                 const user: User = {
                     email: payload.email,
                     firstName: payload.given_name,
@@ -79,8 +79,9 @@ export default function Signin() {
     }
 
     return (
-        <div className="h-full grid grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 font-[family-name:var(--font-geist-sans)]">
-            <main className="m-auto mt-40 items-center  w-6/12 bg-white shadow rounded-lg ">
+        <div
+            className="h-full grid grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 font-[family-name:var(--font-geist-sans)]">
+            <main className="m-auto mt-40 items-center  w-6/12 bg-white shadow rounded-lg  ">
                 <div className={'m-auto p-10 w-full'}>
                     <h1
                         className="text-4xl sm:text-5xl text-center sm:text-left font-bold"
@@ -92,7 +93,7 @@ export default function Signin() {
                         Enter your email address and password to sign in.
                     </p>
 
-                    <div className="flex flex-column gap-4 items-center sm:items-start w-full flex-wrap max-w-[600px]">
+                    <div className="flex flex-column gap-4 items-center sm:items-start w-full flex-wrap">
                         <div className="flex flex-row gap-4 items-center sm:items-start w-full mt-3 ">
                             <input
                                 className="w-full p-2 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-800"
@@ -155,9 +156,9 @@ export default function Signin() {
                             Sign In
                         </button>
                     </div>
-                    {missingFields && <MissingFields />}
-                    {failedSignIn && <FailedSignIn />}
-                    {userNotConfirmed && <UserNotConfirmed />}
+                    {missingFields && <MissingFields/>}
+                    {failedSignIn && <FailedSignIn/>}
+                    {userNotConfirmed && <UserNotConfirmed/>}
                 </div>
             </main>
         </div>
