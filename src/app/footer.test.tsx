@@ -1,9 +1,11 @@
-import {render, screen} from '@testing-library/react'
-import React from 'react'
-import Footer from './footer'
+import {act, render, screen} from '@testing-library/react';
+import React from 'react';
+import Footer from './footer';
 
-test('Renders footer', () => {
-    render(<Footer/>)
-    const footerElement = screen.getByRole('contentinfo')
-    expect(footerElement).toBeInTheDocument()
-})
+test('Renders footer', async () => {
+    await act(async () => {
+        render(<Footer/>);
+    });
+    const footerElement = screen.getByRole('contentinfo');
+    expect(footerElement).toBeInTheDocument();
+});

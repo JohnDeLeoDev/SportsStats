@@ -82,7 +82,7 @@ export default function SampleQueries(props: { similarQueries?: string[] }) {
                             onClick={() => handleSearch(query)}
                             data-testid={'sample-query'}
                         >
-                            {query.replaceAll('"', '')}
+                            {query.replaceAll('"', '').replaceAll('[', '').replaceAll(']', '')}
                         </button>
                     </li>
                 ))}

@@ -1,6 +1,6 @@
 // type search response, array of search results
 
-import { Player } from './player'
+import {Player} from './player'
 
 export type SearchResponse = {
     attemptedSQL: sqlAttempt
@@ -10,6 +10,7 @@ export type SearchResponse = {
     llmAnswer: string
     query: string
     similarQueries: string
+    errorMessage: string
 }
 
 /*

@@ -5,13 +5,24 @@ import PlayerName from '@/app/components/PlayerName'
 import TeamName from '@/app/components/TeamName'
 import SearchHistory from '@/app/searchHistory'
 import {style} from "@/app/style";
+import {CognitoUserSession} from "amazon-cognito-identity-js";
 
 export default function SearchResults() {
-    const {searchDisplay, userSession, searchType} = React.useContext(appContext)
+    const {searchDisplay, userSession, searchType} = React.useContext(appContext) as {
+        searchDisplay: {
+            message?: string;
+            errorMessage?: string;
+            dbResult?: { rows: never[] };
+            similarQueries?: string[],
+            llmAnswer?: string;
+        } | null;
+        userSession: CognitoUserSession | null;
+        searchType: string;
+    };
     const [errorOccurred, setErrorOccurred] = React.useState(false)
 
     React.useEffect(() => {
-        if (searchDisplay && ('errorMessage' in searchDisplay || 'message' in searchDisplay)) {
+        if (searchDisplay && (searchDisplay.errorMessage || searchDisplay.message)) {
             setErrorOccurred(true)
         }
     }, [searchDisplay])
@@ -72,6 +83,7 @@ export default function SearchResults() {
         if ('errorMessage' in searchDisplay) {
             return (
                 <div
+                    data-testid={'error-message'}
                     className={style.statSectionDiv}>
                     <h2>An error occurred while fetching the search results.</h2>
                     <p className={style.p}>Message: {String(searchDisplay.errorMessage)}</p>
@@ -79,7 +91,7 @@ export default function SearchResults() {
             )
         }
 
-        if ('message' in searchDisplay) {
+        if (searchDisplay && 'message' in searchDisplay) {
             return (
                 <div
                     className={style.statSectionDiv}>
@@ -90,8 +102,8 @@ export default function SearchResults() {
             )
         }
 
-        if ('dbResult' in searchDisplay) {
-            const results = searchDisplay.dbResult.rows
+        if (searchDisplay && 'dbResult' in searchDisplay && searchDisplay.dbResult) {
+            const results = searchDisplay.dbResult?.rows || []
 
             if (results.length > 0) {
                 return (
@@ -112,23 +124,24 @@ export default function SearchResults() {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {results.map((result, index) => (
+                                {results.map((result: Record<string, unknown>, index) => (
                                     <tr key={index}>
                                         {Object.keys(result).map((key, index) =>
                                             hiddenFields.includes(key) ? null : (
                                                 <td key={index} className={style.cell}>
                                                     {key === 'playerID' ? (
-                                                        <a href={`/player/${result[key]}`}
+                                                        <a href={`/player/${result[key] as string}`}
                                                            className={style.a}>
-                                                            <PlayerName playerID={result[key]}/>
+                                                            <PlayerName playerID={result[key] as string}/>
                                                         </a>
                                                     ) : key === 'teamID' ? (
                                                         <a className={style.a}
-                                                           href={`/team/${result['yearID']}-${result[key]}`}>
-                                                            <TeamName teamID={result[key]} yearID={result['yearID']}/>
+                                                           href={`/team/${result['yearID'] as string}-${result[key] as string}`}>
+                                                            <TeamName teamID={result[key] as string}
+                                                                      yearID={result['yearID'] as string}/>
                                                         </a>
                                                     ) : (
-                                                        result[key]
+                                                        String(result[key])
                                                     )}
                                                 </td>
                                             )
@@ -154,13 +167,14 @@ export default function SearchResults() {
         }
     }
 
-    let queries: string[] | undefined = []
-    if (searchDisplay && 'similarQueries' in searchDisplay && searchDisplay.similarQueries.length > 0) {
-        queries = searchDisplay.similarQueries.slice(1, -1).split(',').map((query) => query.trim())
+    let queries: string[] = []
+    if (searchDisplay?.similarQueries) {
+        queries = Array.isArray(searchDisplay.similarQueries) ? searchDisplay.similarQueries : String(searchDisplay.similarQueries).split(',');
     }
 
     return (
         <div
+            data-testid={'searchResults'}
             className={''}>
             {displaySearchResults()}
             {!errorOccurred && queries.length > 0 && searchType === 'general' ?

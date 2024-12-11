@@ -3,11 +3,11 @@ import {act, render, screen} from '@testing-library/react';
 import {appContext} from './app';
 import {getQueries} from './helpers/getQueries';
 import searchRequest from './helpers/searchRequest';
-import {CognitoAccessToken, CognitoIdToken, CognitoRefreshToken, CognitoUserSession} from "amazon-cognito-identity-js";
-import {Query} from "@/app/types/query";
-import {Player} from "@/app/types/player";
-import {SearchResponse} from "@/app/types/response";
-import {User} from "@/app/types/user";
+import {CognitoAccessToken, CognitoIdToken, CognitoRefreshToken, CognitoUserSession} from 'amazon-cognito-identity-js';
+import {Query} from '@/app/types/query';
+import {Player} from '@/app/types/player';
+import {SearchResponse} from '@/app/types/response';
+import {User} from '@/app/types/user';
 
 jest.mock('./helpers/getQueries');
 jest.mock('./helpers/searchRequest');
@@ -26,7 +26,7 @@ function setupContext(user: boolean) {
         isValid: () => {
             return true;
         }
-    }
+    };
 
     const pastQueries: Query[] = [
         {
@@ -80,7 +80,7 @@ function setupContext(user: boolean) {
         setActiveSearch: jest.fn(),
     };
 
-    return appContext
+    return appContext;
 }
 
 test('SearchHistory component renders', async () => {
@@ -114,15 +114,10 @@ test('Click on search history item triggers search', async () => {
     expect(getQueries).toHaveBeenCalled();
     expect(screen.getByTestId('search-history-list')).toBeInTheDocument();
 
-    const searchHistoryItem = screen.getByTestId("search-history-item-0");
-    searchHistoryItem.click();
+    const searchHistoryItem = screen.getByTestId('search-history-item-0');
+    await act(async () => {
+        searchHistoryItem.click();
+    });
     expect(setSearchQuery).toHaveBeenCalledWith('mockQuery2');
     expect(setSearchTriggered).toHaveBeenCalledWith(true);
-})
-
-
-
-
-
-
-
+});
