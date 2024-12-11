@@ -169,7 +169,7 @@ export default function SearchResults() {
 
     let queries: string[] = []
     if (searchDisplay?.similarQueries) {
-        queries = Array.isArray(searchDisplay.similarQueries) ? searchDisplay.similarQueries : String(searchDisplay.similarQueries).split(',');
+        queries = Array.isArray(searchDisplay.similarQueries) ? searchDisplay.similarQueries : String(searchDisplay.similarQueries).replace(/[\[\]]/g, '').split(',');
     }
 
     return (
