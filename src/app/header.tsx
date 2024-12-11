@@ -36,6 +36,7 @@ export default function Header({currentRoute}: HeaderProps) {
 
     let profileMenu = []
 
+    
     if (user) {
         profileMenu = [
             {
