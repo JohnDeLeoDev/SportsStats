@@ -73,6 +73,7 @@ export default function Header({currentRoute}: HeaderProps) {
     async function handleSignOut() {
         setLocalUser(null)
         setLocalSession(null)
+        window.location.href = '/signin'
     }
 
     return (
