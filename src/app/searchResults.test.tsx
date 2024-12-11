@@ -3,12 +3,18 @@ import {act, render, screen} from '@testing-library/react';
 import SearchResults from './searchResults';
 import {appContext} from './app';
 import {CognitoUserSession} from 'amazon-cognito-identity-js';
+import {logMessages, sqlAttempt} from "@/app/types/response";
 
 function setupContext(searchDisplay: {
     errorMessage?: string;
     message?: string;
     dbResult?: { rows: { playerID: string; teamID: string; yearID: string }[] };
-    similarQueries?: string[]
+    similarQueries?: string[];
+    attemptedSQL?: sqlAttempt;
+    logMessage?: logMessages;
+    prompts?: Record<string, string>; // Removed optional undefined type to enforce alignment
+    llmAnswer?: string;
+    query?: string;
 }, userSession: CognitoUserSession | null, searchType: string) {
     const setSearchQuery = jest.fn();
     const setSearchTriggered = jest.fn();
@@ -22,9 +28,7 @@ function setupContext(searchDisplay: {
 
 
     return {
-        searchDisplay,
         userSession,
-        searchType,
         setSearchQuery,
         setSearchTriggered,
         setSearchResponse,
@@ -43,6 +47,26 @@ function setupContext(searchDisplay: {
         setPlayerQuery: jest.fn(),
         playerResponse: null,
         setPlayerResponse: jest.fn(),
+        playerResult: [],
+        setPlayerResult: jest.fn(),
+        setLocalSession: jest.fn(),
+        activeSearch: false,
+        setActiveSearch: jest.fn(),
+        searchDisplay: {
+            ...searchDisplay,
+            attemptedSQL: searchDisplay?.attemptedSQL ?? ({} as sqlAttempt),
+            dbResult: searchDisplay?.dbResult ?? {
+                rows: [] as Array<{
+                    playerID: string;
+                    teamID: string;
+                    yearID: string
+                }>
+            },
+            logMessage: searchDisplay?.logMessage ?? ({} as logMessages),
+            prompts: searchDisplay?.prompts ?? {}, // Default to empty object
+        },
+        searchType: searchType ?? "",
+
     };
 }
 
@@ -51,6 +75,7 @@ test('renders search results with error message', async () => {
     const contextValue = setupContext(searchDisplay, null, '');
 
     await act(async () => {
+        // @ts-expect-error: Context value contains mocked functions for testing
         render(
             <appContext.Provider value={contextValue}>
                 <SearchResults/>

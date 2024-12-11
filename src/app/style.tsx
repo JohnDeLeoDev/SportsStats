@@ -3,18 +3,19 @@ export const style = {
     innerCard: 'm-auto  w-full h-full p-8',
     h1: "text-4xl sm:text-5xl text-center sm:text-left font-bold ",
     h2: 'text-2xl sm:text-2xl font-bold mt-4 mb-4',
+    h3: 'text-xl sm:text-xl font-bold mt-4 mb-4',
     p: "mt-4 mb-4 text-lg sm:text-xl text-center sm:text-left transition-all duration-2000 ease-in-out transform ",
     smallP: "mt-4 mb-4 text-left  ",
     ul: "mt-4 mb-4 list-disc list-inside ",
     searchBoxOuter: "flex flex-row gap-4 items-center sm:items-start w-full transition-all duration-2000 ease-in-out transform mb-8 ",
     searchField: "w-full p-2 text-lg border-2 border-gray-300 focus:outline-none focus:border-red-800 rounded-lg ",
     searchButtonActive: "p-2 bg-blue-300 hover:bg-gray-800 text-white rounded-lg self-stretch transition-all duration-2000 ease-in-out transform ",
-    searchButton: "p-2 bg-red-800 hover:bg-gray-800 text-white rounded-lg self-stretch transition-all duration-2000 ease-in-out transform ",
+    searchButton: "p-2 bg-red-800 hover:bg-gray-800 text-white rounded-lg self-stretch transition-all duration-2000 ease-in-out transform",
     pleaseWait: "mt-10 w-full flex flex-col gap-4 items-center ",
     hr: "w-full border-gray-300",
     pastQueries: "cursor-pointer bg-white p-4 shadow-lg rounded-lg hover:bg-gray-200 ",
     statSectionDiv: "mb-4",
-    a: "text-blue-500",
+    a: "text-blue-500 cursor-pointer",
     tableDiv: 'overflow-x-auto w-full shadow rounded-lg mb-4 mt-4',
     table: 'border-collapse text-left w-full',
     tableHeader: 'border-collapse p-4 text-left font-bold ',
@@ -43,6 +44,11 @@ export const style = {
     profileMenuItem: "block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 cursor-pointer",
     searchResultsDiv: "text-2xl sm:text-2xl text-center sm:text-left font-bold transition-all duration-2000 ease-in-out transform bg-white p-4 shadow-lg rounded-lg",
     searchResults: "mt-4 w-full",
-    similarQueriesDiv: ''
+    similarQueriesDiv: '',
+    infoChange: ' rounded-lg flex',
+    infoChangeInput: 'w-full mb-4 p-2 text-md border-2 border-gray-300 focus:outline-none focus:border-red-800 rounded-lg mr-4 max-w-60',
+    passwords: 'flex flex-col mr-4',
+    infoChangeButton: 'margin-auto self-center'
 }
+
 
