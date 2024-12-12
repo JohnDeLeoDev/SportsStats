@@ -1,6 +1,6 @@
-import { User } from '../types/user'
-import { userPool } from './userpool'
-import { CognitoUser, CognitoUserAttribute } from 'amazon-cognito-identity-js'
+import {User} from '../types/user'
+import {userPool} from './userpool'
+import {CognitoUser, CognitoUserAttribute} from 'amazon-cognito-identity-js'
 
 export async function createAccount(
     user: User,

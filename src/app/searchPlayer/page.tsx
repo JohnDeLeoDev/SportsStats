@@ -3,24 +3,20 @@ import React from 'react'
 import SearchResults from '../searchResults'
 import {appContext} from '../app'
 import SearchBox from '@/app/searchBox'
-import {style} from "@/app/style";
+import {style} from '@/app/style'
 
 export default function SearchPlayerPage() {
     const {searchTriggered, searchDisplay, searchType, setSearchType} =
         React.useContext(appContext)
 
     React.useEffect(() => {
-            searchType !== 'player' && setSearchType('player')
-        }
-    ), [searchType, setSearchType]
-
+        searchType !== 'player' && setSearchType('player')
+    }), [searchType, setSearchType]
 
     function SearchPlayer() {
         return (
             <div className={style.innerCard}>
-                <h1 className={style.h1}>
-                    SportsStats
-                </h1>
+                <h1 className={style.h1}>SportsStats</h1>
                 <p className={style.p}>
                     Welcome to SportsStats, where your sports statistics are a
                     search away.
@@ -31,8 +27,7 @@ export default function SearchPlayerPage() {
     }
 
     return (
-        <main
-            className={style.pageCard}>
+        <main className={style.pageCard}>
             {!searchTriggered && !searchDisplay ? <SearchPlayer/> : null}
             {searchDisplay || searchTriggered ? (
                 <div

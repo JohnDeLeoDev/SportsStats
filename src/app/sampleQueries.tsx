@@ -1,7 +1,7 @@
 import React from 'react'
 import searchRequest from '@/app/helpers/searchRequest'
 import {appContext} from './app'
-import {style} from "@/app/style";
+import {style} from '@/app/style'
 
 export default function SampleQueries(props: { similarQueries?: string[] }) {
     const {
@@ -40,10 +40,13 @@ export default function SampleQueries(props: { similarQueries?: string[] }) {
             setSearchResponse(null)
             setSearchDisplay(null)
 
-
             try {
                 if (userSession) {
-                    const res = await searchRequest(query, 'general', userSession)
+                    const res = await searchRequest(
+                        query,
+                        'general',
+                        userSession
+                    )
                     setSearchResponse(res)
                     setSearchTriggered(false)
                 } else {
@@ -65,16 +68,10 @@ export default function SampleQueries(props: { similarQueries?: string[] }) {
     )
 
     return (
-        <div
-            className={''}
-            data-testid={'sample-queries'}
-        >
+        <div className={''} data-testid={'sample-queries'}>
             <hr className={style.hr}/>
-            <h2 className={style.h2}
-
-
-            >{title}</h2>
-            <ul className={'mt-4'} data-testid={"sample-queries-list"}>
+            <h2 className={style.h2}>{title}</h2>
+            <ul className={'mt-4'} data-testid={'sample-queries-list'}>
                 {queries.map((query, index) => (
                     <li key={index}>
                         <button
@@ -82,7 +79,10 @@ export default function SampleQueries(props: { similarQueries?: string[] }) {
                             onClick={() => handleSearch(query)}
                             data-testid={'sample-query'}
                         >
-                            {query.replaceAll('"', '').replaceAll('[', '').replaceAll(']', '')}
+                            {query
+                                .replaceAll('"', '')
+                                .replaceAll('[', '')
+                                .replaceAll(']', '')}
                         </button>
                     </li>
                 ))}

@@ -1,14 +1,10 @@
-import {style} from "@/app/style";
+import {style} from '@/app/style'
 
 export default function About() {
-
-
     return (
         <div className={style.pageCard}>
             <main className={style.innerCard}>
-                <h2 className={style.h2}>
-                    About
-                </h2>
+                <h2 className={style.h2}>About</h2>
                 <p className={style.p}>
                     Welcome to SportsStats, where your sports statistics are a
                     search away.

@@ -5,7 +5,7 @@ interface MenuProps {
     setMenu: (value: boolean) => void
 }
 
-export default function Menu({ menu, setMenu }: MenuProps) {
+export default function Menu({menu, setMenu}: MenuProps) {
     return (
         <div className="menu">
             <button

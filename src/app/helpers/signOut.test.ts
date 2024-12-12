@@ -1,6 +1,6 @@
-import { signOut } from './signOut'
-import { signIn } from './signIn'
-import { testCredentials } from './testCredentials'
+import {signOut} from './signOut'
+import {signIn} from './signIn'
+import {testCredentials} from './testCredentials'
 
 test('signOut', async () => {
     const signInResponse = await signIn(

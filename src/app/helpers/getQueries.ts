@@ -1,4 +1,4 @@
-import { CognitoUserSession } from 'amazon-cognito-identity-js'
+import {CognitoUserSession} from 'amazon-cognito-identity-js'
 import authHeaders from '../helpers/authorization'
 
 export async function getQueries(userSession: CognitoUserSession) {

@@ -2,7 +2,7 @@
 import {createAccount} from '../helpers/createAccount'
 import {User} from '../types/user'
 import React from 'react'
-import {style} from "@/app/style";
+import {style} from '@/app/style'
 
 export default function Signup() {
     const [firstName, setFirstName] = React.useState('')
@@ -125,15 +125,10 @@ export default function Signup() {
     }
 
     return (
-        <div
-            className={style.pageCard}>
+        <div className={style.pageCard}>
             <main className={style.innerCard}>
-                <h1 className={style.h1}>
-                    Sign Up
-                </h1>
-                <p className={style.p}>
-                    Welcome to the sign up page.
-                </p>
+                <h1 className={style.h1}>Sign Up</h1>
+                <p className={style.p}>Welcome to the sign up page.</p>
                 <div className="flex flex-row gap-4 items-center sm:items-start w-full flex-wrap">
                     <div className="flex flex-row gap-4 items-center sm:items-start w-full mt-3 mb-3">
                         <input

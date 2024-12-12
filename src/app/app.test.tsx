@@ -334,7 +334,4 @@ describe('AppProvider', () => {
         )
         expect(container).toMatchSnapshot()
     })
-
 })
-
-

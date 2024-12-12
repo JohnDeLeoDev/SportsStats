@@ -38,7 +38,9 @@ test('Renders site description', () => {
 
 test('Renders search input field', () => {
     render(<Home/>)
-    const searchElement = screen.getByPlaceholderText('Search for a statistic...')
+    const searchElement = screen.getByPlaceholderText(
+        'Search for a statistic...'
+    )
     expect(searchElement).toBeInTheDocument()
 })
 

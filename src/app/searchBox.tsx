@@ -1,17 +1,16 @@
 import React from 'react'
 import {appContext} from './app'
-import {style} from "@/app/style";
-import searchRequest from "@/app/helpers/searchRequest";
-
+import {style} from '@/app/style'
+import searchRequest from '@/app/helpers/searchRequest'
 
 export default function SearchBox(
     props: {
-        placeholder?: string,
-        type?: string,
+        placeholder?: string
+        type?: string
         slug?: string
     } = {
         placeholder: 'Search for a statistic',
-        type: 'general'
+        type: 'general',
     }
 ) {
     const {
@@ -42,11 +41,13 @@ export default function SearchBox(
     function handleSearch(query: string) {
         try {
             if (userSession) {
-                return searchRequest(query, searchType, userSession).then((res) => {
-                    setSearchResponse(res)
-                    setSearchTriggered(false)
-                    setActiveSearch(false)
-                })
+                return searchRequest(query, searchType, userSession).then(
+                    (res) => {
+                        setSearchResponse(res)
+                        setSearchTriggered(false)
+                        setActiveSearch(false)
+                    }
+                )
             } else {
                 return searchRequest(query, searchType).then((res) => {
                     setSearchResponse(res)
@@ -59,13 +60,23 @@ export default function SearchBox(
     }
 
     React.useEffect(() => {
-        if ((searchTriggered && !activeSearch) || (props.slug && !activeSearch)) {
+        if (
+            (searchTriggered && !activeSearch) ||
+            (props.slug && !activeSearch)
+        ) {
             setSearchResponse(null)
             setSearchDisplay(null)
             setActiveSearch(true)
             handleSearch(searchQuery)
         }
-    }, [searchTriggered, searchQuery, handleSearch, searchType, activeSearch, props.slug])
+    }, [
+        searchTriggered,
+        searchQuery,
+        handleSearch,
+        searchType,
+        activeSearch,
+        props.slug,
+    ])
 
     React.useEffect(() => {
         if (inputRef.current) {

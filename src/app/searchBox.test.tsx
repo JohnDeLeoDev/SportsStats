@@ -2,7 +2,6 @@ import React from 'react'
 import {act, render, screen} from '@testing-library/react'
 import SearchBox from '@/app/searchBox'
 
-
 test('searchBox renders', () => {
     const mockUseContext = jest.fn(() => ({
         userSession: {},
@@ -19,7 +18,6 @@ test('searchBox renders', () => {
 
     React.useCallback = mockUseCallback
 
-
     render(<SearchBox/>)
 
     // check that the component renders
@@ -27,18 +25,16 @@ test('searchBox renders', () => {
     expect(mockUseCallback).toHaveBeenCalled()
 
     expect(screen.getByTestId('search-box')).toBeInTheDocument()
-    expect(screen.getByTestId("search-field")).toBeInTheDocument()
-    expect(screen.getByTestId("search-button")).toBeInTheDocument()
-
+    expect(screen.getByTestId('search-field')).toBeInTheDocument()
+    expect(screen.getByTestId('search-button')).toBeInTheDocument()
 })
-
 
 test('please-wait message appears when search is triggered and no response is received', async () => {
     const mockUseContext = jest.fn(() => ({
         userSession: {
             getIdToken: jest.fn(() => ({
-                getJwtToken: jest.fn(() => 'mocked-jwt-token')
-            }))
+                getJwtToken: jest.fn(() => 'mocked-jwt-token'),
+            })),
         },
         searchTriggered: true,
         searchResponse: false,
@@ -68,7 +64,4 @@ test('please-wait message appears when search is triggered and no response is re
 
     expect(showMessage).toBe(true)
     expect(screen.getByTestId('searching')).toBeInTheDocument()
-    
 })
-
-

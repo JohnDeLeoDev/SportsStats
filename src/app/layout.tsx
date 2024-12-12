@@ -38,9 +38,8 @@ export default function RootLayout({
                 name="description"
                 content={metadata.description ?? 'Default Description'}
             />
-            <meta name={"color-scheme"} content={"light only"}/>
+            <meta name={'color-scheme'} content={'light only'}/>
             <link rel="icon" href="/favicon.ico" sizes="any"/>
-
         </Head>
         <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-200 `}

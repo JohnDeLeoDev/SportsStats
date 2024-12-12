@@ -1,4 +1,4 @@
-import { CognitoUserSession } from 'amazon-cognito-identity-js'
+import {CognitoUserSession} from 'amazon-cognito-identity-js'
 
 export default function authHeaders(userSession?: CognitoUserSession | null): {
     [key: string]: string

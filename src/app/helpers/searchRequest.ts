@@ -16,13 +16,12 @@ export default async function searchRequest(
         type: type || 'general',
     }
 
-
     const options = {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(body),
     }
-    
+
     try {
         const response = await fetch(url, options)
         return await response.json()

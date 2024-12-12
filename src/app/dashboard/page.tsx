@@ -2,18 +2,16 @@
 import React from 'react'
 import {appContext} from '../app'
 import {getQueries} from '../helpers/getQueries'
-import {style} from "@/app/style";
-import {updateInfo, verifyInfo} from "@/app/helpers/updateInfo";
-import {userPool} from "@/app/helpers/userpool";
-import {CognitoUserSession} from "amazon-cognito-identity-js";
-
+import {style} from '@/app/style'
+import {updateInfo, verifyInfo} from '@/app/helpers/updateInfo'
+import {userPool} from '@/app/helpers/userpool'
+import {CognitoUserSession} from 'amazon-cognito-identity-js'
 
 function PastQueries() {
     const {user, setUser, userSession} = React.useContext(appContext)
     const [queries, setQueries] = React.useState<Query[]>([])
     const [loading, setLoading] = React.useState(true)
     const {setLocalQuery} = React.useContext(appContext)
-
 
     type Query = {
         id: string
@@ -103,7 +101,8 @@ function PastQueries() {
 }
 
 export default function Dashboard() {
-    const {user, userSession, setLocalUser, setUser} = React.useContext(appContext)
+    const {user, userSession, setLocalUser, setUser} =
+        React.useContext(appContext)
     const [loading, setLoading] = React.useState(true)
     const [changeEmail, setChangeEmail] = React.useState(false)
     const [changePassword, setChangePassword] = React.useState(false)
@@ -150,8 +149,8 @@ export default function Dashboard() {
                     setCurrentPassword(input)
                     break
             }
-
-        }, [emailOne, emailTwo]
+        },
+        [emailOne, emailTwo]
     )
 
     const checkEmailsMatch = React.useCallback(() => {
@@ -190,7 +189,6 @@ export default function Dashboard() {
         setChangePassword(!changePassword)
     }
 
-
     function checkPasswordsMatch() {
         if (passwordOne === passwordTwo) {
             setPasswordsMatch(true)
@@ -214,10 +212,8 @@ export default function Dashboard() {
         }
     }
 
-
     async function handleUpdate(id: string) {
         if (id === 'email') {
-
             // check if any fields are missing
             if (emailOne === '' || emailTwo === '') {
                 setMissingFields(true)
@@ -243,7 +239,7 @@ export default function Dashboard() {
 
             // update email
             if (userSession) {
-                const result = await updateInfo(userSession, 'email', emailOne);
+                const result = await updateInfo(userSession, 'email', emailOne)
                 // if result err, set success to false
                 if (result === 'success') {
                     console.log('Email change request sent successfully')
@@ -279,7 +275,13 @@ export default function Dashboard() {
 
             // update password
             if (userSession) {
-                const result = await updateInfo(userSession, 'password', undefined, currentPassword, passwordOne);
+                const result = await updateInfo(
+                    userSession,
+                    'password',
+                    undefined,
+                    currentPassword,
+                    passwordOne
+                )
                 // if result err, set success to false
                 if (result === 'success') {
                     console.log('Password change request sent successfully')
@@ -290,93 +292,104 @@ export default function Dashboard() {
                     setSuccess(false)
                 }
             }
-
         }
     }
 
     async function handleVerify(id: string) {
         if (userSession) {
-            const result = await verifyInfo(userSession, id, verificationCode);
+            const result = await verifyInfo(userSession, id, verificationCode)
             if (result === 'success') {
                 console.log('Verification successful')
                 setVerificationNeeded(false)
                 setSuccess(true)
-                const cognitoUser = userPool.getCurrentUser();
+                const cognitoUser = userPool.getCurrentUser()
                 if (!cognitoUser) {
-                    throw new Error('No current user');
+                    throw new Error('No current user')
                 }
                 // update local user info
-                cognitoUser.getSession((err: Error | null, session: CognitoUserSession | null) => {
-                    if (err || !session || !session.isValid()) {
-                        console.error('User session is invalid or expired:', err);
-                        return;
-                    }
-                    const attributes = session.getIdToken().payload
-                    if (attributes.email !== emailOne) {
-                        // wait 2000ms for the email to update in cognito
-                        setTimeout(() => {
-                            cognitoUser.getSession((err: Error | null, session: CognitoUserSession | null) => {
-                                if (err || !session || !session.isValid()) {
-                                    console.error('User session is invalid or expired:', err);
-                                    return;
-                                }
-                                const attributes = session.getIdToken().payload
-                                setLocalUser({
-                                    email: attributes.email,
-                                    firstName: attributes.given_name,
-                                    lastName: attributes.family_name,
-                                })
-                                setUser({
-                                    email: attributes.email,
-                                    firstName: attributes.given_name,
-                                    lastName: attributes.family_name,
-                                })
-                                setChangeEmail(false)
-                                setEmailOne('')
-                                setEmailTwo('')
-                                setVerificationCode('')
-                                setSuccess(true)
+                cognitoUser.getSession(
+                    (err: Error | null, session: CognitoUserSession | null) => {
+                        if (err || !session || !session.isValid()) {
+                            console.error(
+                                'User session is invalid or expired:',
+                                err
+                            )
+                            return
+                        }
+                        const attributes = session.getIdToken().payload
+                        if (attributes.email !== emailOne) {
+                            // wait 2000ms for the email to update in cognito
+                            setTimeout(() => {
+                                cognitoUser.getSession(
+                                    (
+                                        err: Error | null,
+                                        session: CognitoUserSession | null
+                                    ) => {
+                                        if (
+                                            err ||
+                                            !session ||
+                                            !session.isValid()
+                                        ) {
+                                            console.error(
+                                                'User session is invalid or expired:',
+                                                err
+                                            )
+                                            return
+                                        }
+                                        const attributes =
+                                            session.getIdToken().payload
+                                        setLocalUser({
+                                            email: attributes.email,
+                                            firstName: attributes.given_name,
+                                            lastName: attributes.family_name,
+                                        })
+                                        setUser({
+                                            email: attributes.email,
+                                            firstName: attributes.given_name,
+                                            lastName: attributes.family_name,
+                                        })
+                                        setChangeEmail(false)
+                                        setEmailOne('')
+                                        setEmailTwo('')
+                                        setVerificationCode('')
+                                        setSuccess(true)
+                                    }
+                                )
                             })
-                        })
-                    } else {
-                        setLocalUser({
-                            email: attributes.email,
-                            firstName: attributes.given_name,
-                            lastName: attributes.family_name,
-                        })
-                        setUser({
-                            email: attributes.email,
-                            firstName: attributes.given_name,
-                            lastName: attributes.family_name,
-                        })
-                        setSuccess(true)
-                        setEmailOne('')
-                        setEmailTwo('')
-                        setVerificationCode('')
-                        setChangeEmail(false)
+                        } else {
+                            setLocalUser({
+                                email: attributes.email,
+                                firstName: attributes.given_name,
+                                lastName: attributes.family_name,
+                            })
+                            setUser({
+                                email: attributes.email,
+                                firstName: attributes.given_name,
+                                lastName: attributes.family_name,
+                            })
+                            setSuccess(true)
+                            setEmailOne('')
+                            setEmailTwo('')
+                            setVerificationCode('')
+                            setChangeEmail(false)
+                        }
                     }
-                })
+                )
             }
         }
     }
 
-
     return (
-        <div
-            className={style.pageCard}>
+        <div className={style.pageCard}>
             <main className={style.innerCard}>
-                <h1 className={style.h1}>
-                    Dashboard
-                </h1>
+                <h1 className={style.h1}>Dashboard</h1>
                 {user ? (
                     <div>
                         <p className={style.p}>
                             Welcome, {user.firstName} {user.lastName}.
                         </p>
                         <hr className="w-full"/>
-                        <h3 className={style.h3}>
-                            User Information
-                        </h3>
+                        <h3 className={style.h3}>User Information</h3>
                         <div className={style.statSectionDiv}>
                             <p className={style.smallP}>
                                 <strong>First Name:</strong> {user.firstName}
@@ -385,9 +398,14 @@ export default function Dashboard() {
                                 <strong>Last Name:</strong> {user.lastName}
                             </p>
                             <p className={style.smallP}>
-                                <strong>Email:</strong> {user.email} <a
-                                onClick={handleEmailChange} className={style.a}
-                            > Edit</a>
+                                <strong>Email:</strong> {user.email}{' '}
+                                <a
+                                    onClick={handleEmailChange}
+                                    className={style.a}
+                                >
+                                    {' '}
+                                    Edit
+                                </a>
                             </p>
                             {changeEmail ? (
                                 <div className={style.infoChange}>
@@ -396,114 +414,183 @@ export default function Dashboard() {
                                             <>
                                                 <div className={'flex'}>
                                                     <input
-                                                        className={style.infoChangeInput}
+                                                        className={
+                                                            style.infoChangeInput
+                                                        }
                                                         type="email"
                                                         placeholder="New email"
-                                                        onChange={(e) => handleTextInput('emailOne', e.target.value)}
+                                                        onChange={(e) =>
+                                                            handleTextInput(
+                                                                'emailOne',
+                                                                e.target.value
+                                                            )
+                                                        }
                                                     />
                                                     <input
-                                                        className={style.infoChangeInput}
+                                                        className={
+                                                            style.infoChangeInput
+                                                        }
                                                         type="email"
                                                         placeholder="Confirm new email"
-                                                        onChange={(e) => handleTextInput('emailTwo', e.target.value)}
+                                                        onChange={(e) =>
+                                                            handleTextInput(
+                                                                'emailTwo',
+                                                                e.target.value
+                                                            )
+                                                        }
                                                     />
                                                     <div>
                                                         <button
-                                                            className={style.searchButton + style.infoChangeButton}
-                                                            onClick={() => handleUpdate('email')}
-                                                        >Update
+                                                            className={
+                                                                style.searchButton +
+                                                                style.infoChangeButton
+                                                            }
+                                                            onClick={() =>
+                                                                handleUpdate(
+                                                                    'email'
+                                                                )
+                                                            }
+                                                        >
+                                                            Update
                                                         </button>
                                                     </div>
                                                     {missingFields ? (
-                                                        <p className={style.smallP + ' text-red-800'}>
-                                                            Please fill out all fields.
+                                                        <p
+                                                            className={
+                                                                style.smallP +
+                                                                ' text-red-800'
+                                                            }
+                                                        >
+                                                            Please fill out all
+                                                            fields.
                                                         </p>
                                                     ) : null}
                                                 </div>
                                             </>
                                         ) : null}
 
-
                                         {properEmailFlag ? (
-                                            <p className={style.smallP + ' text-red-800'}>
-                                                Please enter a proper email address.
+                                            <p
+                                                className={
+                                                    style.smallP +
+                                                    ' text-red-800'
+                                                }
+                                            >
+                                                Please enter a proper email
+                                                address.
                                             </p>
                                         ) : null}
                                         {!emailsMatch ? (
-                                            <p className={style.smallP + ' text-red-800'}>
+                                            <p
+                                                className={
+                                                    style.smallP +
+                                                    ' text-red-800'
+                                                }
+                                            >
                                                 Emails do not match.
                                             </p>
                                         ) : null}
                                         {verificationNeeded ? (
                                             <>
                                                 <p className={style.smallP}>
-                                                    A verification email has been sent to your new email address. Enter
-                                                    the verification code below.
+                                                    A verification email has
+                                                    been sent to your new email
+                                                    address. Enter the
+                                                    verification code below.
                                                 </p>
                                                 <div>
                                                     <input
-                                                        className={style.infoChangeInput}
+                                                        className={
+                                                            style.infoChangeInput
+                                                        }
                                                         type="text"
                                                         placeholder="Verification code"
-                                                        onChange={(e) => handleTextInput('verificationCode', e.target.value)}
+                                                        onChange={(e) =>
+                                                            handleTextInput(
+                                                                'verificationCode',
+                                                                e.target.value
+                                                            )
+                                                        }
                                                     />
                                                     <button
-                                                        className={style.searchButton + style.infoChangeButton}
-                                                        onClick={() => handleVerify('email')}
-                                                    >Verify
+                                                        className={
+                                                            style.searchButton +
+                                                            style.infoChangeButton
+                                                        }
+                                                        onClick={() =>
+                                                            handleVerify(
+                                                                'email'
+                                                            )
+                                                        }
+                                                    >
+                                                        Verify
                                                     </button>
                                                 </div>
-
                                             </>
                                         ) : null}
-
-
                                     </div>
-
                                 </div>
                             ) : null}
 
                             <p className={style.smallP}>
-                                <strong>Password:</strong> ******** <a
-                                onClick={handlePasswordChange}
-                                className={style.a}
-                            > Edit</a>
+                                <strong>Password:</strong> ********{' '}
+                                <a
+                                    onClick={handlePasswordChange}
+                                    className={style.a}
+                                >
+                                    {' '}
+                                    Edit
+                                </a>
                             </p>
                             {changePassword ? (
-                                <div
-                                    className={style.infoChange}
-                                >
+                                <div className={style.infoChange}>
                                     <div className={style.passwords}>
                                         <input
                                             className={style.infoChangeInput}
                                             type="password"
                                             placeholder="Current password"
-                                            onChange={(e) => handleTextInput('password', e.target.value)}
+                                            onChange={(e) =>
+                                                handleTextInput(
+                                                    'password',
+                                                    e.target.value
+                                                )
+                                            }
                                         />
                                         <input
                                             className={style.infoChangeInput}
                                             type="password"
                                             placeholder="New password"
-                                            onChange={(e) => handleTextInput('password', e.target.value)}
+                                            onChange={(e) =>
+                                                handleTextInput(
+                                                    'password',
+                                                    e.target.value
+                                                )
+                                            }
                                         />
                                         <input
                                             className={style.infoChangeInput}
                                             type="password"
                                             placeholder="Confirm new password"
-                                            onChange={(e) => handleTextInput('password', e.target.value)}
+                                            onChange={(e) =>
+                                                handleTextInput(
+                                                    'password',
+                                                    e.target.value
+                                                )
+                                            }
                                         />
                                     </div>
                                     <div>
                                         <button
-                                            className={style.searchButton + style.infoChangeButton}
-                                        >Update
+                                            className={
+                                                style.searchButton +
+                                                style.infoChangeButton
+                                            }
+                                        >
+                                            Update
                                         </button>
                                     </div>
-
-
                                 </div>
                             ) : null}
-
                         </div>
                         {success ? (
                             <p className={style.smallP + ' text-green-800'}>
@@ -514,14 +601,18 @@ export default function Dashboard() {
                         <PastQueries/>
                     </div>
                 ) : (
-                    <div className='flex max-w-[400px]'>
+                    <div className="flex max-w-[400px]">
                         <p className={style.p}>
-                            Please <a className={style.a} href="/signin">sign in</a> or <a className={style.a}
-                                                                                           href={'/signup'}>sign
-                            up</a> to view your profile.
+                            Please{' '}
+                            <a className={style.a} href="/signin">
+                                sign in
+                            </a>{' '}
+                            or{' '}
+                            <a className={style.a} href={'/signup'}>
+                                sign up
+                            </a>{' '}
+                            to view your profile.
                         </p>
-
-
                     </div>
                 )}
             </main>

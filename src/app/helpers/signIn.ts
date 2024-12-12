@@ -1,9 +1,5 @@
-import {
-    AuthenticationDetails,
-    CognitoUser,
-    CognitoUserSession,
-} from 'amazon-cognito-identity-js'
-import { userPool } from './userpool'
+import {AuthenticationDetails, CognitoUser, CognitoUserSession,} from 'amazon-cognito-identity-js'
+import {userPool} from './userpool'
 
 export function signIn(
     email: string,

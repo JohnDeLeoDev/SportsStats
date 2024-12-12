@@ -3,25 +3,25 @@ import React from 'react'
 import SearchResults from '../searchResults'
 import {appContext} from '../app'
 import SearchBox from '@/app/searchBox'
-import {style} from "@/app/style";
+import {style} from '@/app/style'
 
 class ErrorBoundary extends React.Component<{ children: React.ReactNode }> {
-    state = {hasError: false};
+    state = {hasError: false}
 
     static getDerivedStateFromError() {
-        return {hasError: true};
+        return {hasError: true}
     }
 
     componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-        console.error('Error caught by ErrorBoundary:', error, errorInfo);
+        console.error('Error caught by ErrorBoundary:', error, errorInfo)
     }
 
     render() {
         if (this.state.hasError) {
-            return <h1>Something went wrong.</h1>;
+            return <h1>Something went wrong.</h1>
         }
 
-        return this.props.children;
+        return this.props.children
     }
 }
 
@@ -31,14 +31,13 @@ export default function SearchTeamPage() {
 
     React.useEffect(() => {
         searchType !== 'team' && setSearchType('team')
-    }), [searchType, setSearchType]
+    }),
+        [searchType, setSearchType]
 
     function SearchTeam() {
         return (
             <div className={style.innerCard}>
-                <h1 className={style.h1}>
-                    SportsStats
-                </h1>
+                <h1 className={style.h1}>SportsStats</h1>
                 <p className={style.p}>
                     Welcome to SportsStats, where your sports statistics are a
                     search away.
@@ -49,8 +48,7 @@ export default function SearchTeamPage() {
     }
 
     return (
-        <main
-            className={style.pageCard}>
+        <main className={style.pageCard}>
             {!searchTriggered && !searchDisplay ? <SearchTeam/> : null}
             {searchDisplay || searchTriggered ? (
                 <div

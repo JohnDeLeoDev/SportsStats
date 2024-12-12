@@ -1,5 +1,5 @@
 import authHeaders from './authorization'
-import { CognitoUserSession } from 'amazon-cognito-identity-js'
+import {CognitoUserSession} from 'amazon-cognito-identity-js'
 
 export default function searchPlayer(
     userSession: CognitoUserSession | null,

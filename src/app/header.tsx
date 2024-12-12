@@ -3,8 +3,7 @@ import {appContext} from './app'
 import {Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems,} from '@headlessui/react'
 
 import {Bars3Icon, UserIcon} from '@heroicons/react/24/outline'
-import {style} from "@/app/style";
-
+import {style} from '@/app/style'
 
 const navigation = [
     {name: 'SearchStats', href: '/', current: false},
@@ -36,7 +35,6 @@ export default function Header({currentRoute}: HeaderProps) {
 
     let profileMenu = []
 
-    
     if (user) {
         profileMenu = [
             {
@@ -78,19 +76,12 @@ export default function Header({currentRoute}: HeaderProps) {
     }
 
     return (
-        <header
-            data-testid="header"
-            className={style.header}
-        >
-            <Disclosure
-                as="nav"
-                className={style.headerDisclosure}
-            >
+        <header data-testid="header" className={style.header}>
+            <Disclosure as="nav" className={style.headerDisclosure}>
                 <div className={style.headerDisclosureInner}>
                     <div className={style.headerMobile}>
                         {/* Mobile menu button*/}
-                        <DisclosureButton
-                            className={style.headerMobileButton}>
+                        <DisclosureButton className={style.headerMobileButton}>
                             <span className="absolute -inset-0.5"/>
                             <span className="sr-only">Open main menu</span>
                             <Bars3Icon
@@ -101,10 +92,7 @@ export default function Header({currentRoute}: HeaderProps) {
                     </div>
                     <div className={style.headerNavArea}>
                         <div className={style.headerMenu}>
-                            <Menu
-                                as="div"
-                                className={style.headerMenuButton}
-                            >
+                            <Menu as="div" className={style.headerMenuButton}>
                                 <MenuButton
                                     className="
                                     
@@ -126,7 +114,6 @@ export default function Header({currentRoute}: HeaderProps) {
                                             <a
                                                 href={item.href}
                                                 className={style.headerMenuItem}
-
                                             >
                                                 {item.name}
                                             </a>
@@ -135,13 +122,12 @@ export default function Header({currentRoute}: HeaderProps) {
                                 </MenuItems>
                             </Menu>
                         </div>
-                        <div data-testid="site-title"
-                             className={style.siteTitleContainer}>
+                        <div
+                            data-testid="site-title"
+                            className={style.siteTitleContainer}
+                        >
                             <div className={style.siteTitleDiv}>
-                                <a
-                                    href="/"
-                                    className={style.siteTitle}
-                                >
+                                <a href="/" className={style.siteTitle}>
                                     <h1 className={style.siteTitleFont}>
                                         SportsStats
                                     </h1>
@@ -157,9 +143,9 @@ export default function Header({currentRoute}: HeaderProps) {
                                     className={style.profileButton}
                                     data-testid="user"
                                 >
-                                        <span className="sr-only">
-                                            Open user menu
-                                        </span>
+                                    <span className="sr-only">
+                                        Open user menu
+                                    </span>
                                     <UserIcon
                                         aria-hidden="true"
                                         className={style.profileIcon}

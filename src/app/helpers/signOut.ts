@@ -1,4 +1,4 @@
-import { CognitoUserSession } from 'amazon-cognito-identity-js'
+import {CognitoUserSession} from 'amazon-cognito-identity-js'
 import authHeaders from './authorization'
 
 export async function signOut(userSession: CognitoUserSession) {

@@ -2,14 +2,20 @@
 import React from 'react'
 import {getQueries} from '@/app/helpers/getQueries'
 import {appContext} from '@/app/app'
-import searchRequest from "@/app/helpers/searchRequest";
+import searchRequest from '@/app/helpers/searchRequest'
 
 export default function SearchHistory() {
     const [pastQueries, setPastQueries] = React.useState<Query[] | undefined>(
         undefined
     )
     const {
-        user, setLocalUser, userSession, setSearchDisplay, setSearchResponse, setSearchTriggered, setSearchQuery
+        user,
+        setLocalUser,
+        userSession,
+        setSearchDisplay,
+        setSearchResponse,
+        setSearchTriggered,
+        setSearchQuery,
     } = React.useContext(appContext)
 
     type Query = {
@@ -25,10 +31,13 @@ export default function SearchHistory() {
             setSearchResponse(null)
             setSearchDisplay(null)
 
-
             try {
                 if (userSession) {
-                    const res = await searchRequest(query, 'general', userSession)
+                    const res = await searchRequest(
+                        query,
+                        'general',
+                        userSession
+                    )
                     setSearchResponse(res)
                     setSearchTriggered(false)
                 }
@@ -60,7 +69,9 @@ export default function SearchHistory() {
                 } else {
                     let queries = res.reverse()
                     //remove blanks
-                    queries = queries.filter((query: Query) => query.query !== '')
+                    queries = queries.filter(
+                        (query: Query) => query.query !== ''
+                    )
 
                     setPastQueries(queries)
                 }
@@ -82,9 +93,7 @@ export default function SearchHistory() {
 
     if (pastQueries) {
         return (
-            <div
-                data-testid="search-history"
-            >
+            <div data-testid="search-history">
                 <hr className="w-full my-8 mb-8"/>
                 <h2 className="text-2xl font-bold mb-4">Search History</h2>
                 <ul className="mt-4 mb-4" data-testid="search-history-list">
@@ -100,7 +109,6 @@ export default function SearchHistory() {
                         </li>
                     ))}
                 </ul>
-
             </div>
         )
     } else {
